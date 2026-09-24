@@ -14,7 +14,6 @@
         a { text-decoration: none; color: inherit; }
         button { font-family: inherit; cursor: pointer; }
 
-        /* NAVBAR */
         .navbar {
             position: sticky; top: 0; z-index: 100;
             background: rgba(5, 8, 23, 0.94);
@@ -40,12 +39,10 @@
             color: #ff8899; font-size: 11px; font-weight: 800;
         }
 
-        /* PAGE */
         .page { width: min(1180px, 94%); margin: 30px auto 80px; }
         .page h1 { font-size: 26px; margin-bottom: 6px; }
         .page > p { color: #8999b8; font-size: 14px; margin-bottom: 25px; }
 
-        /* TABS */
         .tabs {
             display: flex; gap: 6px; margin-bottom: 22px;
             overflow-x: auto; padding-bottom: 4px;
@@ -61,7 +58,6 @@
             color: white; border-color: transparent;
         }
 
-        /* SECTION */
         .section { display: none; }
         .section.active { display: block; }
 
@@ -70,14 +66,12 @@
             background: #0b1230; border: 1px solid #192849;
             margin-bottom: 20px;
         }
-
         .card h3 {
             font-size: 16px; margin-bottom: 18px;
             display: flex; align-items: center; justify-content: space-between;
             gap: 12px;
         }
 
-        /* FORM */
         .form-group { margin-bottom: 16px; }
         .form-group label {
             display: block; font-size: 11px;
@@ -120,7 +114,6 @@
         .msg.error { background: rgba(255, 85, 119, 0.1); border: 1px solid rgba(255, 85, 119, 0.3); color: #ff8899; }
         .msg.success { background: rgba(101, 230, 160, 0.1); border: 1px solid rgba(101, 230, 160, 0.3); color: #65e6a0; }
 
-        /* TYPE ROWS */
         .types-block {
             padding: 14px; border-radius: 10px;
             background: #0a1230; border: 1px solid #1e3157;
@@ -149,7 +142,6 @@
             color: #62adff; font-size: 11px; font-weight: 700;
         }
 
-        /* FILTER TABS */
         .filter-tabs {
             display: flex; gap: 5px; margin-bottom: 14px;
             overflow-x: auto; padding-bottom: 4px;
@@ -165,33 +157,23 @@
             color: white; border-color: transparent;
         }
 
-        /* DATA TABLES */
-        .data-table {
-            width: 100%; border-collapse: collapse;
-            font-size: 12px;
-        }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
         .data-table th {
             text-align: left; padding: 10px;
-            background: #070c21;
-            color: #8999b8; font-weight: 700;
+            background: #070c21; color: #8999b8; font-weight: 700;
             font-size: 10px; text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid #1e3157;
+            letter-spacing: 0.5px; border-bottom: 1px solid #1e3157;
         }
         .data-table td {
             padding: 12px 10px;
             border-bottom: 1px solid #14204a;
-            color: #dce6fb;
-            vertical-align: middle;
+            color: #dce6fb; vertical-align: middle;
         }
         .data-table tr:hover td { background: rgba(77, 163, 255, 0.04); }
 
         .badge {
-            display: inline-block;
-            padding: 3px 9px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
+            display: inline-block; padding: 3px 9px;
+            border-radius: 20px; font-size: 10px; font-weight: 700;
         }
         .badge-pending { background: rgba(255, 200, 85, 0.15); color: #ffc855; border: 1px solid rgba(255, 200, 85, 0.3); }
         .badge-processing { background: rgba(77, 163, 255, 0.15); color: #62adff; border: 1px solid rgba(77, 163, 255, 0.3); }
@@ -203,11 +185,9 @@
         .badge-user { background: rgba(137, 153, 184, 0.15); color: #8999b8; border: 1px solid rgba(137, 153, 184, 0.3); }
 
         .action-btn {
-            padding: 5px 10px;
-            border-radius: 6px;
+            padding: 5px 10px; border-radius: 6px;
             font-size: 10px; font-weight: 700;
-            border: none; cursor: pointer;
-            margin-right: 4px;
+            border: none; cursor: pointer; margin-right: 4px;
         }
         .btn-edit { background: rgba(77, 163, 255, 0.15); color: #62adff; border: 1px solid rgba(77, 163, 255, 0.3); }
         .btn-delete { background: rgba(255, 85, 119, 0.15); color: #ff8899; border: 1px solid rgba(255, 85, 119, 0.3); }
@@ -227,19 +207,15 @@
         .stat-mini .val.purple { color: #b18cff; }
         .stat-mini .val.yellow { color: #ffc855; }
 
-        .empty-row {
-            padding: 30px; text-align: center;
-            color: #7183a7; font-size: 13px;
-        }
+        .empty-row { padding: 30px; text-align: center; color: #7183a7; font-size: 13px; }
+
+        .table-wrap { overflow-x: auto; }
 
         @media (max-width: 900px) {
             .stat-mini-grid { grid-template-columns: repeat(2, 1fr); }
             .row-2 { grid-template-columns: 1fr; }
             .type-row { grid-template-columns: 1fr; }
         }
-
-        /* Table scroll on mobile */
-        .table-wrap { overflow-x: auto; }
         @media (max-width: 700px) {
             .data-table { min-width: 620px; }
         }
@@ -261,7 +237,6 @@
     <h1>Admin Dashboard</h1>
     <p>Manage users, deposits, orders and services.</p>
 
-    <!-- STATS -->
     <div class="stat-mini-grid">
         <div class="stat-mini">
             <div class="lbl">👥 Total Users</div>
@@ -281,7 +256,6 @@
         </div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
         <button class="tab active" data-tab="users">👥 Users</button>
         <button class="tab" data-tab="orders">📦 Orders</button>
@@ -289,9 +263,7 @@
         <button class="tab" data-tab="services">🎯 Services</button>
     </div>
 
-    <!-- ===============================
-         USERS TAB
-    =============================== -->
+    <!-- USERS -->
     <section class="section active" id="section-users">
         <div class="card">
             <h3>👥 All Customers <span id="userCount" style="color:#8999b8;font-size:12px;font-weight:400;"></span></h3>
@@ -299,12 +271,8 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Balance</th>
-                            <th>Orders</th>
-                            <th>Role</th>
-                            <th>Actions</th>
+                            <th>Username</th><th>Email</th><th>Balance</th>
+                            <th>Orders</th><th>Role</th><th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="usersTable">
@@ -315,9 +283,7 @@
         </div>
     </section>
 
-    <!-- ===============================
-         ORDERS TAB
-    =============================== -->
+    <!-- ORDERS -->
     <section class="section" id="section-orders">
         <div class="card">
             <h3>📦 All Orders</h3>
@@ -332,14 +298,9 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>User</th>
-                            <th>Platform</th>
-                            <th>Service</th>
-                            <th>Qty</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Link</th>
-                            <th>Actions</th>
+                            <th>User</th><th>Platform</th><th>Service</th>
+                            <th>Qty</th><th>Total</th><th>Status</th>
+                            <th>Link</th><th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="ordersTable">
@@ -350,9 +311,7 @@
         </div>
     </section>
 
-    <!-- ===============================
-         PAYMENTS TAB
-    =============================== -->
+    <!-- PAYMENTS -->
     <section class="section" id="section-payments">
         <div class="card">
             <h3>💳 All Deposits</h3>
@@ -360,11 +319,8 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>User</th>
-                            <th>Amount</th>
-                            <th>Reference</th>
-                            <th>Status</th>
-                            <th>Date</th>
+                            <th>User</th><th>Amount</th><th>Reference</th>
+                            <th>Status</th><th>Date</th>
                         </tr>
                     </thead>
                     <tbody id="paymentsTable">
@@ -375,9 +331,7 @@
         </div>
     </section>
 
-    <!-- ===============================
-         SERVICES TAB
-    =============================== -->
+    <!-- SERVICES -->
     <section class="section" id="section-services">
         <div class="card">
             <h3>➕ Add New Service</h3>
@@ -403,7 +357,7 @@
 
                 <div class="form-group">
                     <label>Service Name</label>
-                    <input type="text" id="serviceName" class="form-input" placeholder="e.g. Followers, Video Likes" required>
+                    <input type="text" id="serviceName" class="form-input" placeholder="e.g. Followers, Views, Likes, Comments" required>
                 </div>
 
                 <div class="form-group">
@@ -427,7 +381,7 @@
 
                 <div class="form-group">
                     <label>Link Label</label>
-                    <input type="text" id="linkLabel" class="form-input" placeholder="e.g. TikTok account link" required>
+                    <input type="text" id="linkLabel" class="form-input" placeholder="e.g. Facebook Page Link" required>
                 </div>
 
                 <div class="form-group">
@@ -468,13 +422,9 @@
     import { db, auth, watchAuthState, getUserProfile } from "./firebase-config.js";
     import {
         collection, addDoc, getDocs, deleteDoc, doc,
-        updateDoc, increment, serverTimestamp, getDoc, query, orderBy
+        updateDoc, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-    // ==========================================
-    // ADMIN GUARD
-    // ==========================================
-    let isAdmin = false;
     watchAuthState(async (user) => {
         if (!user) { window.location.href = "login.html"; return; }
         const profile = await getUserProfile(user.uid);
@@ -483,13 +433,9 @@
             window.location.href = "dashboard.html";
             return;
         }
-        isAdmin = true;
         loadAll();
     });
 
-    // ==========================================
-    // TAB SWITCHING
-    // ==========================================
     document.querySelectorAll(".tab").forEach(tab => {
         tab.addEventListener("click", () => {
             document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
@@ -499,9 +445,6 @@
         });
     });
 
-    // ==========================================
-    // LOAD EVERYTHING
-    // ==========================================
     async function loadAll() {
         await loadStats();
         await loadUsers();
@@ -510,18 +453,12 @@
         await loadServices();
     }
 
-    // ==========================================
-    // STATS
-    // ==========================================
     async function loadStats() {
         try {
             const usersSnap = await getDocs(collection(db, "users"));
-            let totalBalance = 0, userCount = 0;
-            usersSnap.forEach(d => {
-                userCount++;
-                totalBalance += (d.data().balance || 0);
-            });
-            document.getElementById("statUsers").textContent = userCount;
+            let totalBalance = 0, count = 0;
+            usersSnap.forEach(d => { count++; totalBalance += (d.data().balance || 0); });
+            document.getElementById("statUsers").textContent = count;
             document.getElementById("statBalance").textContent = totalBalance.toLocaleString() + " NGN";
 
             const ordersSnap = await getDocs(collection(db, "orders"));
@@ -534,24 +471,17 @@
                 if (p.status === "success") totalDeposits += (p.amount || 0);
             });
             document.getElementById("statDeposits").textContent = totalDeposits.toLocaleString() + " NGN";
-        } catch (err) {
-            console.error(err);
-        }
+        } catch (e) { console.error(e); }
     }
 
-    // ==========================================
-    // USERS
-    // ==========================================
     async function loadUsers() {
         const tbody = document.getElementById("usersTable");
         try {
             const snap = await getDocs(collection(db, "users"));
             if (snap.empty) {
                 tbody.innerHTML = '<tr><td colspan="6" class="empty-row">No users yet.</td></tr>';
-                document.getElementById("userCount").textContent = "";
                 return;
             }
-
             document.getElementById("userCount").textContent = `(${snap.size})`;
             let html = "";
             snap.forEach(d => {
@@ -566,28 +496,17 @@
                         <td><span class="badge ${roleClass}">${u.role || "user"}</span></td>
                         <td>
                             <button class="action-btn btn-edit" data-uid="${d.id}" data-balance="${u.balance || 0}">💰 Balance</button>
-                            <button class="action-btn btn-edit" data-uid="${d.id}" data-role="${u.role}">👑 Role</button>
                         </td>
                     </tr>`;
             });
             tbody.innerHTML = html;
 
-            // Edit balance
             tbody.querySelectorAll(".btn-edit").forEach(btn => {
                 btn.addEventListener("click", async () => {
-                    const uid = btn.dataset.uid;
-                    if (btn.dataset.balance !== undefined) {
-                        const newBal = prompt("Enter new balance (NGN):", btn.dataset.balance);
-                        if (newBal !== null && !isNaN(newBal)) {
-                            await updateDoc(doc(db, "users", uid), { balance: parseFloat(newBal) });
-                            loadAll();
-                        }
-                    } else if (btn.dataset.role !== undefined) {
-                        const newRole = prompt("Enter role (user / admin):", btn.dataset.role);
-                        if (newRole === "user" || newRole === "admin") {
-                            await updateDoc(doc(db, "users", uid), { role: newRole });
-                            loadAll();
-                        }
+                    const newBal = prompt("Enter new balance (NGN):", btn.dataset.balance);
+                    if (newBal !== null && !isNaN(newBal)) {
+                        await updateDoc(doc(db, "users", btn.dataset.uid), { balance: parseFloat(newBal) });
+                        loadAll();
                     }
                 });
             });
@@ -596,12 +515,7 @@
         }
     }
 
-    // ==========================================
-    // ORDERS
-    // ==========================================
-    let allOrders = [];
-    let orderFilter = "all";
-
+    let allOrders = [], orderFilter = "all";
     async function loadOrders() {
         const tbody = document.getElementById("ordersTable");
         try {
@@ -616,44 +530,36 @@
 
     function renderOrders() {
         const tbody = document.getElementById("ordersTable");
-        const filtered = orderFilter === "all"
-            ? allOrders
-            : allOrders.filter(o => o.status === orderFilter);
-
+        const filtered = orderFilter === "all" ? allOrders : allOrders.filter(o => o.status === orderFilter);
         if (!filtered.length) {
             tbody.innerHTML = '<tr><td colspan="8" class="empty-row">No orders found.</td></tr>';
             return;
         }
-
         let html = "";
         filtered.forEach(o => {
             const statusClass = "badge-" + (o.status || "pending");
             html += `
                 <tr>
-                    <td>${o.userEmail || o.userId?.slice(0,8) || "—"}</td>
+                    <td>${o.userEmail || "—"}</td>
                     <td>${o.platform || "—"}</td>
                     <td>${o.serviceName || "—"}<br><span style="font-size:10px;color:#8999b8;">${o.type || ""}</span></td>
                     <td>${(o.quantity || 0).toLocaleString()}</td>
                     <td style="color:#65e6a0;font-weight:700;">${(o.totalPrice || 0).toLocaleString()} NGN</td>
                     <td><span class="badge ${statusClass}">${o.status || "pending"}</span></td>
+                    <td><a href="${o.link || '#'}" target="_blank" style="color:#62adff;font-size:11px;">View ↗</a></td>
                     <td>
-                        <a href="${o.link || '#'}" target="_blank" style="color:#62adff;font-size:11px;">View ↗</a>
-                    </td>
-                    <td>
-                        <button class="action-btn btn-complete" data-id="${o.id}" data-status="processing">⏳ Proc</button>
-                        <button class="action-btn btn-complete" data-id="${o.id}" data-status="completed">✅ Done</button>
-                        <button class="action-btn btn-delete" data-id="${o.id}" data-status="cancelled">❌ Cancel</button>
+                        <button class="action-btn btn-complete" data-id="${o.id}" data-status="processing">⏳</button>
+                        <button class="action-btn btn-complete" data-id="${o.id}" data-status="completed">✅</button>
+                        <button class="action-btn btn-delete" data-id="${o.id}" data-status="cancelled">❌</button>
                     </td>
                 </tr>`;
         });
         tbody.innerHTML = html;
 
-        // Status updates
         tbody.querySelectorAll("[data-status]").forEach(btn => {
             btn.addEventListener("click", async () => {
                 await updateDoc(doc(db, "orders", btn.dataset.id), { status: btn.dataset.status });
-                loadOrders();
-                loadStats();
+                loadOrders(); loadStats();
             });
         });
     }
@@ -666,9 +572,6 @@
         renderOrders();
     });
 
-    // ==========================================
-    // PAYMENTS
-    // ==========================================
     async function loadPayments() {
         const tbody = document.getElementById("paymentsTable");
         try {
@@ -684,7 +587,7 @@
                 const date = p.createdAt?.toDate?.()?.toLocaleString() || "—";
                 html += `
                     <tr>
-                        <td>${p.userEmail || p.userId?.slice(0,8) || "—"}</td>
+                        <td>${p.userEmail || "—"}</td>
                         <td style="color:#65e6a0;font-weight:700;">${(p.amount || 0).toLocaleString()} NGN</td>
                         <td>${p.reference || "—"}</td>
                         <td><span class="badge ${badgeClass}">${p.status || "pending"}</span></td>
@@ -697,9 +600,7 @@
         }
     }
 
-    // ==========================================
     // SERVICES
-    // ==========================================
     const typesList = document.getElementById("typesList");
     const addTypeBtn = document.getElementById("addTypeBtn");
     const serviceForm = document.getElementById("serviceForm");
@@ -708,8 +609,7 @@
     const serviceList = document.getElementById("serviceList");
     const serviceFilter = document.getElementById("serviceFilter");
 
-    let allServices = [];
-    let serviceFilterCat = "all";
+    let allServices = [], serviceFilterCat = "all";
 
     function addTypeRow(name = "", price = "", time = "") {
         const row = document.createElement("div");
@@ -734,7 +634,6 @@
 
     serviceForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-
         const category = document.getElementById("category").value;
         const serviceName = document.getElementById("serviceName").value.trim();
         const minQuantity = parseInt(document.getElementById("minQty").value);
