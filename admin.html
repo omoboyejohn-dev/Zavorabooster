@@ -39,7 +39,7 @@
             color: #ff8899; font-size: 11px; font-weight: 800;
         }
 
-        .page { width: min(700px, 94%); margin: 30px auto 80px; }
+        .page { width: min(900px, 94%); margin: 30px auto 80px; }
         .page h1 { font-size: 24px; margin-bottom: 6px; }
         .page > p { color: #8999b8; font-size: 13px; margin-bottom: 25px; }
 
@@ -65,10 +65,7 @@
             background: #0b1230; border: 1px solid #192849;
             margin-bottom: 18px;
         }
-        .card h3 {
-            font-size: 15px; margin-bottom: 16px;
-            font-weight: 800;
-        }
+        .card h3 { font-size: 15px; margin-bottom: 16px; font-weight: 800; }
 
         .form-group { margin-bottom: 14px; }
         .form-group label {
@@ -135,8 +132,8 @@
         .badge-processing { background: rgba(77, 163, 255, 0.15); color: #62adff; border: 1px solid rgba(77, 163, 255, 0.3); }
         .badge-completed { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
         .badge-cancelled { background: rgba(255, 85, 119, 0.15); color: #ff8899; border: 1px solid rgba(255, 85, 119, 0.3); }
-        .badge-admin { background: rgba(177, 140, 255, 0.15); color: #b18cff; border: 1px solid rgba(177, 140, 255, 0.3); }
-        .badge-user { background: rgba(137, 153, 184, 0.15); color: #8999b8; border: 1px solid rgba(137, 153, 184, 0.3); }
+        .badge-active { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
+        .badge-inactive { background: rgba(137, 153, 184, 0.15); color: #8999b8; border: 1px solid rgba(137, 153, 184, 0.3); }
 
         .action-btn {
             padding: 5px 10px; border-radius: 6px;
@@ -144,6 +141,10 @@
             border: none; cursor: pointer; margin-right: 4px;
             margin-bottom: 4px;
         }
+        .btn-edit { background: rgba(77, 163, 255, 0.15); color: #62adff; border: 1px solid rgba(77, 163, 255, 0.3); }
+        .btn-price { background: rgba(255, 200, 85, 0.15); color: #ffc855; border: 1px solid rgba(255, 200, 85, 0.3); }
+        .btn-disable { background: rgba(137, 153, 184, 0.15); color: #aeb9d4; border: 1px solid rgba(137, 153, 184, 0.3); }
+        .btn-enable { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
         .btn-delete { background: rgba(255, 85, 119, 0.15); color: #ff8899; border: 1px solid rgba(255, 85, 119, 0.3); }
         .btn-proc { background: rgba(77, 163, 255, 0.15); color: #62adff; border: 1px solid rgba(77, 163, 255, 0.3); }
         .btn-done { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
@@ -152,9 +153,63 @@
         .empty-row { padding: 30px; text-align: center; color: #7183a7; font-size: 12px; }
 
         .table-wrap { overflow-x: auto; }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center; justify-content: center;
+            z-index: 9999; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            width: min(560px, 100%);
+            max-height: 90vh; overflow-y: auto;
+            background: #0b1230;
+            border: 1px solid #1e3157;
+            border-radius: 18px;
+            padding: 26px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #1e3157;
+        }
+        .modal-header h3 { font-size: 16px; }
+        .modal-close {
+            background: transparent; border: none;
+            font-size: 22px; color: #8999b8;
+            padding: 4px 8px; line-height: 1;
+        }
+        .modal-close:hover { color: #ffffff; }
+
+        .modal-actions {
+            display: flex; gap: 10px; margin-top: 15px;
+        }
+        .modal-actions button {
+            flex: 1; padding: 12px;
+            border-radius: 10px; border: none;
+            font-size: 13px; font-weight: 800;
+            cursor: pointer;
+        }
+        .btn-cancel-modal {
+            background: rgba(137, 153, 184, 0.15);
+            color: #aeb9d4;
+            border: 1px solid rgba(137, 153, 184, 0.3);
+        }
+        .btn-save-modal {
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            color: white;
+            box-shadow: 0 10px 25px rgba(40, 104, 255, 0.3);
+        }
+
         @media (max-width: 700px) {
             .row-2 { grid-template-columns: 1fr; }
-            .data-table { min-width: 560px; }
+            .data-table { min-width: 620px; }
         }
     </style>
 </head>
@@ -172,19 +227,18 @@
 
 <main class="page">
     <h1>Admin Panel</h1>
-    <p>Add services and manage customer orders.</p>
+    <p>Add, edit, disable or delete services. Manage customer orders.</p>
 
     <div class="tabs">
-        <button class="tab active" data-tab="services">🎯 Add Service</button>
+        <button class="tab active" data-tab="services">🎯 Services</button>
         <button class="tab" data-tab="orders">📦 Orders</button>
     </div>
 
-    <!-- ================= ADD SERVICE ================= -->
+    <!-- ADD SERVICE -->
     <section class="section active" id="section-services">
         <div class="card">
             <h3>➕ Add New Service</h3>
             <form id="serviceForm">
-
                 <div class="form-group">
                     <label>Category / Platform</label>
                     <select id="category" class="form-select" required>
@@ -255,7 +309,7 @@
 
                 <div class="form-group">
                     <label>Notes (one per line)</label>
-                    <textarea id="note" class="form-textarea" placeholder="Make sure account is not private&#10;No drop in followers&#10;Guarantee: 30 days"></textarea>
+                    <textarea id="note" class="form-textarea" placeholder="Make sure account is not private&#10;No drop in followers"></textarea>
                 </div>
 
                 <button type="submit" class="save-btn" id="saveBtn">Save Service</button>
@@ -273,18 +327,19 @@
                             <th>Service</th>
                             <th>Type</th>
                             <th>Price / 1k</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="serviceList">
-                        <tr><td colspan="5" class="empty-row">Loading...</td></tr>
+                        <tr><td colspan="6" class="empty-row">Loading...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
 
-    <!-- ================= ORDERS ================= -->
+    <!-- ORDERS -->
     <section class="section" id="section-orders">
         <div class="card">
             <h3>📦 Customer Orders</h3>
@@ -310,11 +365,103 @@
     </section>
 </main>
 
+<!-- ============================================
+     EDIT MODAL
+============================================ -->
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>✏️ Edit Service</h3>
+            <button class="modal-close" id="closeModal">✕</button>
+        </div>
+        <form id="editForm">
+            <input type="hidden" id="editId">
+
+            <div class="form-group">
+                <label>Platform</label>
+                <select id="editCategory" class="form-select" required>
+                    <option>Facebook</option>
+                    <option>Instagram</option>
+                    <option>TikTok</option>
+                    <option>YouTube</option>
+                    <option>Twitter</option>
+                    <option>WhatsApp</option>
+                    <option>Telegram</option>
+                    <option>Snapchat</option>
+                    <option>LinkedIn</option>
+                    <option>Spotify</option>
+                    <option>Reddit</option>
+                    <option>More</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Service</label>
+                <select id="editServiceName" class="form-select" required>
+                    <option>Followers</option>
+                    <option>Likes</option>
+                    <option>Views</option>
+                    <option>Comments</option>
+                    <option>Shares</option>
+                    <option>Subscribers</option>
+                    <option>Members</option>
+                    <option>Watch Time</option>
+                    <option>Live Stream Views</option>
+                    <option>Story Views</option>
+                    <option>Saves</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Type / Quality</label>
+                <input type="text" id="editType" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label>Price per 1k (NGN)</label>
+                <input type="number" id="editPrice" class="form-input" required>
+            </div>
+
+            <div class="row-2">
+                <div class="form-group">
+                    <label>Min Quantity</label>
+                    <input type="number" id="editMin" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Max Quantity</label>
+                    <input type="number" id="editMax" class="form-input" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Completion Time</label>
+                <input type="text" id="editTime" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label>Link Label</label>
+                <input type="text" id="editLinkLabel" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label>Notes (one per line)</label>
+                <textarea id="editNote" class="form-textarea"></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel-modal" id="cancelEdit">Cancel</button>
+                <button type="submit" class="btn-save-modal" id="saveEditBtn">Save Changes</button>
+            </div>
+            <div class="msg" id="editMsg"></div>
+        </form>
+    </div>
+</div>
+
 <script type="module">
     import { db, watchAuthState, getUserProfile } from "./firebase-config.js";
     import {
         collection, addDoc, getDocs, deleteDoc, doc,
-        updateDoc, serverTimestamp
+        updateDoc, serverTimestamp, getDoc
     } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
     // Admin guard
@@ -340,19 +487,19 @@
         });
     });
 
-    // ============================
+    // =============================
     // ADD SERVICE
-    // ============================
+    // =============================
     const serviceForm = document.getElementById("serviceForm");
     const saveBtn = document.getElementById("saveBtn");
     const msg = document.getElementById("msg");
     const serviceList = document.getElementById("serviceList");
     const ordersTable = document.getElementById("ordersTable");
 
-    function showMsg(t, type) {
-        msg.textContent = t;
-        msg.className = "msg show " + type;
-        setTimeout(() => msg.className = "msg", 4000);
+    function showMsg(t, type, target = msg) {
+        target.textContent = t;
+        target.className = "msg show " + type;
+        setTimeout(() => target.className = "msg", 4000);
     }
 
     serviceForm.addEventListener("submit", async (e) => {
@@ -372,7 +519,6 @@
             return showMsg("Please fill all required fields.", "error");
         }
 
-        // Convert notes into <li> list
         const noteHtml = note
             ? note.split("\n").filter(l => l.trim()).map(l => `<li>${l}</li>`).join("")
             : "";
@@ -382,19 +528,14 @@
 
         try {
             await addDoc(collection(db, "services"), {
-                category,
-                serviceName,
+                category, serviceName,
                 types: [{ name: typeName, pricePer1k, time: deliveryTime }],
-                pricePer1k,
-                deliveryTime,
-                minQuantity,
-                maxQuantity,
-                linkLabel,
+                pricePer1k, deliveryTime,
+                minQuantity, maxQuantity, linkLabel,
                 note: noteHtml,
                 status: "active",
                 createdAt: serverTimestamp()
             });
-
             showMsg("✅ Service saved successfully!", "success");
             serviceForm.reset();
             loadServices();
@@ -406,42 +547,199 @@
         saveBtn.textContent = "Save Service";
     });
 
+    // =============================
+    // LOAD SERVICES
+    // =============================
     async function loadServices() {
         try {
             const snap = await getDocs(collection(db, "services"));
             if (snap.empty) {
-                serviceList.innerHTML = '<tr><td colspan="5" class="empty-row">No services yet.</td></tr>';
+                serviceList.innerHTML = '<tr><td colspan="6" class="empty-row">No services yet.</td></tr>';
                 return;
             }
             let html = "";
             snap.forEach(d => {
                 const s = d.data();
+                const isActive = s.status === "active";
+                const statusBadge = isActive
+                    ? '<span class="badge badge-active">Active</span>'
+                    : '<span class="badge badge-inactive">Disabled</span>';
+
                 html += `
                     <tr>
                         <td>${s.category}</td>
                         <td>${s.serviceName}</td>
-                        <td>${s.types[0]?.name || "—"}</td>
+                        <td>${s.types?.[0]?.name || "—"}</td>
                         <td style="color:#62adff;font-weight:700;">${s.pricePer1k.toLocaleString()} NGN</td>
-                        <td><button class="action-btn btn-delete" data-del="${d.id}">Delete</button></td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <button class="action-btn btn-edit" data-edit="${d.id}">✏️ Edit</button>
+                            <button class="action-btn btn-price" data-price="${d.id}">💰 Price</button>
+                            ${isActive
+                                ? `<button class="action-btn btn-disable" data-disable="${d.id}">🚫 Disable</button>`
+                                : `<button class="action-btn btn-enable" data-enable="${d.id}">✅ Enable</button>`
+                            }
+                            <button class="action-btn btn-delete" data-del="${d.id}">🗑️ Delete</button>
+                        </td>
                     </tr>`;
             });
             serviceList.innerHTML = html;
 
+            // Attach handlers
+            serviceList.querySelectorAll("[data-edit]").forEach(btn => {
+                btn.addEventListener("click", () => openEditModal(btn.dataset.edit));
+            });
+            serviceList.querySelectorAll("[data-price]").forEach(btn => {
+                btn.addEventListener("click", () => quickPriceEdit(btn.dataset.price));
+            });
+            serviceList.querySelectorAll("[data-disable]").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    if (!confirm("Disable this service? Customers will no longer see it.")) return;
+                    await updateDoc(doc(db, "services", btn.dataset.disable), { status: "inactive" });
+                    loadServices();
+                });
+            });
+            serviceList.querySelectorAll("[data-enable]").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    await updateDoc(doc(db, "services", btn.dataset.enable), { status: "active" });
+                    loadServices();
+                });
+            });
             serviceList.querySelectorAll("[data-del]").forEach(btn => {
                 btn.addEventListener("click", async () => {
-                    if (!confirm("Delete this service?")) return;
+                    if (!confirm("Delete this service permanently?")) return;
                     await deleteDoc(doc(db, "services", btn.dataset.del));
                     loadServices();
                 });
             });
         } catch (err) {
-            serviceList.innerHTML = `<tr><td colspan="5" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
+            serviceList.innerHTML = `<tr><td colspan="6" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
         }
     }
 
-    // ============================
+    // =============================
+    // QUICK PRICE EDIT
+    // =============================
+    async function quickPriceEdit(serviceId) {
+        const ref = doc(db, "services", serviceId);
+        const snap = await getDoc(ref);
+        if (!snap.exists()) return;
+        const data = snap.data();
+
+        const newPrice = prompt(
+            `Current price: ${data.pricePer1k.toLocaleString()} NGN / 1k\n\nEnter new price:`,
+            data.pricePer1k
+        );
+        if (newPrice === null) return;
+        const priceNum = parseFloat(newPrice);
+        if (isNaN(priceNum) || priceNum <= 0) return alert("Invalid price");
+
+        // Update top-level + types
+        const newTypes = (data.types || []).map((t, i) =>
+            i === 0 ? { ...t, pricePer1k: priceNum } : t
+        );
+
+        await updateDoc(ref, {
+            pricePer1k: priceNum,
+            types: newTypes
+        });
+        loadServices();
+        alert("✅ Price updated!");
+    }
+
+    // =============================
+    // EDIT MODAL
+    // =============================
+    const editModal = document.getElementById("editModal");
+    const editForm = document.getElementById("editForm");
+    const editMsg = document.getElementById("editMsg");
+    const closeModal = document.getElementById("closeModal");
+    const cancelEdit = document.getElementById("cancelEdit");
+    const saveEditBtn = document.getElementById("saveEditBtn");
+
+    async function openEditModal(serviceId) {
+        const ref = doc(db, "services", serviceId);
+        const snap = await getDoc(ref);
+        if (!snap.exists()) return alert("Service not found");
+        const s = snap.data();
+
+        // Populate fields
+        document.getElementById("editId").value = serviceId;
+        document.getElementById("editCategory").value = s.category;
+        document.getElementById("editServiceName").value = s.serviceName;
+        document.getElementById("editType").value = s.types?.[0]?.name || "";
+        document.getElementById("editPrice").value = s.pricePer1k;
+        document.getElementById("editMin").value = s.minQuantity;
+        document.getElementById("editMax").value = s.maxQuantity;
+        document.getElementById("editTime").value = s.deliveryTime;
+        document.getElementById("editLinkLabel").value = s.linkLabel || "";
+
+        // Convert note HTML back to plain lines
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = s.note || "";
+        const lines = Array.from(tempDiv.querySelectorAll("li")).map(li => li.textContent).join("\n");
+        document.getElementById("editNote").value = lines;
+
+        editMsg.className = "msg";
+        editModal.classList.add("active");
+    }
+
+    function closeEditModal() {
+        editModal.classList.remove("active");
+    }
+
+    closeModal.addEventListener("click", closeEditModal);
+    cancelEdit.addEventListener("click", closeEditModal);
+    editModal.addEventListener("click", (e) => {
+        if (e.target === editModal) closeEditModal();
+    });
+
+    editForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("editId").value;
+        if (!id) return;
+
+        const category = document.getElementById("editCategory").value;
+        const serviceName = document.getElementById("editServiceName").value;
+        const typeName = document.getElementById("editType").value.trim();
+        const pricePer1k = parseFloat(document.getElementById("editPrice").value);
+        const minQuantity = parseInt(document.getElementById("editMin").value);
+        const maxQuantity = parseInt(document.getElementById("editMax").value);
+        const deliveryTime = document.getElementById("editTime").value.trim();
+        const linkLabel = document.getElementById("editLinkLabel").value.trim();
+        const note = document.getElementById("editNote").value.trim();
+
+        const noteHtml = note
+            ? note.split("\n").filter(l => l.trim()).map(l => `<li>${l}</li>`).join("")
+            : "";
+
+        saveEditBtn.disabled = true;
+        saveEditBtn.textContent = "Saving...";
+
+        try {
+            await updateDoc(doc(db, "services", id), {
+                category, serviceName,
+                types: [{ name: typeName, pricePer1k, time: deliveryTime }],
+                pricePer1k, deliveryTime,
+                minQuantity, maxQuantity, linkLabel,
+                note: noteHtml
+            });
+            showMsg("✅ Service updated!", "success", editMsg);
+            setTimeout(() => {
+                closeEditModal();
+                loadServices();
+            }, 900);
+        } catch (err) {
+            showMsg("❌ " + err.message, "error", editMsg);
+        }
+
+        saveEditBtn.disabled = false;
+        saveEditBtn.textContent = "Save Changes";
+    });
+
+    // =============================
     // ORDERS
-    // ============================
+    // =============================
     async function loadOrders() {
         try {
             const snap = await getDocs(collection(db, "orders"));
@@ -462,9 +760,9 @@
                         <td style="color:#65e6a0;font-weight:700;">${(o.totalPrice || 0).toLocaleString()} NGN</td>
                         <td><span class="badge ${statusClass}">${o.status || "pending"}</span></td>
                         <td>
-                            <button class="action-btn btn-proc" data-id="${d.id}" data-status="processing">⏳ Proc</button>
-                            <button class="action-btn btn-done" data-id="${d.id}" data-status="completed">✅ Done</button>
-                            <button class="action-btn btn-cancel" data-id="${d.id}" data-status="cancelled">❌ Cancel</button>
+                            <button class="action-btn btn-proc" data-id="${d.id}" data-status="processing">⏳</button>
+                            <button class="action-btn btn-done" data-id="${d.id}" data-status="completed">✅</button>
+                            <button class="action-btn btn-cancel" data-id="${d.id}" data-status="cancelled">❌</button>
                         </td>
                     </tr>`;
             });
