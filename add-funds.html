@@ -6,8 +6,6 @@
     <title>Add Funds | Zavora Booster</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        /* ✅ Force dark theme on inputs */
         :root { color-scheme: dark; }
 
         body {
@@ -91,7 +89,6 @@
             letter-spacing: 1px;
         }
 
-        /* PAGE */
         .page { padding: 30px 0 80px; }
         .page-container { width: min(620px, 94%); margin: auto; }
 
@@ -108,88 +105,63 @@
             background: #0b1230; border: 1px solid #192849;
             margin-bottom: 18px;
         }
-
         .card-title {
             font-size: 15px; font-weight: 800;
             margin-bottom: 18px;
             display: flex; align-items: center; gap: 8px;
         }
 
-        /* AMOUNT PRESETS */
         .amounts-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 18px;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 10px; margin-bottom: 18px;
         }
         .amount-btn {
-            padding: 18px 12px;
-            border-radius: 14px;
-            background: #0a1230;
-            border: 2px solid #1e3157;
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: 800;
+            padding: 18px 12px; border-radius: 14px;
+            background: #0a1230; border: 2px solid #1e3157;
+            color: #ffffff; font-size: 15px; font-weight: 800;
             transition: 0.2s;
         }
-        .amount-btn:hover {
-            border-color: #4da3ff;
-            background: rgba(77, 163, 255, 0.08);
-        }
+        .amount-btn:hover { border-color: #4da3ff; background: rgba(77, 163, 255, 0.08); }
         .amount-btn.selected {
             border-color: #4da3ff;
             background: linear-gradient(135deg, #2868ff, #7657ff);
             box-shadow: 0 10px 25px rgba(40, 104, 255, 0.3);
         }
 
-        /* ✅ FIXED INPUT — dark background always */
-        .form-input {
-            width: 100%;
-            padding: 15px 16px;
-            border-radius: 12px;
-            border: 2px solid #1e3157;
+        /* ✅ Hard-locked dark input */
+        input.form-input {
+            width: 100% !important;
+            padding: 15px 16px !important;
+            border-radius: 12px !important;
+            border: 2px solid #1e3157 !important;
+            background: #0a1230 !important;
             background-color: #0a1230 !important;
             color: #ffffff !important;
-            font-size: 16px;
-            font-weight: 700;
-            outline: none;
-            font-family: inherit;
-            text-align: center;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            outline: none !important;
+            font-family: inherit !important;
+            text-align: center !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
+            box-shadow: none !important;
             transition: 0.25s;
-            -webkit-appearance: none;
-            appearance: none;
-            box-shadow: none;
         }
-        .form-input:focus {
-            border-color: #4da3ff;
-            background-color: #0a1230 !important;
-            box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
+        input.form-input:focus {
+            border-color: #4da3ff !important;
+            box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12) !important;
         }
-        /* ✅ Kills Chrome autofill white background */
-        .form-input:-webkit-autofill,
-        .form-input:-webkit-autofill:hover,
-        .form-input:-webkit-autofill:focus {
-            -webkit-text-fill-color: #ffffff;
-            -webkit-box-shadow: 0 0 0px 1000px #0a1230 inset;
+        input.form-input:-webkit-autofill,
+        input.form-input:-webkit-autofill:hover,
+        input.form-input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #ffffff !important;
+            -webkit-box-shadow: 0 0 0px 1000px #0a1230 inset !important;
             transition: background-color 5000s ease-in-out 0s;
-            border-color: #4da3ff;
         }
-        .form-input::placeholder {
-            color: #566890;
-            opacity: 1;
+        input.form-input::placeholder {
+            color: #566890 !important;
+            opacity: 1 !important;
             font-weight: 600;
-        }
-
-        /* Highlight input when preset is chosen */
-        .form-input.highlight {
-            border-color: #4da3ff;
-            background: linear-gradient(135deg, rgba(40, 104, 255, 0.15), rgba(118, 87, 255, 0.15)) !important;
-            animation: pulse 0.4s ease;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
         }
 
         .action-btn {
@@ -206,7 +178,7 @@
         .action-btn:hover:not(:disabled) { transform: translateY(-2px); }
         .action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        /* VIRTUAL ACCOUNT */
+        /* VA ROLLING */
         .va-rolling { text-align: center; padding: 40px 20px; }
         .va-rolling .spinner {
             width: 48px; height: 48px;
@@ -235,42 +207,32 @@
         .va-note {
             background: rgba(77, 163, 255, 0.08);
             border: 1px solid rgba(77, 163, 255, 0.2);
-            padding: 12px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            color: #aeb9d4;
-            margin-top: 18px;
-            margin-bottom: 18px;
+            padding: 12px 14px; border-radius: 10px;
+            font-size: 13px; color: #aeb9d4;
+            margin-top: 18px; margin-bottom: 18px;
             text-align: center;
         }
 
-        /* SUCCESS SCREEN */
         .success-icon { font-size: 60px; text-align: center; margin-bottom: 15px; }
         .success-title {
             text-align: center; font-size: 20px;
-            font-weight: 800; margin-bottom: 8px;
-            color: #65e6a0;
+            font-weight: 800; margin-bottom: 8px; color: #65e6a0;
         }
         .success-sub {
             text-align: center; color: #8999b8;
             font-size: 13px; margin-bottom: 22px;
         }
         .pending-badge {
-            display: inline-block;
-            padding: 10px 20px;
+            display: inline-block; padding: 10px 20px;
             border-radius: 25px;
             background: rgba(255, 200, 85, 0.1);
             border: 1px solid rgba(255, 200, 85, 0.3);
-            color: #ffc855;
-            font-size: 13px;
-            font-weight: 800;
+            color: #ffc855; font-size: 13px; font-weight: 800;
         }
         .pending-row { display: flex; justify-content: center; margin-bottom: 22px; }
         .support-line {
-            text-align: center;
-            font-size: 13px;
-            color: #8999b8;
-            margin-bottom: 18px;
+            text-align: center; font-size: 13px;
+            color: #8999b8; margin-bottom: 18px;
         }
         .support-line a { color: #62adff; font-weight: 700; }
 
@@ -348,7 +310,6 @@
         <div id="step1">
             <div class="card">
                 <div class="card-title">💵 Choose Amount</div>
-
                 <div class="amounts-grid" id="amountsGrid">
                     <button class="amount-btn" data-amount="1000">₦1,000</button>
                     <button class="amount-btn" data-amount="5000">₦5,000</button>
@@ -364,12 +325,12 @@
                     ℹ️ Minimum deposit: ₦500 · Maximum: ₦500,000
                 </div>
 
-                <button class="action-btn" id="mainBtn" disabled>Pay Now</button>
+                <button class="action-btn" id="mainBtn" disabled>Generate Virtual Account</button>
                 <div class="msg" id="step1Msg"></div>
             </div>
         </div>
 
-        <!-- STEP 2 -->
+        <!-- STEP 2 - ROLLING -->
         <div id="step2" class="hidden">
             <div class="card" id="rollingCard">
                 <div class="va-rolling">
@@ -378,6 +339,7 @@
                 </div>
             </div>
 
+            <!-- VA DETAILS -->
             <div class="card hidden" id="vaCard">
                 <div class="va-header">
                     <h2>Your Virtual Account</h2>
@@ -392,7 +354,7 @@
             </div>
         </div>
 
-        <!-- STEP 3 -->
+        <!-- STEP 3 - FORM -->
         <div id="step3" class="hidden">
             <div class="card">
                 <div class="card-title">📝 Confirm Payment Details</div>
@@ -411,7 +373,7 @@
             </div>
         </div>
 
-        <!-- STEP 4 -->
+        <!-- STEP 4 - SUCCESS -->
         <div id="step4" class="hidden">
             <div class="card">
                 <div class="success-icon">✅</div>
@@ -485,11 +447,6 @@
     let selectedAmount = 0;
     let currentUser = null;
 
-    // ✅ State machine — one button, two steps
-    // "pay"       = first click → shows Generate Virtual Account
-    // "generate"  = second click → generates
-    let btnState = "pay";
-
     watchAuthState(async (user) => {
         if (!user) { window.location.href = "login.html"; return; }
         currentUser = user;
@@ -506,25 +463,18 @@
         setTimeout(() => { el.className = "msg"; }, 4000);
     }
 
-    // ======== Preset amount buttons ========
+    // Preset buttons
     amountBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             amountBtns.forEach(b => b.classList.remove("selected"));
             btn.classList.add("selected");
             selectedAmount = parseInt(btn.dataset.amount);
-
-            // ✅ Show the amount in the input field
             customAmount.value = selectedAmount;
-            customAmount.classList.add("highlight");
-            setTimeout(() => customAmount.classList.remove("highlight"), 600);
-
-            // ✅ Enable main button
             mainBtn.disabled = false;
             step1Msg.className = "msg";
         });
     });
 
-    // ======== Custom amount typing ========
     customAmount.addEventListener("input", () => {
         amountBtns.forEach(b => b.classList.remove("selected"));
         const v = parseFloat(customAmount.value);
@@ -537,49 +487,37 @@
         }
     });
 
-    // ======== ONE main button: Pay Now → Generate Virtual Account ========
+    // ✅ ONE button → rolls 2 sec → shows VA
     mainBtn.addEventListener("click", () => {
-        if (btnState === "pay") {
-            // Validate amount
-            if (!selectedAmount || selectedAmount < 500) {
-                return showMsg(step1Msg, "Please enter an amount of at least ₦500.", "error");
-            }
-            if (selectedAmount > 500000) {
-                return showMsg(step1Msg, "Maximum deposit is ₦500,000.", "error");
-            }
-
-            // Change button to step 2
-            btnState = "generate";
-            mainBtn.textContent = "Generate Virtual Account";
-            showMsg(step1Msg, "✅ Amount set to ₦" + selectedAmount.toLocaleString() + ". Click again to generate.", "success");
-        } else if (btnState === "generate") {
-            // Generate virtual account
-            generateVirtualAccount();
+        if (!selectedAmount || selectedAmount < 500) {
+            return showMsg(step1Msg, "Please enter an amount of at least ₦500.", "error");
         }
-    });
+        if (selectedAmount > 500000) {
+            return showMsg(step1Msg, "Maximum deposit is ₦500,000.", "error");
+        }
 
-    function generateVirtualAccount() {
+        // Hide step1, show step2 with rolling
         step1.classList.add("hidden");
         step2.classList.remove("hidden");
         rollingCard.classList.remove("hidden");
         vaCard.classList.add("hidden");
 
-        // 5 second roll
+        // ✅ Roll for 2 seconds
         setTimeout(() => {
             rollingCard.classList.add("hidden");
             vaCard.classList.remove("hidden");
             vaAmountEl.textContent = "₦" + selectedAmount.toLocaleString();
-        }, 5000);
-    }
+        }, 2000);
+    });
 
-    // ======== I Have Paid ========
+    // I Have Paid
     iHavePaidBtn.addEventListener("click", () => {
         step2.classList.add("hidden");
         step3.classList.remove("hidden");
         step3Amount.textContent = "₦" + selectedAmount.toLocaleString();
     });
 
-    // ======== Submit Payment ========
+    // Submit Payment
     submitPaymentBtn.addEventListener("click", async () => {
         const sName = senderName.value.trim();
         const bank = bankTransfer.value.trim();
