@@ -636,6 +636,14 @@
             const result = await getUserProfile(user.uid);
             if (result.success) {
                 const data = result.data;
+
+                // ✅ If admin → go straight to admin panel
+                if (data.role === "admin") {
+                    window.location.href = "admin.html";
+                    return;
+                }
+
+                // Normal customer dashboard
                 const name = data.username || user.email.split("@")[0];
                 const balance = (data.balance || 0).toLocaleString();
                 const orders = data.totalOrders || 0;
@@ -644,10 +652,6 @@
                 balanceEl.textContent = balance;
                 balanceCardEl.textContent = balance;
                 totalOrdersEl.textContent = orders;
-
-                if (data.role === "admin") {
-                    adminLink.style.display = "block";
-                }
             } else {
                 usernameEl.textContent = user.email.split("@")[0];
             }
@@ -666,14 +670,12 @@
                 const orders = [];
                 snap.forEach(d => orders.push({ id: d.id, ...d.data() }));
 
-                // Sort newest first
                 orders.sort((a, b) => {
                     const ta = a.createdAt?.toDate?.()?.getTime() || 0;
                     const tb = b.createdAt?.toDate?.()?.getTime() || 0;
                     return tb - ta;
                 });
 
-                // Take latest 5
                 const recent = orders.slice(0, 5);
 
                 if (!recent.length) {
