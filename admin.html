@@ -39,9 +39,24 @@
             color: #ff8899; font-size: 11px; font-weight: 800;
         }
 
-        .page { width: min(900px, 94%); margin: 30px auto 80px; }
+        .page { width: min(1180px, 94%); margin: 30px auto 80px; }
         .page h1 { font-size: 24px; margin-bottom: 6px; }
         .page > p { color: #8999b8; font-size: 13px; margin-bottom: 25px; }
+
+        /* STATS */
+        .stat-mini-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; margin-bottom: 22px;
+        }
+        .stat-mini {
+            padding: 18px; border-radius: 14px;
+            background: #0b1230; border: 1px solid #192849;
+        }
+        .stat-mini .lbl { font-size: 11px; color: #8999b8; margin-bottom: 8px; }
+        .stat-mini .val { font-size: 22px; font-weight: 800; color: #62adff; }
+        .stat-mini .val.green { color: #65e6a0; }
+        .stat-mini .val.purple { color: #b18cff; }
+        .stat-mini .val.yellow { color: #ffc855; }
 
         .tabs {
             display: flex; gap: 6px; margin-bottom: 22px;
@@ -132,8 +147,12 @@
         .badge-processing { background: rgba(77, 163, 255, 0.15); color: #62adff; border: 1px solid rgba(77, 163, 255, 0.3); }
         .badge-completed { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
         .badge-cancelled { background: rgba(255, 85, 119, 0.15); color: #ff8899; border: 1px solid rgba(255, 85, 119, 0.3); }
+        .badge-success { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
+        .badge-failed { background: rgba(255, 85, 119, 0.15); color: #ff8899; border: 1px solid rgba(255, 85, 119, 0.3); }
         .badge-active { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
         .badge-inactive { background: rgba(137, 153, 184, 0.15); color: #8999b8; border: 1px solid rgba(137, 153, 184, 0.3); }
+        .badge-admin { background: rgba(177, 140, 255, 0.15); color: #b18cff; border: 1px solid rgba(177, 140, 255, 0.3); }
+        .badge-user { background: rgba(137, 153, 184, 0.15); color: #8999b8; border: 1px solid rgba(137, 153, 184, 0.3); }
 
         .action-btn {
             padding: 5px 10px; border-radius: 6px;
@@ -175,8 +194,7 @@
         }
         .modal-header {
             display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 14px;
+            margin-bottom: 20px; padding-bottom: 14px;
             border-bottom: 1px solid #1e3157;
         }
         .modal-header h3 { font-size: 16px; }
@@ -186,15 +204,10 @@
             padding: 4px 8px; line-height: 1;
         }
         .modal-close:hover { color: #ffffff; }
-
-        .modal-actions {
-            display: flex; gap: 10px; margin-top: 15px;
-        }
+        .modal-actions { display: flex; gap: 10px; margin-top: 15px; }
         .modal-actions button {
-            flex: 1; padding: 12px;
-            border-radius: 10px; border: none;
-            font-size: 13px; font-weight: 800;
-            cursor: pointer;
+            flex: 1; padding: 12px; border-radius: 10px; border: none;
+            font-size: 13px; font-weight: 800; cursor: pointer;
         }
         .btn-cancel-modal {
             background: rgba(137, 153, 184, 0.15);
@@ -207,6 +220,9 @@
             box-shadow: 0 10px 25px rgba(40, 104, 255, 0.3);
         }
 
+        @media (max-width: 900px) {
+            .stat-mini-grid { grid-template-columns: repeat(2, 1fr); }
+        }
         @media (max-width: 700px) {
             .row-2 { grid-template-columns: 1fr; }
             .data-table { min-width: 620px; }
@@ -226,15 +242,99 @@
 </header>
 
 <main class="page">
-    <h1>Admin Panel</h1>
-    <p>Add, edit, disable or delete services. Manage customer orders.</p>
+    <h1>Admin Dashboard</h1>
+    <p>Manage users, deposits, orders and services.</p>
 
-    <div class="tabs">
-        <button class="tab active" data-tab="services">🎯 Services</button>
-        <button class="tab" data-tab="orders">📦 Orders</button>
+    <!-- STATS -->
+    <div class="stat-mini-grid">
+        <div class="stat-mini">
+            <div class="lbl">👥 Total Users</div>
+            <div class="val" id="statUsers">0</div>
+        </div>
+        <div class="stat-mini">
+            <div class="lbl">💰 Total Balance</div>
+            <div class="val green" id="statBalance">0 NGN</div>
+        </div>
+        <div class="stat-mini">
+            <div class="lbl">📦 Total Orders</div>
+            <div class="val purple" id="statOrders">0</div>
+        </div>
+        <div class="stat-mini">
+            <div class="lbl">💳 Total Deposits</div>
+            <div class="val yellow" id="statDeposits">0 NGN</div>
+        </div>
     </div>
 
-    <!-- ADD SERVICE -->
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab" data-tab="users">👥 Users</button>
+        <button class="tab" data-tab="orders">📦 Orders</button>
+        <button class="tab" data-tab="payments">💳 Deposits</button>
+        <button class="tab active" data-tab="services">🎯 Services</button>
+    </div>
+
+    <!-- USERS -->
+    <section class="section" id="section-users">
+        <div class="card">
+            <h3>👥 All Customers <span id="userCount" style="color:#8999b8;font-size:12px;font-weight:400;"></span></h3>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th><th>Email</th><th>Balance</th>
+                            <th>Orders</th><th>Role</th><th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr><td colspan="6" class="empty-row">Loading users...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ORDERS -->
+    <section class="section" id="section-orders">
+        <div class="card">
+            <h3>📦 Customer Orders</h3>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th><th>Platform</th><th>Service</th>
+                            <th>Qty</th><th>Total</th><th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTable">
+                        <tr><td colspan="7" class="empty-row">Loading orders...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAYMENTS -->
+    <section class="section" id="section-payments">
+        <div class="card">
+            <h3>💳 All Deposits</h3>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th><th>Amount</th><th>Reference</th>
+                            <th>Status</th><th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTable">
+                        <tr><td colspan="5" class="empty-row">Loading payments...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
     <section class="section active" id="section-services">
         <div class="card">
             <h3>➕ Add New Service</h3>
@@ -323,12 +423,8 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Platform</th>
-                            <th>Service</th>
-                            <th>Type</th>
-                            <th>Price / 1k</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>Platform</th><th>Service</th><th>Type</th>
+                            <th>Price / 1k</th><th>Status</th><th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="serviceList">
@@ -338,36 +434,9 @@
             </div>
         </div>
     </section>
-
-    <!-- ORDERS -->
-    <section class="section" id="section-orders">
-        <div class="card">
-            <h3>📦 Customer Orders</h3>
-            <div class="table-wrap">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Platform</th>
-                            <th>Service</th>
-                            <th>Qty</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ordersTable">
-                        <tr><td colspan="7" class="empty-row">Loading orders...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
 </main>
 
-<!-- ============================================
-     EDIT MODAL
-============================================ -->
+<!-- EDIT MODAL -->
 <div class="modal-overlay" id="editModal">
     <div class="modal">
         <div class="modal-header">
@@ -376,52 +445,36 @@
         </div>
         <form id="editForm">
             <input type="hidden" id="editId">
-
             <div class="form-group">
                 <label>Platform</label>
                 <select id="editCategory" class="form-select" required>
-                    <option>Facebook</option>
-                    <option>Instagram</option>
-                    <option>TikTok</option>
-                    <option>YouTube</option>
-                    <option>Twitter</option>
-                    <option>WhatsApp</option>
-                    <option>Telegram</option>
-                    <option>Snapchat</option>
-                    <option>LinkedIn</option>
-                    <option>Spotify</option>
-                    <option>Reddit</option>
-                    <option>More</option>
+                    <option>Facebook</option><option>Instagram</option>
+                    <option>TikTok</option><option>YouTube</option>
+                    <option>Twitter</option><option>WhatsApp</option>
+                    <option>Telegram</option><option>Snapchat</option>
+                    <option>LinkedIn</option><option>Spotify</option>
+                    <option>Reddit</option><option>More</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Service</label>
                 <select id="editServiceName" class="form-select" required>
-                    <option>Followers</option>
-                    <option>Likes</option>
-                    <option>Views</option>
-                    <option>Comments</option>
-                    <option>Shares</option>
-                    <option>Subscribers</option>
-                    <option>Members</option>
-                    <option>Watch Time</option>
-                    <option>Live Stream Views</option>
-                    <option>Story Views</option>
+                    <option>Followers</option><option>Likes</option>
+                    <option>Views</option><option>Comments</option>
+                    <option>Shares</option><option>Subscribers</option>
+                    <option>Members</option><option>Watch Time</option>
+                    <option>Live Stream Views</option><option>Story Views</option>
                     <option>Saves</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Type / Quality</label>
                 <input type="text" id="editType" class="form-input" required>
             </div>
-
             <div class="form-group">
                 <label>Price per 1k (NGN)</label>
                 <input type="number" id="editPrice" class="form-input" required>
             </div>
-
             <div class="row-2">
                 <div class="form-group">
                     <label>Min Quantity</label>
@@ -432,22 +485,18 @@
                     <input type="number" id="editMax" class="form-input" required>
                 </div>
             </div>
-
             <div class="form-group">
                 <label>Completion Time</label>
                 <input type="text" id="editTime" class="form-input" required>
             </div>
-
             <div class="form-group">
                 <label>Link Label</label>
                 <input type="text" id="editLinkLabel" class="form-input" required>
             </div>
-
             <div class="form-group">
                 <label>Notes (one per line)</label>
                 <textarea id="editNote" class="form-textarea"></textarea>
             </div>
-
             <div class="modal-actions">
                 <button type="button" class="btn-cancel-modal" id="cancelEdit">Cancel</button>
                 <button type="submit" class="btn-save-modal" id="saveEditBtn">Save Changes</button>
@@ -473,8 +522,7 @@
             window.location.href = "dashboard.html";
             return;
         }
-        loadServices();
-        loadOrders();
+        loadAll();
     });
 
     // Tab switching
@@ -487,14 +535,174 @@
         });
     });
 
-    // =============================
-    // ADD SERVICE
-    // =============================
+    async function loadAll() {
+        await loadStats();
+        await loadUsers();
+        await loadOrders();
+        await loadPayments();
+        await loadServices();
+    }
+
+    // ============================
+    // STATS
+    // ============================
+    async function loadStats() {
+        try {
+            const usersSnap = await getDocs(collection(db, "users"));
+            let totalBalance = 0, count = 0;
+            usersSnap.forEach(d => { count++; totalBalance += (d.data().balance || 0); });
+            document.getElementById("statUsers").textContent = count;
+            document.getElementById("statBalance").textContent = totalBalance.toLocaleString() + " NGN";
+
+            const ordersSnap = await getDocs(collection(db, "orders"));
+            document.getElementById("statOrders").textContent = ordersSnap.size;
+
+            const paymentsSnap = await getDocs(collection(db, "payments"));
+            let totalDeposits = 0;
+            paymentsSnap.forEach(d => {
+                const p = d.data();
+                if (p.status === "success") totalDeposits += (p.amount || 0);
+            });
+            document.getElementById("statDeposits").textContent = totalDeposits.toLocaleString() + " NGN";
+        } catch (e) { console.error(e); }
+    }
+
+    // ============================
+    // USERS
+    // ============================
+    async function loadUsers() {
+        const tbody = document.getElementById("usersTable");
+        try {
+            const snap = await getDocs(collection(db, "users"));
+            if (snap.empty) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-row">No users yet.</td></tr>';
+                return;
+            }
+            document.getElementById("userCount").textContent = `(${snap.size})`;
+            let html = "";
+            snap.forEach(d => {
+                const u = d.data();
+                const roleClass = u.role === "admin" ? "badge-admin" : "badge-user";
+                html += `
+                    <tr>
+                        <td><b>${u.username || "—"}</b></td>
+                        <td>${u.email || "—"}</td>
+                        <td style="color:#62adff;font-weight:700;">${(u.balance || 0).toLocaleString()} NGN</td>
+                        <td>${u.totalOrders || 0}</td>
+                        <td><span class="badge ${roleClass}">${u.role || "user"}</span></td>
+                        <td>
+                            <button class="action-btn btn-edit" data-uid="${d.id}" data-balance="${u.balance || 0}">💰 Balance</button>
+                            <button class="action-btn btn-price" data-uid="${d.id}" data-role="${u.role}">👑 Role</button>
+                        </td>
+                    </tr>`;
+            });
+            tbody.innerHTML = html;
+
+            tbody.querySelectorAll(".btn-edit").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const newBal = prompt("Enter new balance (NGN):", btn.dataset.balance);
+                    if (newBal !== null && !isNaN(newBal)) {
+                        await updateDoc(doc(db, "users", btn.dataset.uid), { balance: parseFloat(newBal) });
+                        loadAll();
+                    }
+                });
+            });
+            tbody.querySelectorAll(".btn-price").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const newRole = prompt("Enter role (user / admin):", btn.dataset.role);
+                    if (newRole === "user" || newRole === "admin") {
+                        await updateDoc(doc(db, "users", btn.dataset.uid), { role: newRole });
+                        loadAll();
+                    }
+                });
+            });
+        } catch (err) {
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
+        }
+    }
+
+    // ============================
+    // ORDERS
+    // ============================
+    async function loadOrders() {
+        const tbody = document.getElementById("ordersTable");
+        try {
+            const snap = await getDocs(collection(db, "orders"));
+            if (snap.empty) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No orders yet.</td></tr>';
+                return;
+            }
+            let html = "";
+            snap.forEach(d => {
+                const o = d.data();
+                const statusClass = "badge-" + (o.status || "pending");
+                html += `
+                    <tr>
+                        <td>${o.userEmail || "—"}</td>
+                        <td>${o.platform || "—"}</td>
+                        <td>${o.serviceName || "—"}<br><span style="font-size:10px;color:#8999b8;">${o.type || ""}</span></td>
+                        <td>${(o.quantity || 0).toLocaleString()}</td>
+                        <td style="color:#65e6a0;font-weight:700;">${(o.totalPrice || 0).toLocaleString()} NGN</td>
+                        <td><span class="badge ${statusClass}">${o.status || "pending"}</span></td>
+                        <td>
+                            <button class="action-btn btn-proc" data-id="${d.id}" data-status="processing">⏳</button>
+                            <button class="action-btn btn-done" data-id="${d.id}" data-status="completed">✅</button>
+                            <button class="action-btn btn-cancel" data-id="${d.id}" data-status="cancelled">❌</button>
+                        </td>
+                    </tr>`;
+            });
+            tbody.innerHTML = html;
+
+            tbody.querySelectorAll("[data-status]").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    await updateDoc(doc(db, "orders", btn.dataset.id), { status: btn.dataset.status });
+                    loadOrders();
+                    loadStats();
+                });
+            });
+        } catch (err) {
+            tbody.innerHTML = `<tr><td colspan="7" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
+        }
+    }
+
+    // ============================
+    // PAYMENTS
+    // ============================
+    async function loadPayments() {
+        const tbody = document.getElementById("paymentsTable");
+        try {
+            const snap = await getDocs(collection(db, "payments"));
+            if (snap.empty) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-row">No deposits yet.</td></tr>';
+                return;
+            }
+            let html = "";
+            snap.forEach(d => {
+                const p = d.data();
+                const badgeClass = p.status === "success" ? "badge-success" : (p.status === "failed" ? "badge-failed" : "badge-pending");
+                const date = p.createdAt?.toDate?.()?.toLocaleString() || "—";
+                html += `
+                    <tr>
+                        <td>${p.userEmail || "—"}</td>
+                        <td style="color:#65e6a0;font-weight:700;">${(p.amount || 0).toLocaleString()} NGN</td>
+                        <td>${p.reference || "—"}</td>
+                        <td><span class="badge ${badgeClass}">${p.status || "pending"}</span></td>
+                        <td>${date}</td>
+                    </tr>`;
+            });
+            tbody.innerHTML = html;
+        } catch (err) {
+            tbody.innerHTML = `<tr><td colspan="5" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
+        }
+    }
+
+    // ============================
+    // SERVICES (add / edit / price / disable / delete)
+    // ============================
     const serviceForm = document.getElementById("serviceForm");
     const saveBtn = document.getElementById("saveBtn");
     const msg = document.getElementById("msg");
     const serviceList = document.getElementById("serviceList");
-    const ordersTable = document.getElementById("ordersTable");
 
     function showMsg(t, type, target = msg) {
         target.textContent = t;
@@ -504,7 +712,6 @@
 
     serviceForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-
         const category = document.getElementById("category").value;
         const serviceName = document.getElementById("serviceName").value;
         const typeName = document.getElementById("type").value.trim();
@@ -539,6 +746,7 @@
             showMsg("✅ Service saved successfully!", "success");
             serviceForm.reset();
             loadServices();
+            loadStats();
         } catch (err) {
             showMsg("❌ " + err.message, "error");
         }
@@ -547,9 +755,6 @@
         saveBtn.textContent = "Save Service";
     });
 
-    // =============================
-    // LOAD SERVICES
-    // =============================
     async function loadServices() {
         try {
             const snap = await getDocs(collection(db, "services"));
@@ -585,47 +790,38 @@
             });
             serviceList.innerHTML = html;
 
-            // Attach handlers
-            serviceList.querySelectorAll("[data-edit]").forEach(btn => {
-                btn.addEventListener("click", () => openEditModal(btn.dataset.edit));
-            });
-            serviceList.querySelectorAll("[data-price]").forEach(btn => {
-                btn.addEventListener("click", () => quickPriceEdit(btn.dataset.price));
-            });
-            serviceList.querySelectorAll("[data-disable]").forEach(btn => {
+            serviceList.querySelectorAll("[data-edit]").forEach(btn =>
+                btn.addEventListener("click", () => openEditModal(btn.dataset.edit)));
+            serviceList.querySelectorAll("[data-price]").forEach(btn =>
+                btn.addEventListener("click", () => quickPriceEdit(btn.dataset.price)));
+            serviceList.querySelectorAll("[data-disable]").forEach(btn =>
                 btn.addEventListener("click", async () => {
                     if (!confirm("Disable this service? Customers will no longer see it.")) return;
                     await updateDoc(doc(db, "services", btn.dataset.disable), { status: "inactive" });
                     loadServices();
-                });
-            });
-            serviceList.querySelectorAll("[data-enable]").forEach(btn => {
+                }));
+            serviceList.querySelectorAll("[data-enable]").forEach(btn =>
                 btn.addEventListener("click", async () => {
                     await updateDoc(doc(db, "services", btn.dataset.enable), { status: "active" });
                     loadServices();
-                });
-            });
-            serviceList.querySelectorAll("[data-del]").forEach(btn => {
+                }));
+            serviceList.querySelectorAll("[data-del]").forEach(btn =>
                 btn.addEventListener("click", async () => {
                     if (!confirm("Delete this service permanently?")) return;
                     await deleteDoc(doc(db, "services", btn.dataset.del));
                     loadServices();
-                });
-            });
+                    loadStats();
+                }));
         } catch (err) {
             serviceList.innerHTML = `<tr><td colspan="6" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
         }
     }
 
-    // =============================
-    // QUICK PRICE EDIT
-    // =============================
     async function quickPriceEdit(serviceId) {
         const ref = doc(db, "services", serviceId);
         const snap = await getDoc(ref);
         if (!snap.exists()) return;
         const data = snap.data();
-
         const newPrice = prompt(
             `Current price: ${data.pricePer1k.toLocaleString()} NGN / 1k\n\nEnter new price:`,
             data.pricePer1k
@@ -633,23 +829,16 @@
         if (newPrice === null) return;
         const priceNum = parseFloat(newPrice);
         if (isNaN(priceNum) || priceNum <= 0) return alert("Invalid price");
-
-        // Update top-level + types
         const newTypes = (data.types || []).map((t, i) =>
-            i === 0 ? { ...t, pricePer1k: priceNum } : t
-        );
-
-        await updateDoc(ref, {
-            pricePer1k: priceNum,
-            types: newTypes
-        });
+            i === 0 ? { ...t, pricePer1k: priceNum } : t);
+        await updateDoc(ref, { pricePer1k: priceNum, types: newTypes });
         loadServices();
         alert("✅ Price updated!");
     }
 
-    // =============================
+    // ============================
     // EDIT MODAL
-    // =============================
+    // ============================
     const editModal = document.getElementById("editModal");
     const editForm = document.getElementById("editForm");
     const editMsg = document.getElementById("editMsg");
@@ -658,12 +847,9 @@
     const saveEditBtn = document.getElementById("saveEditBtn");
 
     async function openEditModal(serviceId) {
-        const ref = doc(db, "services", serviceId);
-        const snap = await getDoc(ref);
+        const snap = await getDoc(doc(db, "services", serviceId));
         if (!snap.exists()) return alert("Service not found");
         const s = snap.data();
-
-        // Populate fields
         document.getElementById("editId").value = serviceId;
         document.getElementById("editCategory").value = s.category;
         document.getElementById("editServiceName").value = s.serviceName;
@@ -673,32 +859,23 @@
         document.getElementById("editMax").value = s.maxQuantity;
         document.getElementById("editTime").value = s.deliveryTime;
         document.getElementById("editLinkLabel").value = s.linkLabel || "";
-
-        // Convert note HTML back to plain lines
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = s.note || "";
-        const lines = Array.from(tempDiv.querySelectorAll("li")).map(li => li.textContent).join("\n");
-        document.getElementById("editNote").value = lines;
-
+        document.getElementById("editNote").value =
+            Array.from(tempDiv.querySelectorAll("li")).map(li => li.textContent).join("\n");
         editMsg.className = "msg";
         editModal.classList.add("active");
     }
 
-    function closeEditModal() {
-        editModal.classList.remove("active");
-    }
-
+    function closeEditModal() { editModal.classList.remove("active"); }
     closeModal.addEventListener("click", closeEditModal);
     cancelEdit.addEventListener("click", closeEditModal);
-    editModal.addEventListener("click", (e) => {
-        if (e.target === editModal) closeEditModal();
-    });
+    editModal.addEventListener("click", (e) => { if (e.target === editModal) closeEditModal(); });
 
     editForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const id = document.getElementById("editId").value;
         if (!id) return;
-
         const category = document.getElementById("editCategory").value;
         const serviceName = document.getElementById("editServiceName").value;
         const typeName = document.getElementById("editType").value.trim();
@@ -708,14 +885,11 @@
         const deliveryTime = document.getElementById("editTime").value.trim();
         const linkLabel = document.getElementById("editLinkLabel").value.trim();
         const note = document.getElementById("editNote").value.trim();
-
         const noteHtml = note
             ? note.split("\n").filter(l => l.trim()).map(l => `<li>${l}</li>`).join("")
             : "";
-
         saveEditBtn.disabled = true;
         saveEditBtn.textContent = "Saving...";
-
         try {
             await updateDoc(doc(db, "services", id), {
                 category, serviceName,
@@ -725,59 +899,13 @@
                 note: noteHtml
             });
             showMsg("✅ Service updated!", "success", editMsg);
-            setTimeout(() => {
-                closeEditModal();
-                loadServices();
-            }, 900);
+            setTimeout(() => { closeEditModal(); loadServices(); }, 900);
         } catch (err) {
             showMsg("❌ " + err.message, "error", editMsg);
         }
-
         saveEditBtn.disabled = false;
         saveEditBtn.textContent = "Save Changes";
     });
-
-    // =============================
-    // ORDERS
-    // =============================
-    async function loadOrders() {
-        try {
-            const snap = await getDocs(collection(db, "orders"));
-            if (snap.empty) {
-                ordersTable.innerHTML = '<tr><td colspan="7" class="empty-row">No orders yet.</td></tr>';
-                return;
-            }
-            let html = "";
-            snap.forEach(d => {
-                const o = d.data();
-                const statusClass = "badge-" + (o.status || "pending");
-                html += `
-                    <tr>
-                        <td>${o.userEmail || "—"}</td>
-                        <td>${o.platform || "—"}</td>
-                        <td>${o.serviceName || "—"}<br><span style="font-size:10px;color:#8999b8;">${o.type || ""}</span></td>
-                        <td>${(o.quantity || 0).toLocaleString()}</td>
-                        <td style="color:#65e6a0;font-weight:700;">${(o.totalPrice || 0).toLocaleString()} NGN</td>
-                        <td><span class="badge ${statusClass}">${o.status || "pending"}</span></td>
-                        <td>
-                            <button class="action-btn btn-proc" data-id="${d.id}" data-status="processing">⏳</button>
-                            <button class="action-btn btn-done" data-id="${d.id}" data-status="completed">✅</button>
-                            <button class="action-btn btn-cancel" data-id="${d.id}" data-status="cancelled">❌</button>
-                        </td>
-                    </tr>`;
-            });
-            ordersTable.innerHTML = html;
-
-            ordersTable.querySelectorAll("[data-status]").forEach(btn => {
-                btn.addEventListener("click", async () => {
-                    await updateDoc(doc(db, "orders", btn.dataset.id), { status: btn.dataset.status });
-                    loadOrders();
-                });
-            });
-        } catch (err) {
-            ordersTable.innerHTML = `<tr><td colspan="7" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
-        }
-    }
 </script>
 
 </body>
