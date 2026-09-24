@@ -3,611 +3,675 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zavora Booster - Get Likes, Followers, and More Instantly</title>
+    <meta name="description" content="Zavora Booster - Fast, reliable and affordable digital boosting services.">
+    <meta name="theme-color" content="#070b1f">
+    <title>Zavora Booster | Grow Your Digital Presence</title>
     <style>
-        /* --- Global Reset & Font --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            background-color: #ffffff;
-            color: #000000;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #050817;
+            color: #ffffff;
+            line-height: 1.6;
             overflow-x: hidden;
         }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; }
 
-        /* --- Top Stats Bar --- */
-        .top-stats {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            background: #0057ff;
-            color: #ffffff;
-            padding: 12px 20px;
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 0.5px;
+        /* NAVBAR */
+        .navbar {
+            width: 100%; position: fixed; top: 0; left: 0; z-index: 1000;
+            background: rgba(5, 8, 23, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(77, 163, 255, 0.12);
+        }
+        .nav-container {
+            width: min(1180px, 92%); margin: auto; height: 76px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; }
+        .logo-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #4da3ff, #7657ff);
+            box-shadow: 0 8px 25px rgba(77, 163, 255, 0.25);
+            font-size: 21px;
+        }
+        .logo span { color: #4da3ff; }
+        .nav-links { display: flex; align-items: center; gap: 32px; }
+        .nav-links a { color: #aeb9d4; font-size: 14px; font-weight: 600; transition: 0.25s ease; }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-button {
+            padding: 11px 20px; border-radius: 10px;
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            color: white !important;
+            box-shadow: 0 8px 25px rgba(40, 104, 255, 0.2);
+        }
+        .nav-button:hover { transform: translateY(-1px); }
+        .menu-btn {
+            display: none; border: none; background: transparent;
+            color: white; font-size: 27px; cursor: pointer;
         }
 
-        .top-stats span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .top-stats .dot {
-            width: 8px;
-            height: 8px;
-            background: #ffffff;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        /* --- Navigation Bar --- */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: #ffffff;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 2px solid #0057ff;
-            box-shadow: 0 2px 10px rgba(0, 87, 255, 0.1);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: #000000;
-            letter-spacing: 1px;
-        }
-
-        .logo span {
-            color: #0057ff;
-        }
-
-        /* Three-Bar Menu Icon */
-        .menu-toggle {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 30px;
-            height: 22px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .menu-toggle .bar {
-            width: 100%;
-            height: 3px;
-            background-color: #000000;
-            border-radius: 2px;
-            transition: all 0.3s ease;
-        }
-
-        .menu-toggle:hover .bar {
-            background-color: #0057ff;
-        }
-
-        /* Mobile Slide-out Menu */
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 300px;
-            height: 100vh;
-            background: #ffffff;
-            color: #000000;
-            padding: 100px 30px 30px;
-            transition: right 0.4s ease;
-            z-index: 999;
-            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
-            border-left: 3px solid #0057ff;
-        }
-
-        .mobile-menu.active {
-            right: 0;
-        }
-
-        .mobile-menu a {
-            display: block;
-            color: #000;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 600;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu a:hover {
-            padding-left: 10px;
-            color: #0057ff;
-        }
-
-        .mobile-menu .menu-btn {
-            display: block;
-            text-align: center;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 8px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-menu .btn-login-menu {
-            background: #000;
-            color: #fff;
-            border: 2px solid #000;
-        }
-
-        .mobile-menu .btn-login-menu:hover {
-            background: #0057ff;
-            border-color: #0057ff;
-        }
-
-        .mobile-menu .btn-register-menu {
-            background: #0057ff;
-            color: #fff;
-            border: 2px solid #0057ff;
-        }
-
-        .mobile-menu .btn-register-menu:hover {
-            background: #000;
-            border-color: #000;
-        }
-
-        .close-menu {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            font-size: 30px;
-            cursor: pointer;
-            color: #000;
-            font-weight: 300;
-            line-height: 1;
-            transition: color 0.3s;
-        }
-
-        .close-menu:hover {
-            color: #0057ff;
-        }
-
-        /* --- Hero Section --- */
+        /* HERO */
         .hero {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 180px 50px 100px;
-            min-height: 100vh;
-            background: #ffffff;
+            min-height: 100vh; padding: 150px 0 90px;
+            position: relative; overflow: hidden;
+            display: flex; align-items: center;
         }
-
-        .hero-text {
-            max-width: 650px;
+        .hero::before {
+            content: ""; position: absolute; width: 520px; height: 520px;
+            background: #2868ff; opacity: 0.11; filter: blur(100px);
+            border-radius: 50%; top: 80px; left: -180px;
         }
-
-        .hero-text .tagline {
-            color: #0057ff;
-            font-weight: 700;
-            letter-spacing: 3px;
-            font-size: 13px;
+        .hero::after {
+            content: ""; position: absolute; width: 500px; height: 500px;
+            background: #7657ff; opacity: 0.10; filter: blur(100px);
+            border-radius: 50%; right: -180px; bottom: 20px;
+        }
+        .hero-container {
+            width: min(1180px, 92%); margin: auto;
+            display: grid; grid-template-columns: 1.05fr 0.95fr;
+            align-items: center; gap: 65px; position: relative; z-index: 2;
+        }
+        .badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 13px; border-radius: 30px;
+            background: rgba(77, 163, 255, 0.08);
+            border: 1px solid rgba(77, 163, 255, 0.2);
+            color: #76baff; font-size: 12px; font-weight: 700;
             margin-bottom: 20px;
-            text-transform: uppercase;
         }
-
-        .hero-text h1 {
-            font-size: 58px;
-            line-height: 1.1;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: #000000;
+        .badge-dot {
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #4da3ff; box-shadow: 0 0 12px #4da3ff;
         }
-
-        .hero-text h1 span {
-            color: #0057ff;
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 72px);
+            line-height: 1.03; letter-spacing: -2.5px; margin-bottom: 24px;
         }
-
-        .hero-text p {
-            font-size: 18px;
-            color: #444;
-            line-height: 1.6;
-            margin-bottom: 35px;
+        .hero h1 .gradient {
+            background: linear-gradient(90deg, #4da3ff, #8a6cff);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
         }
-
-        .hero-buttons {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+        .hero-text {
+            max-width: 610px; color: #aeb9d4; font-size: 17px;
+            line-height: 1.8; margin-bottom: 32px;
         }
+        .hero-buttons { display: flex; gap: 13px; flex-wrap: wrap; }
+        .primary-btn, .secondary-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 8px; min-height: 50px; padding: 0 22px;
+            border-radius: 12px; font-size: 14px; font-weight: 700;
+            transition: 0.25s ease;
+        }
+        .primary-btn {
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            box-shadow: 0 12px 30px rgba(40, 104, 255, 0.25);
+        }
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 35px rgba(40, 104, 255, 0.32);
+        }
+        .secondary-btn {
+            border: 1px solid #263556;
+            background: rgba(255, 255, 255, 0.025);
+            color: #dce6fb;
+        }
+        .secondary-btn:hover {
+            border-color: #4da3ff;
+            background: rgba(77, 163, 255, 0.06);
+        }
+        .hero-visual {
+            position: relative; min-height: 500px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .dashboard-card {
+            width: min(430px, 100%);
+            border: 1px solid #1e3157;
+            background: rgba(11, 18, 48, 0.92);
+            border-radius: 24px; padding: 22px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.35), 0 0 70px rgba(77,163,255,0.08);
+            position: relative; z-index: 2;
+        }
+        .dashboard-top {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 25px;
+        }
+        .dashboard-title { font-weight: 800; }
+        .online {
+            display: flex; align-items: center; gap: 6px;
+            color: #65e6a0; font-size: 11px; font-weight: 700;
+        }
+        .online-dot { width: 7px; height: 7px; border-radius: 50%; background: #65e6a0; }
+        .growth-card {
+            padding: 20px; border-radius: 17px;
+            background: linear-gradient(135deg, #16285b, #111a3d);
+            border: 1px solid #263d70; margin-bottom: 16px;
+        }
+        .growth-label { color: #94a5c7; font-size: 12px; margin-bottom: 6px; }
+        .growth-number { font-size: 32px; font-weight: 800; }
+        .growth-number span { color: #62e3a0; font-size: 13px; margin-left: 7px; }
+        .mini-chart { height: 85px; margin-top: 18px; display: flex; align-items: end; gap: 8px; }
+        .bar { flex: 1; border-radius: 7px 7px 3px 3px; background: linear-gradient(to top, #2868ff, #6c6aff); opacity: 0.9; }
+        .bar:nth-child(1) { height: 35%; }
+        .bar:nth-child(2) { height: 48%; }
+        .bar:nth-child(3) { height: 42%; }
+        .bar:nth-child(4) { height: 61%; }
+        .bar:nth-child(5) { height: 55%; }
+        .bar:nth-child(6) { height: 77%; }
+        .bar:nth-child(7) { height: 91%; }
+        .service-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 0; border-bottom: 1px solid #1c2947;
+        }
+        .service-row:last-child { border-bottom: 0; }
+        .service-icon {
+            width: 38px; height: 38px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            background: #15234b; font-size: 17px;
+        }
+        .service-info { flex: 1; }
+        .service-name { font-size: 13px; font-weight: 700; }
+        .service-status { color: #7183a7; font-size: 10px; margin-top: 2px; }
+        .service-price { font-size: 12px; font-weight: 700; color: #71baff; }
+        .floating-card {
+            position: absolute; z-index: 3; padding: 13px 16px;
+            border-radius: 13px; background: #0d1735;
+            border: 1px solid #243d6b;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.3);
+            font-size: 12px;
+        }
+        .floating-one { top: 65px; right: -5px; }
+        .floating-two { bottom: 55px; left: -5px; }
 
-        .hero-buttons a {
-            padding: 15px 35px;
+        /* STATS */
+        .stats { padding: 25px 0 70px; }
+        .stats-container {
+            width: min(1000px, 92%); margin: auto;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;
+        }
+        .stat { text-align: center; padding: 20px; border-right: 1px solid #182540; }
+        .stat:last-child { border-right: none; }
+        .stat strong { display: block; font-size: 28px; margin-bottom: 3px; }
+        .stat span { color: #7788a9; font-size: 12px; }
+
+        /* SECTION */
+        section { scroll-margin-top: 90px; }
+        .section { padding: 100px 0; }
+        .section-container { width: min(1180px, 92%); margin: auto; }
+        .section-heading { max-width: 650px; margin: 0 auto 50px; text-align: center; }
+        .section-tag {
+            color: #62adff; text-transform: uppercase;
+            font-size: 11px; font-weight: 800;
+            letter-spacing: 1.8px; margin-bottom: 10px;
+        }
+        .section-heading h2 {
+            font-size: clamp(30px, 4vw, 45px);
+            line-height: 1.15; margin-bottom: 14px; letter-spacing: -1px;
+        }
+        .section-heading p { color: #8999b8; font-size: 15px; }
+
+        /* SERVICES */
+        .services-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+        }
+        .service-card {
+            padding: 28px; border-radius: 18px;
+            background: #0b1230; border: 1px solid #192849;
+            transition: 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-6px);
+            border-color: #315ca8;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+        }
+        .card-icon {
+            width: 50px; height: 50px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #162d66, #1b2452);
+            font-size: 22px; margin-bottom: 20px;
+        }
+        .service-card h3 { font-size: 18px; margin-bottom: 9px; }
+        .service-card p { color: #8191af; font-size: 13px; line-height: 1.7; margin-bottom: 18px; }
+        .learn-more { color: #62adff; font-size: 12px; font-weight: 700; }
+
+        /* WHY US */
+        .why-section {
+            background: #070c21;
+            border-top: 1px solid #101b35;
+            border-bottom: 1px solid #101b35;
+        }
+        .why-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 70px; align-items: center;
+        }
+        .why-content h2 {
+            font-size: clamp(31px, 4vw, 46px);
+            line-height: 1.15; margin-bottom: 18px;
+        }
+        .why-content > p {
+            color: #8999b8; font-size: 15px;
+            line-height: 1.8; margin-bottom: 28px;
+        }
+        .features { display: grid; gap: 18px; }
+        .feature { display: flex; gap: 14px; }
+        .check {
+            flex-shrink: 0; width: 34px; height: 34px;
             border-radius: 10px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(77, 163, 255, 0.1);
+            color: #62adff; font-weight: 800;
         }
-
-        .btn-primary {
-            background: #0057ff;
-            color: #ffffff;
-            border: 2px solid #0057ff;
+        .feature h4 { font-size: 14px; margin-bottom: 3px; }
+        .feature p { color: #7182a4; font-size: 12px; }
+        .why-box {
+            padding: 35px; border-radius: 24px;
+            border: 1px solid #1e3157;
+            background: linear-gradient(145deg, #0d1736, #091027);
+            position: relative; overflow: hidden;
         }
-
-        .btn-primary:hover {
-            background: #000000;
-            border-color: #000000;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 87, 255, 0.3);
+        .why-box::before {
+            content: ""; position: absolute; width: 220px; height: 220px;
+            background: #2868ff; opacity: 0.08; border-radius: 50%;
+            filter: blur(60px); right: -70px; top: -80px;
         }
-
-        .btn-secondary {
-            background: transparent;
-            color: #000000;
-            border: 2px solid #000000;
+        .rocket { font-size: 52px; margin-bottom: 18px; }
+        .why-box h3 { font-size: 24px; margin-bottom: 10px; }
+        .why-box p { color: #7e90b1; font-size: 13px; line-height: 1.8; }
+        .box-stat { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
+        .box-stat div {
+            padding: 15px; border-radius: 12px;
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid #1b2947;
         }
+        .box-stat strong { display: block; font-size: 20px; }
+        .box-stat span { color: #7183a6; font-size: 10px; }
 
-        .btn-secondary:hover {
-            background: #000000;
-            color: #ffffff;
-            transform: translateY(-3px);
+        /* HOW IT WORKS */
+        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .step {
+            position: relative; padding: 28px;
+            border: 1px solid #192849; border-radius: 18px;
+            background: #0a112b;
         }
-
-        /* --- Hero Image (Phone Mockup) --- */
-        .hero-image {
-            position: relative;
-            width: 400px;
-            height: 500px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .step-number {
+            width: 42px; height: 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            font-weight: 800; margin-bottom: 20px;
         }
+        .step h3 { font-size: 17px; margin-bottom: 8px; }
+        .step p { color: #7d8eac; font-size: 13px; line-height: 1.7; }
 
-        .phone-mockup {
-            width: 280px;
-            height: 550px;
-            background: #ffffff;
-            border-radius: 40px;
-            border: 8px solid #000000;
-            box-shadow: 0 20px 60px rgba(0, 87, 255, 0.2);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
+        /* CTA */
+        .cta-section { padding: 40px 0 110px; }
+        .cta {
+            width: min(1100px, 92%); margin: auto; text-align: center;
+            padding: 65px 30px; border-radius: 25px;
+            border: 1px solid #284a83;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(77, 163, 255, 0.14), transparent 50%),
+                linear-gradient(145deg, #0d193d, #091027);
             overflow: hidden;
         }
-
-        .phone-mockup::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 25px;
-            background: #000000;
-            border-radius: 0 0 15px 15px;
+        .cta h2 { font-size: clamp(30px, 5vw, 46px); margin-bottom: 14px; }
+        .cta p {
+            max-width: 570px; margin: 0 auto 25px;
+            color: #8b9ab7; font-size: 14px;
         }
 
-        .mockup-logo {
-            font-size: 20px;
-            font-weight: 800;
-            color: #000000;
-            margin-bottom: 30px;
-            margin-top: 20px;
+        /* FOOTER */
+        footer {
+            border-top: 1px solid #111e38;
+            background: #040711; padding: 50px 0 25px;
+        }
+        .footer-container { width: min(1180px, 92%); margin: auto; }
+        .footer-top {
+            display: flex; justify-content: space-between;
+            gap: 40px; padding-bottom: 35px;
+        }
+        .footer-brand { max-width: 350px; }
+        .footer-brand p {
+            color: #6f809f; font-size: 12px;
+            line-height: 1.8; margin-top: 15px;
+        }
+        .footer-links { display: flex; gap: 70px; }
+        .footer-column h4 { font-size: 12px; margin-bottom: 15px; }
+        .footer-column a {
+            display: block; color: #6f809f;
+            font-size: 12px; margin-bottom: 9px; transition: 0.2s;
+        }
+        .footer-column a:hover { color: #ffffff; }
+        .footer-bottom {
+            border-top: 1px solid #111e38; padding-top: 20px;
+            display: flex; justify-content: space-between;
+            gap: 20px; color: #53627e; font-size: 11px;
         }
 
-        .mockup-logo span {
-            color: #0057ff;
-        }
-
-        .stat-box {
-            background: #f0f5ff;
-            border: 1px solid #d0e0ff;
-            border-radius: 12px;
-            padding: 15px;
-            width: 100%;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .stat-box .label {
-            font-size: 13px;
-            color: #555;
-        }
-
-        .stat-box .value {
-            font-size: 16px;
-            font-weight: 700;
-            color: #0057ff;
-        }
-
-        /* --- Floating Platform Icons (SVG) --- */
-        .floating-icon {
-            position: absolute;
-            width: 55px;
-            height: 55px;
-            border-radius: 14px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #ffffff;
-            border: 2px solid #0057ff;
-            animation: float 3s ease-in-out infinite;
-            box-shadow: 0 5px 20px rgba(0, 87, 255, 0.2);
-            z-index: 10;
-            padding: 8px;
-        }
-
-        .floating-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* Positioning 6 icons around the phone */
-        .icon-facebook  { top: 5%;   left: -5%;  animation-delay: 0s; }
-        .icon-instagram { top: 5%;   right: -5%; animation-delay: 0.3s; }
-        .icon-tiktok    { top: 40%;  left: -10%; animation-delay: 0.6s; }
-        .icon-twitter   { top: 40%;  right: -10%;animation-delay: 0.9s; }
-        .icon-whatsapp  { bottom: 5%;left: -5%;  animation-delay: 1.2s; }
-        .icon-youtube   { bottom: 5%;right: -5%; animation-delay: 1.5s; }
-
-        /* --- Trust Badges Section --- */
-        .trust-badges {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            padding: 40px 20px;
-            background: #000000;
-            color: #ffffff;
-            flex-wrap: wrap;
-        }
-
-        .trust-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .trust-badge .icon {
-            font-size: 22px;
-            color: #0057ff;
-        }
-
-        /* --- Feature Bar --- */
-        .features {
-            padding: 60px 50px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            background: #f0f5ff;
-            border-top: 3px solid #0057ff;
-            border-bottom: 3px solid #0057ff;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #000000;
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .feature-item .icon {
-            color: #0057ff;
-            font-size: 20px;
-        }
-
-        /* --- Responsive --- */
+        /* MOBILE */
         @media (max-width: 900px) {
-            .top-stats {
-                flex-direction: column;
-                gap: 8px;
-                font-size: 12px;
-                padding: 10px;
-            }
-            nav { padding: 15px 20px; }
-            .hero { flex-direction: column; text-align: center; padding: 160px 20px 60px; }
-            .hero-text h1 { font-size: 38px; }
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-text { margin-left: auto; margin-right: auto; }
             .hero-buttons { justify-content: center; }
-            .hero-image { margin-top: 70px; width: 100%; }
-            .features { padding: 40px 20px; }
-            .trust-badges { flex-direction: column; align-items: center; gap: 15px; }
-
-            /* Adjust icon positions on mobile */
-            .icon-facebook  { top: 0%;   left: 0%;  }
-            .icon-instagram { top: 0%;   right: 0%; }
-            .icon-tiktok    { top: 35%;  left: -5%; }
-            .icon-twitter   { top: 35%;  right: -5%;}
-            .icon-whatsapp  { bottom: 0%;left: 0%;  }
-            .icon-youtube   { bottom: 0%;right: 0%; }
+            .hero-visual { min-height: 450px; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .why-grid { grid-template-columns: 1fr; }
+            .steps { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 700px) {
+            .nav-links {
+                display: none; position: absolute; top: 76px;
+                left: 4%; width: 92%; padding: 18px;
+                flex-direction: column; align-items: stretch; gap: 5px;
+                background: #0a1028; border: 1px solid #1c2c4d;
+                border-radius: 15px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { padding: 12px; }
+            .menu-btn { display: block; }
+            .stats-container { grid-template-columns: repeat(2, 1fr); }
+            .stat { border-right: none; border-bottom: 1px solid #182540; }
+            .services-grid { grid-template-columns: 1fr; }
+            .footer-top { flex-direction: column; }
+            .footer-links { gap: 45px; }
+            .footer-bottom { flex-direction: column; }
+        }
+        @media (max-width: 450px) {
+            .hero { padding-top: 125px; }
+            .hero h1 { font-size: 41px; }
+            .hero-text { font-size: 14px; }
+            .hero-buttons a { width: 100%; }
+            .dashboard-card { padding: 17px; }
+            .hero-visual { min-height: 400px; }
+            .floating-card { font-size: 10px; padding: 10px; }
+            .why-box { padding: 25px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Stats Bar -->
-    <div class="top-stats">
-        <span><span class="dot"></span> 40,000,000+ Orders</span>
-        <span><span class="dot"></span> 1,000,000+ Users</span>
-    </div>
-
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">Zavora <span>BOOSTER</span></div>
-        <div class="menu-toggle" id="menuToggle">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🚀</div>
+                <div>Zavora <span>Booster</span></div>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#about">Why Us</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="login.html">Login</a>
+                <a href="register.html" class="nav-button">Get Started</a>
+            </nav>
+            <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
         </div>
-    </nav>
+    </header>
 
-    <!-- Mobile Slide-out Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <span class="close-menu" id="closeMenu">&times;</span>
-        <a href="index.html">Home</a>
-        <a href="#services">Services</a>
-        <a href="#platforms">Platforms</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#contact">Contact</a>
-        <a href="login.html" class="menu-btn btn-login-menu">Login</a>
-        <a href="register.html" class="menu-btn btn-register-menu">Create Account</a>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-text">
-            <div class="tagline">More Reach • More Engagement • More Growth</div>
-            <h1>Get Likes, Followers, and More — <span>Instantly</span></h1>
-            <p>Zavora Booster helps you get real followers,random followers, more views, likes, comments, and engagement on all major social media platforms — fast, safe, and affordable.</p>
-            <div class="hero-buttons">
-                <a href="register.html" class="btn-primary">🚀 Get Started Now</a>
-                <a href="#services" class="btn-secondary">View Services</a>
-            </div>
-        </div>
-
-        <div class="hero-image">
-            <div class="phone-mockup">
-                <div class="mockup-logo">Zavora <span>BOOSTER</span></div>
-                <div class="stat-box">
-                    <span class="label">👥 Followers</span>
-                    <span class="value">+12,540</span>
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="badge">
+                        <span class="badge-dot"></span>
+                        Your Digital Growth Starts Here
+                    </div>
+                    <h1>
+                        Boost Your
+                        <span class="gradient">Digital Presence</span>
+                        With Zavora.
+                    </h1>
+                    <p class="hero-text">
+                        Powerful and reliable boosting services designed to
+                        help your brand, content and online presence reach
+                        more people and grow faster.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#services" class="primary-btn">🚀 Explore Services</a>
+                        <a href="#how-it-works" class="secondary-btn">Learn More →</a>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <span class="label">👁️ Views</span>
-                    <span class="value">+89,230</span>
+                <div class="hero-visual">
+                    <div class="floating-card floating-one">⚡ Fast Delivery</div>
+                    <div class="floating-card floating-two">✓ Reliable Service</div>
+                    <div class="dashboard-card">
+                        <div class="dashboard-top">
+                            <div class="dashboard-title">Zavora Booster</div>
+                            <div class="online"><span class="online-dot"></span>ONLINE</div>
+                        </div>
+                        <div class="growth-card">
+                            <div class="growth-label">Your Growth</div>
+                            <div class="growth-number">+84.7% <span>↗ Growing</span></div>
+                            <div class="mini-chart">
+                                <div class="bar"></div><div class="bar"></div>
+                                <div class="bar"></div><div class="bar"></div>
+                                <div class="bar"></div><div class="bar"></div>
+                                <div class="bar"></div>
+                            </div>
+                        </div>
+                        <div class="service-row">
+                            <div class="service-icon">📱</div>
+                            <div class="service-info">
+                                <div class="service-name">Social Growth</div>
+                                <div class="service-status">Service available</div>
+                            </div>
+                            <div class="service-price">Active</div>
+                        </div>
+                        <div class="service-row">
+                            <div class="service-icon">❤️</div>
+                            <div class="service-info">
+                                <div class="service-name">Engagement</div>
+                                <div class="service-status">Service available</div>
+                            </div>
+                            <div class="service-price">Active</div>
+                        </div>
+                        <div class="service-row">
+                            <div class="service-icon">👥</div>
+                            <div class="service-info">
+                                <div class="service-name">Audience Growth</div>
+                                <div class="service-status">Service available</div>
+                            </div>
+                            <div class="service-price">Active</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-box">
-                    <span class="label">❤️ Likes</span>
-                    <span class="value">+25,680</span>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="stats-container">
+                <div class="stat"><strong>24/7</strong><span>Service Availability</span></div>
+                <div class="stat"><strong>Fast</strong><span>Order Processing</span></div>
+                <div class="stat"><strong>Secure</strong><span>Payment Process</span></div>
+                <div class="stat"><strong>100%</strong><span>Customer Focused</span></div>
+            </div>
+        </section>
+
+        <section class="section" id="services">
+            <div class="section-container">
+                <div class="section-heading">
+                    <div class="section-tag">Our Services</div>
+                    <h2>Everything You Need To Grow</h2>
+                    <p>Choose from our range of digital boosting services.</p>
                 </div>
-                <div class="stat-box">
-                    <span class="label">💬 Comments</span>
-                    <span class="value">+4,320</span>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="card-icon">👥</div>
+                        <h3>Audience Growth</h3>
+                        <p>Build a stronger online presence with services designed around audience growth.</p>
+                        <a href="register.html" class="learn-more">Get Started →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="card-icon">❤️</div>
+                        <h3>Engagement</h3>
+                        <p>Increase activity around your content and create a more active digital presence.</p>
+                        <a href="register.html" class="learn-more">Get Started →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="card-icon">👁️</div>
+                        <h3>Views & Reach</h3>
+                        <p>Give your content more visibility and help it reach a wider online audience.</p>
+                        <a href="register.html" class="learn-more">Get Started →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="card-icon">📈</div>
+                        <h3>Social Growth</h3>
+                        <p>Improve your social presence with simple, accessible growth solutions.</p>
+                        <a href="register.html" class="learn-more">Get Started →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="card-icon">🎯</div>
+                        <h3>Content Boost</h3>
+                        <p>Put more attention on the content that matters most to your brand.</p>
+                        <a href="register.html" class="learn-more">Get Started →</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="card-icon">⚡</div>
+                        <h3>Custom Services</h3>
+                        <p>Need something specific? Contact us about a service tailored to your needs.</p>
+                        <a href="register.html" class="learn-more">Contact Us →</a>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <!-- ===== Floating Social Icons (Real Logos) ===== -->
-
-            <!-- Facebook -->
-            <div class="floating-icon icon-facebook">
-                <svg viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
+        <section class="section why-section" id="about">
+            <div class="section-container">
+                <div class="why-grid">
+                    <div class="why-content">
+                        <div class="section-tag">Why Zavora Booster</div>
+                        <h2>Built For People Who Want To Grow.</h2>
+                        <p>Zavora Booster is designed to make digital boosting simple, convenient and accessible.</p>
+                        <div class="features">
+                            <div class="feature">
+                                <div class="check">✓</div>
+                                <div>
+                                    <h4>Simple Ordering</h4>
+                                    <p>Choose a service and place your order without unnecessary steps.</p>
+                                </div>
+                            </div>
+                            <div class="feature">
+                                <div class="check">✓</div>
+                                <div>
+                                    <h4>Fast Processing</h4>
+                                    <p>Orders are designed to move through the system quickly.</p>
+                                </div>
+                            </div>
+                            <div class="feature">
+                                <div class="check">✓</div>
+                                <div>
+                                    <h4>Secure Experience</h4>
+                                    <p>Your account and order experience are built with security in mind.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="why-box">
+                        <div class="rocket">🚀</div>
+                        <h3>Ready To Boost?</h3>
+                        <p>Start with Zavora Booster and discover a simpler way to manage your digital growth.</p>
+                        <div class="box-stat">
+                            <div><strong>24/7</strong><span>ACCESS</span></div>
+                            <div><strong>Fast</strong><span>PROCESSING</span></div>
+                            <div><strong>Secure</strong><span>ORDERS</span></div>
+                            <div><strong>Easy</strong><span>TO USE</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <!-- Instagram -->
-            <div class="floating-icon icon-instagram">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#FD5949"/>
-                            <stop offset="50%" stop-color="#D6249F"/>
-                            <stop offset="100%" stop-color="#285AEB"/>
-                        </linearGradient>
-                    </defs>
-                    <path fill="url(#igGrad)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                </svg>
+        <section class="section" id="how-it-works">
+            <div class="section-container">
+                <div class="section-heading">
+                    <div class="section-tag">How It Works</div>
+                    <h2>Start In Three Simple Steps</h2>
+                    <p>Getting started with Zavora Booster is simple.</p>
+                </div>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">01</div>
+                        <h3>Choose A Service</h3>
+                        <p>Browse the available services and select the one that matches your needs.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">02</div>
+                        <h3>Place Your Order</h3>
+                        <p>Enter the required information and complete your order through the available process.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">03</div>
+                        <h3>Watch Your Order</h3>
+                        <p>Track your order and monitor its progress through your account.</p>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <!-- TikTok -->
-            <div class="floating-icon icon-tiktok">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#000000" d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
-                    <path fill="#25F4EE" d="M12 2v3.45a4.83 4.83 0 003.77 4.25c.34.06.67.1 1 .1v3.4a8.16 8.16 0 01-4.77-1.52v7a6.34 6.34 0 01-10.86 4.43 6.33 6.33 0 0110.86-4.43v-7A6.84 6.84 0 0012 9.4V2z" opacity="0.4"/>
-                    <path fill="#FE2C55" d="M7.5 13.87a2.89 2.89 0 00-2.31 4.64 2.89 2.89 0 005.2-1.74V2H7.5v11.87z" opacity="0.4"/>
-                </svg>
+        <section class="cta-section" id="contact">
+            <div class="cta">
+                <h2>Ready To Get Started?</h2>
+                <p>Explore Zavora Booster services and take the next step toward building your digital presence.</p>
+                <a href="register.html" class="primary-btn">🚀 Get Started Now</a>
             </div>
+        </section>
+    </main>
 
-            <!-- Twitter / X -->
-            <div class="floating-icon icon-twitter">
-                <svg viewBox="0 0 24 24" fill="#000000" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">🚀</div>
+                        <div>Zavora <span>Booster</span></div>
+                    </a>
+                    <p>Simple, modern and reliable digital boosting services for businesses, creators and brands.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Navigation</h4>
+                        <a href="index.html">Home</a>
+                        <a href="#services">Services</a>
+                        <a href="#about">Why Us</a>
+                        <a href="#how-it-works">How It Works</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <a href="#contact">Contact Us</a>
+                        <a href="#">Terms</a>
+                        <a href="#">Privacy</a>
+                    </div>
+                </div>
             </div>
-
-            <!-- WhatsApp -->
-            <div class="floating-icon icon-whatsapp">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
+            <div class="footer-bottom">
+                <div>© 2026 Zavora Booster. All rights reserved.</div>
+                <div>Built for digital growth.</div>
             </div>
-
-            <!-- YouTube -->
-            <div class="floating-icon icon-youtube">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#FF0000" d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                    <path fill="#FFFFFF" d="M9.545 15.568L15.818 12 9.545 8.432z"/>
-                </svg>
-            </div>
-
         </div>
-    </section>
+    </footer>
 
-    <!-- Trust Badges -->
-    <section class="trust-badges">
-        <div class="trust-badge">
-            <span class="icon">🌍</span> 1,000,000+ Users Worldwide
-        </div>
-        <div class="trust-badge">
-            <span class="icon">✅</span> Trusted since 2021
-        </div>
-    </section>
-
-    <!-- Feature Bar -->
-    <section class="features">
-        <div class="feature-item"><span class="icon">🚀</span> Real Followers</div>
-        <div class="feature-item"><span class="icon">👁️</span> More Views</div>
-        <div class="feature-item"><span class="icon">❤️</span> Boost Likes</div>
-        <div class="feature-item"><span class="icon">💬</span> More Comments</div>
-        <div class="feature-item"><span class="icon">📈</span> Improve Engagement</div>
-        <div class="feature-item"><span class="icon">🔒</span> 100% Safe</div>
-        <div class="feature-item"><span class="icon">⚡</span> Fast Delivery</div>
-        <div class="feature-item"><span class="icon">🎧</span> 24/7 Support</div>
-    </section>
-
-    <!-- Menu Toggle Script -->
     <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const closeMenu = document.getElementById('closeMenu');
-
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
+        const menuBtn = document.getElementById("menuBtn");
+        const navLinks = document.getElementById("navLinks");
+        menuBtn.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            menuBtn.textContent = navLinks.classList.contains("active") ? "✕" : "☰";
         });
-
-        closeMenu.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-        });
-
-        document.querySelectorAll('.mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
+        document.querySelectorAll(".nav-links a").forEach(link => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("active");
+                menuBtn.textContent = "☰";
             });
         });
+        window.addEventListener("scroll", () => {
+            const navbar = document.querySelector(".navbar");
+            navbar.style.background = window.scrollY > 30
+                ? "rgba(5, 8, 23, 0.96)"
+                : "rgba(5, 8, 23, 0.88)";
+        });
     </script>
-
 </body>
-  </html>
+</html>
