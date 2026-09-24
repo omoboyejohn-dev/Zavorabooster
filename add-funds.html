@@ -6,6 +6,10 @@
     <title>Add Funds | Zavora Booster</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ✅ Force dark theme on inputs */
+        :root { color-scheme: dark; }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             background: #050817; color: #ffffff;
@@ -138,18 +142,54 @@
             box-shadow: 0 10px 25px rgba(40, 104, 255, 0.3);
         }
 
+        /* ✅ FIXED INPUT — dark background always */
         .form-input {
-            width: 100%; padding: 15px 16px;
-            border-radius: 12px; border: 2px solid #1e3157;
-            background: #0a1230; color: #ffffff;
-            font-size: 16px; font-weight: 700;
-            outline: none; font-family: inherit;
+            width: 100%;
+            padding: 15px 16px;
+            border-radius: 12px;
+            border: 2px solid #1e3157;
+            background-color: #0a1230 !important;
+            color: #ffffff !important;
+            font-size: 16px;
+            font-weight: 700;
+            outline: none;
+            font-family: inherit;
             text-align: center;
             transition: 0.25s;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: none;
         }
         .form-input:focus {
             border-color: #4da3ff;
+            background-color: #0a1230 !important;
             box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
+        }
+        /* ✅ Kills Chrome autofill white background */
+        .form-input:-webkit-autofill,
+        .form-input:-webkit-autofill:hover,
+        .form-input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #ffffff;
+            -webkit-box-shadow: 0 0 0px 1000px #0a1230 inset;
+            transition: background-color 5000s ease-in-out 0s;
+            border-color: #4da3ff;
+        }
+        .form-input::placeholder {
+            color: #566890;
+            opacity: 1;
+            font-weight: 600;
+        }
+
+        /* Highlight input when preset is chosen */
+        .form-input.highlight {
+            border-color: #4da3ff;
+            background: linear-gradient(135deg, rgba(40, 104, 255, 0.15), rgba(118, 87, 255, 0.15)) !important;
+            animation: pulse 0.4s ease;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
         }
 
         .action-btn {
@@ -167,9 +207,7 @@
         .action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         /* VIRTUAL ACCOUNT */
-        .va-rolling {
-            text-align: center; padding: 40px 20px;
-        }
+        .va-rolling { text-align: center; padding: 40px 20px; }
         .va-rolling .spinner {
             width: 48px; height: 48px;
             border: 4px solid #1e3157;
@@ -180,10 +218,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .va-header {
-            text-align: center;
-            margin-bottom: 22px;
-        }
+        .va-header { text-align: center; margin-bottom: 22px; }
         .va-header h2 { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
         .va-header p { color: #8999b8; font-size: 13px; }
 
@@ -210,9 +245,7 @@
         }
 
         /* SUCCESS SCREEN */
-        .success-icon {
-            font-size: 60px; text-align: center; margin-bottom: 15px;
-        }
+        .success-icon { font-size: 60px; text-align: center; margin-bottom: 15px; }
         .success-title {
             text-align: center; font-size: 20px;
             font-weight: 800; margin-bottom: 8px;
@@ -222,7 +255,6 @@
             text-align: center; color: #8999b8;
             font-size: 13px; margin-bottom: 22px;
         }
-
         .pending-badge {
             display: inline-block;
             padding: 10px 20px;
@@ -232,14 +264,8 @@
             color: #ffc855;
             font-size: 13px;
             font-weight: 800;
-            margin: 0 auto 22px;
-            text-align: center;
         }
-        .pending-row {
-            display: flex; justify-content: center;
-            margin-bottom: 22px;
-        }
-
+        .pending-row { display: flex; justify-content: center; margin-bottom: 22px; }
         .support-line {
             text-align: center;
             font-size: 13px;
@@ -318,9 +344,7 @@
             <p>Top up your wallet with a bank transfer.</p>
         </div>
 
-        <!-- ===================== -->
-        <!-- STEP 1: Choose amount -->
-        <!-- ===================== -->
+        <!-- STEP 1 -->
         <div id="step1">
             <div class="card">
                 <div class="card-title">💵 Choose Amount</div>
@@ -334,22 +358,19 @@
                     <button class="amount-btn" data-amount="50000">₦50,000</button>
                 </div>
 
-                <input type="number" id="customAmount" class="form-input" placeholder="Enter custom amount" min="500" max="500000">
+                <input type="number" id="customAmount" class="form-input" placeholder="Enter amount" min="500" max="500000" inputmode="numeric">
 
                 <div class="va-note" style="margin-top:18px;text-align:center;font-size:12px;">
                     ℹ️ Minimum deposit: ₦500 · Maximum: ₦500,000
                 </div>
 
-                <button class="action-btn" id="payNowBtn" disabled>Pay Now</button>
+                <button class="action-btn" id="mainBtn" disabled>Pay Now</button>
                 <div class="msg" id="step1Msg"></div>
             </div>
         </div>
 
-        <!-- =============================== -->
-        <!-- STEP 2: Rolling / Virtual Account -->
-        <!-- =============================== -->
+        <!-- STEP 2 -->
         <div id="step2" class="hidden">
-            <!-- Rolling state -->
             <div class="card" id="rollingCard">
                 <div class="va-rolling">
                     <div class="spinner"></div>
@@ -357,51 +378,30 @@
                 </div>
             </div>
 
-            <!-- Virtual account details -->
             <div class="card hidden" id="vaCard">
                 <div class="va-header">
                     <h2>Your Virtual Account</h2>
                     <p>Transfer the amount you want to deposit to the account below.</p>
                 </div>
-
-                <div class="va-row">
-                    <span class="lbl">Bank Name</span>
-                    <span class="val">TENN-MFB</span>
-                </div>
-                <div class="va-row">
-                    <span class="lbl">Account Number</span>
-                    <span class="val" id="vaNumber">5777198543</span>
-                </div>
-                <div class="va-row">
-                    <span class="lbl">Account Name</span>
-                    <span class="val">Promise Omowumi Adeyeye</span>
-                </div>
-                <div class="va-row">
-                    <span class="lbl">Amount</span>
-                    <span class="val" id="vaAmount" style="color:#65e6a0;">₦0</span>
-                </div>
-
-                <div class="va-note">
-                    ℹ️ After making the transfer, click <b>I Have Paid</b>
-                </div>
-
+                <div class="va-row"><span class="lbl">Bank Name</span><span class="val">TENN-MFB</span></div>
+                <div class="va-row"><span class="lbl">Account Number</span><span class="val">5777198543</span></div>
+                <div class="va-row"><span class="lbl">Account Name</span><span class="val">Promise Omowumi Adeyeye</span></div>
+                <div class="va-row"><span class="lbl">Amount</span><span class="val" id="vaAmount" style="color:#65e6a0;">₦0</span></div>
+                <div class="va-note">ℹ️ After making the transfer, click <b>I Have Paid</b></div>
                 <button class="action-btn" id="iHavePaidBtn">I Have Paid</button>
             </div>
         </div>
 
-        <!-- ======================= -->
-        <!-- STEP 3: Submit Payment -->
-        <!-- ======================= -->
+        <!-- STEP 3 -->
         <div id="step3" class="hidden">
             <div class="card">
                 <div class="card-title">📝 Confirm Payment Details</div>
-
                 <div class="msg" id="step3Msg" style="display:block;background:rgba(255,200,85,0.1);border:1px solid rgba(255,200,85,0.3);color:#ffc855;margin-bottom:16px;">
                     Amount: <b id="step3Amount" style="color:#ffffff;">₦0</b>
                 </div>
 
                 <label style="display:block;font-size:12px;font-weight:700;color:#aeb9d4;margin-bottom:6px;">Sender Name</label>
-                <input type="text" id="senderName" class="form-input" placeholder="Name on the bank account" style="text-align:left;">
+                <input type="text" id="senderName" class="form-input" placeholder="Name on bank account" style="text-align:left;">
 
                 <label style="display:block;font-size:12px;font-weight:700;color:#aeb9d4;margin-top:16px;margin-bottom:6px;">Bank Transfer</label>
                 <input type="text" id="bankTransfer" class="form-input" placeholder="e.g. GTBank transfer" style="text-align:left;">
@@ -411,9 +411,7 @@
             </div>
         </div>
 
-        <!-- ========================== -->
-        <!-- STEP 4: Pending Success    -->
-        <!-- ========================== -->
+        <!-- STEP 4 -->
         <div id="step4" class="hidden">
             <div class="card">
                 <div class="success-icon">✅</div>
@@ -422,15 +420,12 @@
                     Your deposit is now pending.<br>
                     Please wait 1 to 10 minutes while we confirm your payment.
                 </div>
-
                 <div class="pending-row">
                     <div class="pending-badge">⏳ Deposit Pending</div>
                 </div>
-
                 <div class="support-line">
                     Payment not reflecting? <a href="support.html">Click to contact support</a>
                 </div>
-
                 <a href="dashboard.html" class="action-btn" style="display:block;text-align:center;text-decoration:none;">Go Back to Dashboard</a>
             </div>
         </div>
@@ -465,7 +460,6 @@
     const logoutBtn = document.getElementById("logoutBtn");
     const adminLink = document.getElementById("adminLink");
 
-    // Step elements
     const step1 = document.getElementById("step1");
     const step2 = document.getElementById("step2");
     const step3 = document.getElementById("step3");
@@ -474,17 +468,14 @@
     const rollingCard = document.getElementById("rollingCard");
     const vaCard = document.getElementById("vaCard");
 
-    // Amount
     const amountBtns = document.querySelectorAll(".amount-btn");
     const customAmount = document.getElementById("customAmount");
-    const payNowBtn = document.getElementById("payNowBtn");
+    const mainBtn = document.getElementById("mainBtn");
     const step1Msg = document.getElementById("step1Msg");
 
-    // VA display
     const vaAmountEl = document.getElementById("vaAmount");
     const iHavePaidBtn = document.getElementById("iHavePaidBtn");
 
-    // Step 3
     const step3Amount = document.getElementById("step3Amount");
     const senderName = document.getElementById("senderName");
     const bankTransfer = document.getElementById("bankTransfer");
@@ -494,11 +485,14 @@
     let selectedAmount = 0;
     let currentUser = null;
 
-    // Auth guard
+    // ✅ State machine — one button, two steps
+    // "pay"       = first click → shows Generate Virtual Account
+    // "generate"  = second click → generates
+    let btnState = "pay";
+
     watchAuthState(async (user) => {
         if (!user) { window.location.href = "login.html"; return; }
         currentUser = user;
-
         const profile = await getUserProfile(user.uid);
         if (profile.success) {
             balanceEl.textContent = (profile.data.balance || 0).toLocaleString();
@@ -512,53 +506,65 @@
         setTimeout(() => { el.className = "msg"; }, 4000);
     }
 
-    // ========= Amount selection =========
+    // ======== Preset amount buttons ========
     amountBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             amountBtns.forEach(b => b.classList.remove("selected"));
             btn.classList.add("selected");
             selectedAmount = parseInt(btn.dataset.amount);
-            customAmount.value = "";
-            payNowBtn.disabled = false;
+
+            // ✅ Show the amount in the input field
+            customAmount.value = selectedAmount;
+            customAmount.classList.add("highlight");
+            setTimeout(() => customAmount.classList.remove("highlight"), 600);
+
+            // ✅ Enable main button
+            mainBtn.disabled = false;
             step1Msg.className = "msg";
         });
     });
 
+    // ======== Custom amount typing ========
     customAmount.addEventListener("input", () => {
         amountBtns.forEach(b => b.classList.remove("selected"));
         const v = parseFloat(customAmount.value);
         if (!isNaN(v) && v >= 500 && v <= 500000) {
             selectedAmount = v;
-            payNowBtn.disabled = false;
+            mainBtn.disabled = false;
         } else {
             selectedAmount = 0;
-            payNowBtn.disabled = true;
+            mainBtn.disabled = true;
         }
     });
 
-    // ========= Pay Now → Generate Virtual Account =========
-    payNowBtn.addEventListener("click", () => {
-        if (!selectedAmount || selectedAmount < 500) {
-            return showMsg(step1Msg, "Please choose or enter an amount of at least ₦500.", "error");
-        }
-        payNowBtn.textContent = "Generate Virtual Account";
-        payNowBtn.removeEventListener("click", arguments.callee);
+    // ======== ONE main button: Pay Now → Generate Virtual Account ========
+    mainBtn.addEventListener("click", () => {
+        if (btnState === "pay") {
+            // Validate amount
+            if (!selectedAmount || selectedAmount < 500) {
+                return showMsg(step1Msg, "Please enter an amount of at least ₦500.", "error");
+            }
+            if (selectedAmount > 500000) {
+                return showMsg(step1Msg, "Maximum deposit is ₦500,000.", "error");
+            }
 
-        // Replace click with generate action
-        const newBtn = payNowBtn.cloneNode(true);
-        payNowBtn.parentNode.replaceChild(newBtn, payNowBtn);
-        newBtn.addEventListener("click", generateVirtualAccount);
+            // Change button to step 2
+            btnState = "generate";
+            mainBtn.textContent = "Generate Virtual Account";
+            showMsg(step1Msg, "✅ Amount set to ₦" + selectedAmount.toLocaleString() + ". Click again to generate.", "success");
+        } else if (btnState === "generate") {
+            // Generate virtual account
+            generateVirtualAccount();
+        }
     });
 
-    // ========= Generate Virtual Account =========
     function generateVirtualAccount() {
-        // Move to step 2
         step1.classList.add("hidden");
         step2.classList.remove("hidden");
         rollingCard.classList.remove("hidden");
         vaCard.classList.add("hidden");
 
-        // Rolling for ~5 seconds
+        // 5 second roll
         setTimeout(() => {
             rollingCard.classList.add("hidden");
             vaCard.classList.remove("hidden");
@@ -566,14 +572,14 @@
         }, 5000);
     }
 
-    // ========= I Have Paid → Step 3 =========
+    // ======== I Have Paid ========
     iHavePaidBtn.addEventListener("click", () => {
         step2.classList.add("hidden");
         step3.classList.remove("hidden");
         step3Amount.textContent = "₦" + selectedAmount.toLocaleString();
     });
 
-    // ========= Submit Payment → Step 4 =========
+    // ======== Submit Payment ========
     submitPaymentBtn.addEventListener("click", async () => {
         const sName = senderName.value.trim();
         const bank = bankTransfer.value.trim();
@@ -608,7 +614,6 @@
         }
     });
 
-    // Logout
     logoutBtn.addEventListener("click", async () => {
         await logoutUser();
         window.location.href = "login.html";
