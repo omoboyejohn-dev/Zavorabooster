@@ -10,25 +10,28 @@
             font-family: Arial, Helvetica, sans-serif;
             background: #050817; color: #ffffff;
             line-height: 1.6; min-height: 100vh;
+            overflow-x: hidden;
         }
         a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; cursor: pointer; }
 
+        /* NAVBAR */
         .navbar {
-            width: 100%; position: sticky; top: 0; z-index: 1000;
+            position: sticky; top: 0; z-index: 1000;
             background: rgba(5, 8, 23, 0.94);
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(77, 163, 255, 0.12);
         }
         .nav-container {
-            width: min(1180px, 94%); margin: auto; height: 76px;
+            width: min(1180px, 94%); margin: auto; height: 72px;
             display: flex; align-items: center; justify-content: space-between;
         }
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 800; }
         .logo-icon {
-            width: 40px; height: 40px; border-radius: 12px;
+            width: 38px; height: 38px; border-radius: 11px;
             display: flex; align-items: center; justify-content: center;
             background: linear-gradient(135deg, #4da3ff, #7657ff);
-            font-size: 21px;
+            font-size: 19px;
         }
         .logo span { color: #4da3ff; }
         .back-btn {
@@ -39,44 +42,43 @@
         }
         .back-btn:hover { background: rgba(77, 163, 255, 0.15); }
 
-        .order-wrapper {
-            padding: 40px 0 80px;
-        }
-        .order-container {
-            width: min(720px, 94%); margin: auto;
-        }
+        /* ORDER WRAPPER */
+        .order-wrapper { padding: 35px 0 80px; }
+        .order-container { width: min(680px, 94%); margin: auto; }
+
         .platform-header {
             display: flex; align-items: center; gap: 14px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .platform-header .icon-box {
-            width: 60px; height: 60px;
-            border-radius: 16px;
+            width: 56px; height: 56px;
+            border-radius: 15px;
             display: flex; align-items: center; justify-content: center;
-            background: #1e3157;
-            border: 1px solid #315ca8;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+            flex-shrink: 0;
         }
+        .platform-header .icon-box svg { width: 28px; height: 28px; }
         .platform-header h1 {
-            font-size: 28px; font-weight: 800;
-            letter-spacing: -0.5px;
+            font-size: 24px; font-weight: 800;
+            letter-spacing: -0.5px; line-height: 1.2;
         }
         .platform-header p { color: #8999b8; font-size: 13px; }
 
         .form-card {
-            padding: 32px;
+            padding: 28px;
             border-radius: 20px;
             background: #0b1230;
             border: 1px solid #192849;
         }
 
-        .form-group { margin-bottom: 22px; }
+        .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block; font-size: 13px;
             font-weight: 700; color: #aeb9d4;
             margin-bottom: 8px;
         }
         .form-input, .form-select {
-            width: 100%; padding: 14px 16px;
+            width: 100%; padding: 13px 15px;
             border-radius: 12px; border: 1px solid #1e3157;
             background: #0a1230; color: #ffffff;
             font-size: 14px; outline: none;
@@ -88,11 +90,14 @@
             box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
         }
         .form-select option { background: #0a1230; color: #ffffff; }
+        .form-input:disabled, .form-select:disabled {
+            opacity: 0.5; cursor: not-allowed;
+        }
         .hint { color: #7183a7; font-size: 12px; margin-top: 6px; }
 
         .price-row {
             display: flex; align-items: center; gap: 14px;
-            margin-top: 4px;
+            margin-top: 4px; flex-wrap: wrap;
         }
         .price-badge {
             background: #00c853;
@@ -107,7 +112,7 @@
 
         .readonly-box {
             background: #0a1230;
-            padding: 14px 16px;
+            padding: 13px 15px;
             border-radius: 12px;
             border: 1px solid #1e3157;
             color: #aeb9d4;
@@ -127,7 +132,7 @@
         .note-box ol li { margin-bottom: 6px; }
 
         .purchase-btn {
-            width: 100%; padding: 16px;
+            width: 100%; padding: 15px;
             border-radius: 12px; border: none;
             background: linear-gradient(135deg, #2868ff, #7657ff);
             color: white; font-size: 15px; font-weight: 800;
@@ -136,7 +141,7 @@
             letter-spacing: 0.5px;
         }
         .purchase-btn:hover:not(:disabled) { transform: translateY(-2px); }
-        .purchase-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .purchase-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
         .message {
             display: none; margin-top: 16px;
@@ -172,8 +177,9 @@
         @media (max-width: 600px) {
             .order-container { width: 92%; }
             .form-card { padding: 22px; }
-            .platform-header h1 { font-size: 22px; }
+            .platform-header h1 { font-size: 20px; }
             .platform-header .icon-box { width: 50px; height: 50px; }
+            .price-badge { font-size: 17px; padding: 8px 15px; }
         }
     </style>
 </head>
@@ -200,32 +206,36 @@
 
 <script type="module">
     import { db, auth, watchAuthState } from "./firebase-config.js";
-    import {
-        collection, query, where, getDocs
-    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import { collection, query, where, getDocs, addDoc, doc, getDoc, updateDoc, increment, serverTimestamp }
+        from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-    // Get platform from URL
-    const params = new URLSearchParams(window.location.search);
-    const platform = params.get("platform") || "TikTok";
-
-    const container = document.getElementById("orderContainer");
-
-    // Platform icons map
+    // ==============================
+    // PLATFORM ICONS (12 + More)
+    // ==============================
     const platformIcons = {
-        "Facebook":  { bg: "#1877F2", svg: '<svg viewBox="0 0 24 24" fill="white" width="30" height="30"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>' },
-        "Instagram": { bg: "linear-gradient(135deg, #FEDA75, #FA7E1E, #D62976, #962FBF, #4F5BD5)", svg: '<svg viewBox="0 0 24 24" fill="white" width="30" height="30"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8z"/></svg>' },
-        "TikTok":    { bg: "#000000", svg: '<svg viewBox="0 0 24 24" fill="white" width="30" height="30"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>' },
-        "YouTube":   { bg: "#FF0000", svg: '<svg viewBox="0 0 24 24" fill="white" width="30" height="30"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>' },
-        "Twitter":   { bg: "#000000", svg: '<svg viewBox="0 0 24 24" fill="white" width="30" height="30"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>' },
-        "More":      { bg: "#1e3157", svg: '<span style="color:#62adff;font-size:26px;">•••</span>' }
+        "Facebook":  { bg: "#1877F2", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>' },
+        "Instagram": { bg: "linear-gradient(135deg, #FEDA75, #FA7E1E, #D62976, #962FBF, #4F5BD5)", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8z"/></svg>' },
+        "TikTok":    { bg: "#000000", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>' },
+        "YouTube":   { bg: "#FF0000", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>' },
+        "Twitter":   { bg: "#000000", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>' },
+        "WhatsApp":  { bg: "#25D366", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>' },
+        "Telegram":  { bg: "#229ED9", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>' },
+        "Snapchat":  { bg: "#FFFC00", svg: '<svg viewBox="0 0 24 24" fill="black"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.464-1.723.884-.853.599-1.826 1.288-3.294 1.288-.06 0-.119-.015-.18-.015h-.149c-1.468 0-2.427-.675-3.279-1.288-.599-.42-1.107-.779-1.707-.884-.314-.045-.629-.074-.928-.074-.54 0-.958.089-1.272.149-.211.043-.391.074-.54.074-.374 0-.523-.224-.583-.42-.061-.192-.09-.389-.135-.567-.046-.181-.105-.494-.166-.57-1.918-.222-2.95-.642-3.189-1.226-.031-.063-.052-.15-.055-.225-.015-.243.165-.465.42-.509 3.264-.54 4.73-3.879 4.791-4.02l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-1.107-.435-1.257-.93-1.197-1.273.09-.479.674-.793 1.168-.793.146 0 .27.029.383.074.42.194.789.3 1.104.3.234 0 .384-.06.465-.105l-.046-.569c-.098-1.626-.225-3.651.307-4.837C7.392 1.077 10.739.807 11.727.807l.419-.015h.06z"/></svg>' },
+        "LinkedIn":  { bg: "#0A66C2", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.063 2.063 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>' },
+        "Spotify":   { bg: "#1DB954", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/></svg>' },
+        "Reddit":    { bg: "#FF4500", svg: '<svg viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 5.373 0 12c0 3.314 1.343 6.314 3.515 8.485l-2.286 2.286C.775 23.225 1.097 24 1.738 24H12c6.627 0 12-5.373 12-12S18.627 0 12 0zm4.388 3.199c1.104 0 1.999.895 1.999 1.999 0 1.105-.895 2-1.999 2-.946 0-1.739-.657-1.947-1.539v.002c-1.147.162-2.032 1.15-2.032 2.341v.007c1.776.067 3.4.567 4.686 1.363.473-.363 1.064-.58 1.707-.58 1.547 0 2.802 1.254 2.802 2.802 0 1.117-.655 2.081-1.601 2.531-.088 3.256-3.637 5.876-7.997 5.876-4.361 0-7.905-2.617-7.997-5.876-.946-.45-1.601-1.523-1.601-2.531 0-1.548 1.255-2.802 2.802-2.802.643 0 1.234.217 1.707.58 1.286-.796 2.91-1.296 4.686-1.363v-.007c0-1.548 1.15-2.828 2.641-2.985v-.002c.208-.882 1.001-1.539 1.947-1.539z"/></svg>' },
+        "More":      { bg: "#1e3157", svg: '<span style="color:#62adff;font-size:24px;font-weight:800;letter-spacing:2px;">•••</span>' }
     };
 
-    // Guard: user must be logged in
+    const params = new URLSearchParams(window.location.search);
+    const platform = params.get("platform") || "Facebook";
+    const container = document.getElementById("orderContainer");
+
+    // Redirect if not signed in
     watchAuthState((user) => {
         if (!user) window.location.href = "login.html";
     });
 
-    // Load services for this platform
     async function loadServices() {
         try {
             const q = query(
@@ -244,11 +254,11 @@
                             Services for <b>${platform}</b> haven't been added yet.<br>
                             Please check back later.
                         </p>
+                        <a href="dashboard.html" class="back-btn" style="display:inline-block;margin-top:20px;padding:12px 22px;">← Back to Dashboard</a>
                     </div>`;
                 return;
             }
 
-            // Build services array
             const services = [];
             snap.forEach(d => services.push({ id: d.id, ...d.data() }));
 
@@ -335,7 +345,6 @@
             </div>
         `;
 
-        // Attach logic
         const serviceSelect = document.getElementById("service");
         const typeSelect = document.getElementById("type");
         const linkInput = document.getElementById("link");
@@ -356,76 +365,57 @@
             message.className = "message show " + type;
         }
 
-        // When a service is chosen
         serviceSelect.addEventListener("change", () => {
             const idx = serviceSelect.selectedOptions[0].dataset.index;
             selectedService = services[idx];
 
-            // Populate Type dropdown
-            const types = selectedService.types || [selectedService.type || "Default"];
+            const types = selectedService.types || [];
             typeSelect.innerHTML = '<option value="" disabled selected>Select a type</option>' +
-                types.map((t, i) => {
-                    const price = selectedService.pricePer1k;
-                    const label = t.name ? `${t.name} — ${t.pricePer1k.toLocaleString()} NGN / 1k` : t;
-                    return `<option value="${i}" data-price="${t.pricePer1k || price}" data-time="${t.time || selectedService.deliveryTime}">${label}</option>`;
-                }).join("");
+                types.map((t, i) =>
+                    `<option value="${i}" data-price="${t.pricePer1k}" data-time="${t.time}">${t.name} — ${t.pricePer1k.toLocaleString()} NGN / 1k</option>`
+                ).join("");
             typeSelect.disabled = false;
 
-            // Update link label
             linkLabel.textContent = (selectedService.linkLabel || "Account Link") + ":";
             linkInput.placeholder = `Enter ${selectedService.linkLabel || "link"}`;
 
-            // Quantity range
             qtyInput.min = selectedService.minQuantity || 1;
             qtyInput.max = selectedService.maxQuantity || 1000000;
             qtyHint.textContent = `(Min: ${selectedService.minQuantity.toLocaleString()} - Max: ${selectedService.maxQuantity.toLocaleString()})`;
 
-            // Time
             completionTime.textContent = selectedService.deliveryTime || "—";
 
-            // Notes
             if (selectedService.note) {
                 noteBox.innerHTML = `<ol>${selectedService.note}</ol>`;
             } else {
                 noteBox.innerHTML = `<p style="color:#8999b8;">No additional notes.</p>`;
             }
 
-            // Reset
             qtyInput.value = "";
             totalPrice.textContent = "0 NGN";
+            priceRate.textContent = `— NGN / 1k`;
             purchaseBtn.disabled = true;
-            priceRate.textContent = `${selectedService.pricePer1k.toLocaleString()} NGN / 1k`;
         });
 
-        // When type is chosen
         typeSelect.addEventListener("change", () => {
             const opt = typeSelect.selectedOptions[0];
             const price = parseFloat(opt.dataset.price);
             const time = opt.dataset.time;
-
             priceRate.textContent = `${price.toLocaleString()} NGN / 1k`;
             completionTime.textContent = time || "—";
             selectedService._currentPrice = price;
-
             updatePrice();
         });
 
-        // When quantity changes
         qtyInput.addEventListener("input", updatePrice);
 
         function updatePrice() {
             if (!selectedService || !selectedService._currentPrice) return;
-
             const qty = parseFloat(qtyInput.value) || 0;
             const min = selectedService.minQuantity || 0;
             const max = selectedService.maxQuantity || 1000000;
 
-            if (qty < min) {
-                totalPrice.textContent = "0 NGN";
-                purchaseBtn.disabled = true;
-                return;
-            }
-            if (qty > max) {
+            if (qty < min || qty > max) {
                 totalPrice.textContent = "0 NGN";
                 purchaseBtn.disabled = true;
                 return;
@@ -436,7 +426,6 @@
             purchaseBtn.disabled = false;
         }
 
-        // Submit order
         document.getElementById("orderForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -446,21 +435,57 @@
 
             const qty = parseFloat(qtyInput.value);
             const link = linkInput.value.trim();
+            const typeName = typeSelect.selectedOptions[0].text.split(" — ")[0];
 
             if (!link) return showMessage("Please enter your link.", "error");
             if (qty < selectedService.minQuantity || qty > selectedService.maxQuantity) {
                 return showMessage("Quantity out of range.", "error");
             }
 
-            // TODO: Save order + deduct balance + call provider API
-            showMessage("⏳ Processing your order...", "success");
             purchaseBtn.disabled = true;
+            showMessage("⏳ Processing your order...", "success");
 
-            // Placeholder — real logic in next step
-            setTimeout(() => {
-                showMessage("✅ Order placed! Check Order History.", "success");
+            try {
+                const user = auth.currentUser;
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                const userData = userSnap.data();
+                const balance = userData.balance || 0;
+                const total = (qty / 1000) * selectedService._currentPrice;
+
+                if (balance < total) {
+                    purchaseBtn.disabled = false;
+                    return showMessage("❌ Insufficient balance. Please add funds.", "error");
+                }
+
+                // Deduct balance
+                await updateDoc(userRef, {
+                    balance: increment(-total),
+                    totalOrders: increment(1)
+                });
+
+                // Save order
+                await addDoc(collection(db, "orders"), {
+                    userId: user.uid,
+                    userEmail: user.email,
+                    platform: platform,
+                    serviceId: selectedService.id,
+                    serviceName: selectedService.serviceName,
+                    type: typeName,
+                    link: link,
+                    quantity: qty,
+                    pricePer1k: selectedService._currentPrice,
+                    totalPrice: total,
+                    status: "pending",
+                    createdAt: serverTimestamp()
+                });
+
+                showMessage("✅ Order placed successfully!", "success");
                 setTimeout(() => window.location.href = "orders.html", 1200);
-            }, 1000);
+            } catch (err) {
+                purchaseBtn.disabled = false;
+                showMessage("❌ " + err.message, "error");
+            }
         });
     }
 
