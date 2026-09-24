@@ -14,6 +14,7 @@
         a { text-decoration: none; color: inherit; }
         button { font-family: inherit; cursor: pointer; }
 
+        /* NAVBAR */
         .navbar {
             position: sticky; top: 0; z-index: 100;
             background: rgba(5, 8, 23, 0.94);
@@ -39,143 +40,208 @@
             color: #ff8899; font-size: 11px; font-weight: 800;
         }
 
-        .page { width: min(900px, 94%); margin: 30px auto 80px; }
+        /* PAGE */
+        .page { width: min(1180px, 94%); margin: 30px auto 80px; }
         .page h1 { font-size: 26px; margin-bottom: 6px; }
         .page > p { color: #8999b8; font-size: 14px; margin-bottom: 25px; }
 
-        .form-card {
-            padding: 28px; border-radius: 18px;
-            background: #0b1230; border: 1px solid #192849;
-            margin-bottom: 25px;
+        /* TABS */
+        .tabs {
+            display: flex; gap: 6px; margin-bottom: 22px;
+            overflow-x: auto; padding-bottom: 4px;
         }
-        .form-card h3 { margin-bottom: 20px; font-size: 16px; }
+        .tab {
+            padding: 10px 16px; border-radius: 20px;
+            background: #0a1230; border: 1px solid #1e3157;
+            color: #8999b8; font-size: 12px; font-weight: 700;
+            white-space: nowrap; transition: 0.2s;
+        }
+        .tab.active {
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            color: white; border-color: transparent;
+        }
 
-        .form-group { margin-bottom: 18px; }
+        /* SECTION */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        .card {
+            padding: 24px; border-radius: 18px;
+            background: #0b1230; border: 1px solid #192849;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 16px; margin-bottom: 18px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px;
+        }
+
+        /* FORM */
+        .form-group { margin-bottom: 16px; }
         .form-group label {
-            display: block; font-size: 12px;
+            display: block; font-size: 11px;
             font-weight: 700; color: #aeb9d4;
-            margin-bottom: 8px; text-transform: uppercase;
+            margin-bottom: 6px; text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         .form-input, .form-select, .form-textarea {
-            width: 100%; padding: 12px 14px;
+            width: 100%; padding: 11px 13px;
             border-radius: 10px; border: 1px solid #1e3157;
             background: #0a1230; color: #ffffff;
-            font-size: 14px; outline: none;
+            font-size: 13px; outline: none;
             font-family: inherit;
-            transition: 0.25s;
         }
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             border-color: #4da3ff;
             box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
         }
         .form-select option { background: #0a1230; }
-        .form-textarea { min-height: 100px; resize: vertical; }
-
-        .row-2 {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
-        }
-
-        .types-block {
-            padding: 16px;
-            border-radius: 12px;
-            background: #0a1230;
-            border: 1px solid #1e3157;
-            margin-bottom: 15px;
-        }
-        .types-block h4 {
-            font-size: 13px; margin-bottom: 12px;
-            color: #aeb9d4;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .type-row {
-            display: grid;
-            grid-template-columns: 2fr 1.2fr 1.2fr auto;
-            gap: 8px;
-            margin-bottom: 8px;
-            align-items: center;
-        }
-        .remove-type {
-            padding: 10px 12px;
-            border-radius: 8px;
-            background: rgba(255, 85, 119, 0.1);
-            border: 1px solid rgba(255, 85, 119, 0.3);
-            color: #ff8899;
-            font-weight: 700;
-            font-size: 13px;
-        }
-        .add-type-btn {
-            padding: 8px 14px;
-            border-radius: 8px;
-            background: rgba(77, 163, 255, 0.1);
-            border: 1px solid rgba(77, 163, 255, 0.3);
-            color: #62adff;
-            font-size: 11px; font-weight: 700;
-        }
+        .form-textarea { min-height: 90px; resize: vertical; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         .save-btn {
-            width: 100%; padding: 14px;
-            border-radius: 12px; border: none;
+            width: 100%; padding: 13px;
+            border-radius: 10px; border: none;
             background: linear-gradient(135deg, #2868ff, #7657ff);
-            color: white; font-size: 14px; font-weight: 800;
+            color: white; font-size: 13px; font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 12px 30px rgba(40, 104, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(40, 104, 255, 0.3);
         }
         .save-btn:hover { transform: translateY(-2px); }
         .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .msg {
-            display: none; margin-top: 14px;
-            padding: 12px; border-radius: 10px;
-            font-size: 13px; font-weight: 600; text-align: center;
+            display: none; margin-top: 12px;
+            padding: 10px; border-radius: 8px;
+            font-size: 12px; font-weight: 600; text-align: center;
         }
         .msg.show { display: block; }
         .msg.error { background: rgba(255, 85, 119, 0.1); border: 1px solid rgba(255, 85, 119, 0.3); color: #ff8899; }
         .msg.success { background: rgba(101, 230, 160, 0.1); border: 1px solid rgba(101, 230, 160, 0.3); color: #65e6a0; }
 
+        /* TYPE ROWS */
+        .types-block {
+            padding: 14px; border-radius: 10px;
+            background: #0a1230; border: 1px solid #1e3157;
+            margin-bottom: 14px;
+        }
+        .types-block h4 {
+            font-size: 12px; margin-bottom: 10px;
+            color: #aeb9d4;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .type-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 8px; margin-bottom: 8px; align-items: center;
+        }
+        .remove-type {
+            padding: 8px 11px; border-radius: 8px;
+            background: rgba(255, 85, 119, 0.1);
+            border: 1px solid rgba(255, 85, 119, 0.3);
+            color: #ff8899; font-weight: 700; font-size: 12px;
+        }
+        .add-type-btn {
+            padding: 7px 12px; border-radius: 8px;
+            background: rgba(77, 163, 255, 0.1);
+            border: 1px solid rgba(77, 163, 255, 0.3);
+            color: #62adff; font-size: 11px; font-weight: 700;
+        }
+
+        /* FILTER TABS */
         .filter-tabs {
-            display: flex; gap: 6px; margin-bottom: 15px;
+            display: flex; gap: 5px; margin-bottom: 14px;
             overflow-x: auto; padding-bottom: 4px;
         }
         .filter-tab {
-            padding: 7px 12px; border-radius: 20px;
+            padding: 6px 11px; border-radius: 20px;
             background: #0a1230; border: 1px solid #1e3157;
-            color: #8999b8; font-size: 11px; font-weight: 700;
-            cursor: pointer; white-space: nowrap;
-            transition: 0.2s;
+            color: #8999b8; font-size: 10px; font-weight: 700;
+            cursor: pointer; white-space: nowrap; transition: 0.2s;
         }
         .filter-tab.active {
             background: linear-gradient(135deg, #2868ff, #7657ff);
             color: white; border-color: transparent;
         }
 
-        .service-item {
-            padding: 14px;
-            border-radius: 12px;
-            background: #0a1230;
-            border: 1px solid #1e3157;
-            margin-bottom: 10px;
-            display: flex; justify-content: space-between;
-            align-items: center; gap: 15px;
+        /* DATA TABLES */
+        .data-table {
+            width: 100%; border-collapse: collapse;
+            font-size: 12px;
         }
-        .service-item .info h5 { font-size: 13px; margin-bottom: 3px; }
-        .service-item .info p { font-size: 11px; color: #8999b8; }
-        .service-item .actions { display: flex; gap: 6px; flex-shrink: 0; }
-        .service-item button {
-            padding: 7px 12px; border-radius: 8px;
-            border: none; font-size: 11px; font-weight: 700;
-            cursor: pointer;
+        .data-table th {
+            text-align: left; padding: 10px;
+            background: #070c21;
+            color: #8999b8; font-weight: 700;
+            font-size: 10px; text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #1e3157;
         }
-        .delete-btn {
-            background: rgba(255, 85, 119, 0.1);
-            color: #ff8899;
-            border: 1px solid rgba(255, 85, 119, 0.3);
+        .data-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #14204a;
+            color: #dce6fb;
+            vertical-align: middle;
+        }
+        .data-table tr:hover td { background: rgba(77, 163, 255, 0.04); }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .badge-pending { background: rgba(255, 200, 85, 0.15); color: #ffc855; border: 1px solid rgba(255, 200, 85, 0.3); }
+        .badge-processing { background: rgba(77, 163, 255, 0.15); color: #62adff; border: 1px solid rgba(77, 163, 255, 0.3); }
+        .badge-completed { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
+        .badge-cancelled { background: rgba(255, 85, 119, 0.15); color: #ff8899; border: 1px solid rgba(255, 85, 119, 0.3); }
+        .badge-success { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
+        .badge-failed { background: rgba(255, 85, 119, 0.15); color: #ff8899; border: 1px solid rgba(255, 85, 119, 0.3); }
+        .badge-admin { background: rgba(177, 140, 255, 0.15); color: #b18cff; border: 1px solid rgba(177, 140, 255, 0.3); }
+        .badge-user { background: rgba(137, 153, 184, 0.15); color: #8999b8; border: 1px solid rgba(137, 153, 184, 0.3); }
+
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 10px; font-weight: 700;
+            border: none; cursor: pointer;
+            margin-right: 4px;
+        }
+        .btn-edit { background: rgba(77, 163, 255, 0.15); color: #62adff; border: 1px solid rgba(77, 163, 255, 0.3); }
+        .btn-delete { background: rgba(255, 85, 119, 0.15); color: #ff8899; border: 1px solid rgba(255, 85, 119, 0.3); }
+        .btn-complete { background: rgba(101, 230, 160, 0.15); color: #65e6a0; border: 1px solid rgba(101, 230, 160, 0.3); }
+
+        .stat-mini-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; margin-bottom: 22px;
+        }
+        .stat-mini {
+            padding: 18px; border-radius: 14px;
+            background: #0b1230; border: 1px solid #192849;
+        }
+        .stat-mini .lbl { font-size: 11px; color: #8999b8; margin-bottom: 8px; }
+        .stat-mini .val { font-size: 22px; font-weight: 800; color: #62adff; }
+        .stat-mini .val.green { color: #65e6a0; }
+        .stat-mini .val.purple { color: #b18cff; }
+        .stat-mini .val.yellow { color: #ffc855; }
+
+        .empty-row {
+            padding: 30px; text-align: center;
+            color: #7183a7; font-size: 13px;
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 900px) {
+            .stat-mini-grid { grid-template-columns: repeat(2, 1fr); }
             .row-2 { grid-template-columns: 1fr; }
             .type-row { grid-template-columns: 1fr; }
-            .page { width: 92%; }
+        }
+
+        /* Table scroll on mobile */
+        .table-wrap { overflow-x: auto; }
+        @media (max-width: 700px) {
+            .data-table { min-width: 620px; }
         }
     </style>
 </head>
@@ -192,126 +258,459 @@
 </header>
 
 <main class="page">
-    <h1>Admin Panel</h1>
-    <p>Add, edit and manage services for every platform.</p>
+    <h1>Admin Dashboard</h1>
+    <p>Manage users, deposits, orders and services.</p>
 
-    <!-- ADD SERVICE FORM -->
-    <div class="form-card">
-        <h3>➕ Add New Service</h3>
-        <form id="serviceForm">
-
-            <div class="form-group">
-                <label>Category (Platform)</label>
-                <select id="category" class="form-select" required>
-                    <option value="" disabled selected>Select platform</option>
-                    <option>Facebook</option>
-                    <option>Instagram</option>
-                    <option>TikTok</option>
-                    <option>YouTube</option>
-                    <option>Twitter</option>
-                    <option>WhatsApp</option>
-                    <option>Telegram</option>
-                    <option>Snapchat</option>
-                    <option>LinkedIn</option>
-                    <option>Spotify</option>
-                    <option>Reddit</option>
-                    <option>More</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Service Name</label>
-                <input type="text" id="serviceName" class="form-input" placeholder="e.g. Followers, Video Likes" required>
-            </div>
-
-            <div class="form-group">
-                <label>Types (Quality levels)</label>
-                <div class="types-block">
-                    <h4>Type options <button type="button" class="add-type-btn" id="addTypeBtn">+ Add Type</button></h4>
-                    <div id="typesList"></div>
-                </div>
-            </div>
-
-            <div class="row-2">
-                <div class="form-group">
-                    <label>Min Quantity</label>
-                    <input type="number" id="minQty" class="form-input" placeholder="50" required>
-                </div>
-                <div class="form-group">
-                    <label>Max Quantity</label>
-                    <input type="number" id="maxQty" class="form-input" placeholder="50000" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Link Label</label>
-                <input type="text" id="linkLabel" class="form-input" placeholder="e.g. TikTok account link" required>
-            </div>
-
-            <div class="form-group">
-                <label>Notes (one per line — will show as numbered list)</label>
-                <textarea id="note" class="form-textarea" placeholder="Make sure account is not private&#10;No drop in followers&#10;Guarantee: 30 days"></textarea>
-            </div>
-
-            <button type="submit" class="save-btn" id="saveBtn">Save Service</button>
-            <div class="msg" id="msg"></div>
-        </form>
-    </div>
-
-    <!-- EXISTING SERVICES -->
-    <div class="form-card">
-        <h3>📋 Existing Services</h3>
-
-        <div class="filter-tabs" id="filterTabs">
-            <button class="filter-tab active" data-filter="all">All</button>
-            <button class="filter-tab" data-filter="Facebook">Facebook</button>
-            <button class="filter-tab" data-filter="Instagram">Instagram</button>
-            <button class="filter-tab" data-filter="TikTok">TikTok</button>
-            <button class="filter-tab" data-filter="YouTube">YouTube</button>
-            <button class="filter-tab" data-filter="Twitter">Twitter</button>
-            <button class="filter-tab" data-filter="WhatsApp">WhatsApp</button>
-            <button class="filter-tab" data-filter="Telegram">Telegram</button>
-            <button class="filter-tab" data-filter="Snapchat">Snapchat</button>
-            <button class="filter-tab" data-filter="LinkedIn">LinkedIn</button>
-            <button class="filter-tab" data-filter="Spotify">Spotify</button>
-            <button class="filter-tab" data-filter="Reddit">Reddit</button>
-            <button class="filter-tab" data-filter="More">More</button>
+    <!-- STATS -->
+    <div class="stat-mini-grid">
+        <div class="stat-mini">
+            <div class="lbl">👥 Total Users</div>
+            <div class="val" id="statUsers">0</div>
         </div>
-
-        <div id="serviceList">
-            <p style="color:#8999b8;font-size:13px;">Loading...</p>
+        <div class="stat-mini">
+            <div class="lbl">💰 Total Balance</div>
+            <div class="val green" id="statBalance">0 NGN</div>
+        </div>
+        <div class="stat-mini">
+            <div class="lbl">📦 Total Orders</div>
+            <div class="val purple" id="statOrders">0</div>
+        </div>
+        <div class="stat-mini">
+            <div class="lbl">💳 Total Deposits</div>
+            <div class="val yellow" id="statDeposits">0 NGN</div>
         </div>
     </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" data-tab="users">👥 Users</button>
+        <button class="tab" data-tab="orders">📦 Orders</button>
+        <button class="tab" data-tab="payments">💳 Deposits</button>
+        <button class="tab" data-tab="services">🎯 Services</button>
+    </div>
+
+    <!-- ===============================
+         USERS TAB
+    =============================== -->
+    <section class="section active" id="section-users">
+        <div class="card">
+            <h3>👥 All Customers <span id="userCount" style="color:#8999b8;font-size:12px;font-weight:400;"></span></h3>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Balance</th>
+                            <th>Orders</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr><td colspan="6" class="empty-row">Loading users...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===============================
+         ORDERS TAB
+    =============================== -->
+    <section class="section" id="section-orders">
+        <div class="card">
+            <h3>📦 All Orders</h3>
+            <div class="filter-tabs" id="orderFilter">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="pending">Pending</button>
+                <button class="filter-tab" data-filter="processing">Processing</button>
+                <button class="filter-tab" data-filter="completed">Completed</button>
+                <button class="filter-tab" data-filter="cancelled">Cancelled</button>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Platform</th>
+                            <th>Service</th>
+                            <th>Qty</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Link</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTable">
+                        <tr><td colspan="8" class="empty-row">Loading orders...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===============================
+         PAYMENTS TAB
+    =============================== -->
+    <section class="section" id="section-payments">
+        <div class="card">
+            <h3>💳 All Deposits</h3>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Amount</th>
+                            <th>Reference</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTable">
+                        <tr><td colspan="5" class="empty-row">Loading payments...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===============================
+         SERVICES TAB
+    =============================== -->
+    <section class="section" id="section-services">
+        <div class="card">
+            <h3>➕ Add New Service</h3>
+            <form id="serviceForm">
+                <div class="form-group">
+                    <label>Category (Platform)</label>
+                    <select id="category" class="form-select" required>
+                        <option value="" disabled selected>Select platform</option>
+                        <option>Facebook</option>
+                        <option>Instagram</option>
+                        <option>TikTok</option>
+                        <option>YouTube</option>
+                        <option>Twitter</option>
+                        <option>WhatsApp</option>
+                        <option>Telegram</option>
+                        <option>Snapchat</option>
+                        <option>LinkedIn</option>
+                        <option>Spotify</option>
+                        <option>Reddit</option>
+                        <option>More</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Service Name</label>
+                    <input type="text" id="serviceName" class="form-input" placeholder="e.g. Followers, Video Likes" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Types (Quality levels)</label>
+                    <div class="types-block">
+                        <h4>Type options <button type="button" class="add-type-btn" id="addTypeBtn">+ Add Type</button></h4>
+                        <div id="typesList"></div>
+                    </div>
+                </div>
+
+                <div class="row-2">
+                    <div class="form-group">
+                        <label>Min Quantity</label>
+                        <input type="number" id="minQty" class="form-input" placeholder="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Max Quantity</label>
+                        <input type="number" id="maxQty" class="form-input" placeholder="50000" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Link Label</label>
+                    <input type="text" id="linkLabel" class="form-input" placeholder="e.g. TikTok account link" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Notes (one per line)</label>
+                    <textarea id="note" class="form-textarea" placeholder="Make sure account is not private&#10;No drop in followers"></textarea>
+                </div>
+
+                <button type="submit" class="save-btn" id="saveBtn">Save Service</button>
+                <div class="msg" id="msg"></div>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>📋 Existing Services</h3>
+            <div class="filter-tabs" id="serviceFilter">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="Facebook">Facebook</button>
+                <button class="filter-tab" data-filter="Instagram">Instagram</button>
+                <button class="filter-tab" data-filter="TikTok">TikTok</button>
+                <button class="filter-tab" data-filter="YouTube">YouTube</button>
+                <button class="filter-tab" data-filter="Twitter">Twitter</button>
+                <button class="filter-tab" data-filter="WhatsApp">WhatsApp</button>
+                <button class="filter-tab" data-filter="Telegram">Telegram</button>
+                <button class="filter-tab" data-filter="Snapchat">Snapchat</button>
+                <button class="filter-tab" data-filter="LinkedIn">LinkedIn</button>
+                <button class="filter-tab" data-filter="Spotify">Spotify</button>
+                <button class="filter-tab" data-filter="Reddit">Reddit</button>
+                <button class="filter-tab" data-filter="More">More</button>
+            </div>
+            <div id="serviceList">
+                <p style="color:#8999b8;font-size:13px;">Loading...</p>
+            </div>
+        </div>
+    </section>
 </main>
 
 <script type="module">
     import { db, auth, watchAuthState, getUserProfile } from "./firebase-config.js";
     import {
-        collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp
+        collection, addDoc, getDocs, deleteDoc, doc,
+        updateDoc, increment, serverTimestamp, getDoc, query, orderBy
     } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
+    // ==========================================
+    // ADMIN GUARD
+    // ==========================================
+    let isAdmin = false;
+    watchAuthState(async (user) => {
+        if (!user) { window.location.href = "login.html"; return; }
+        const profile = await getUserProfile(user.uid);
+        if (!profile.success || profile.data.role !== "admin") {
+            alert("Admin access only");
+            window.location.href = "dashboard.html";
+            return;
+        }
+        isAdmin = true;
+        loadAll();
+    });
+
+    // ==========================================
+    // TAB SWITCHING
+    // ==========================================
+    document.querySelectorAll(".tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+            document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+            tab.classList.add("active");
+            document.getElementById("section-" + tab.dataset.tab).classList.add("active");
+        });
+    });
+
+    // ==========================================
+    // LOAD EVERYTHING
+    // ==========================================
+    async function loadAll() {
+        await loadStats();
+        await loadUsers();
+        await loadOrders();
+        await loadPayments();
+        await loadServices();
+    }
+
+    // ==========================================
+    // STATS
+    // ==========================================
+    async function loadStats() {
+        try {
+            const usersSnap = await getDocs(collection(db, "users"));
+            let totalBalance = 0, userCount = 0;
+            usersSnap.forEach(d => {
+                userCount++;
+                totalBalance += (d.data().balance || 0);
+            });
+            document.getElementById("statUsers").textContent = userCount;
+            document.getElementById("statBalance").textContent = totalBalance.toLocaleString() + " NGN";
+
+            const ordersSnap = await getDocs(collection(db, "orders"));
+            document.getElementById("statOrders").textContent = ordersSnap.size;
+
+            const paymentsSnap = await getDocs(collection(db, "payments"));
+            let totalDeposits = 0;
+            paymentsSnap.forEach(d => {
+                const p = d.data();
+                if (p.status === "success") totalDeposits += (p.amount || 0);
+            });
+            document.getElementById("statDeposits").textContent = totalDeposits.toLocaleString() + " NGN";
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    // ==========================================
+    // USERS
+    // ==========================================
+    async function loadUsers() {
+        const tbody = document.getElementById("usersTable");
+        try {
+            const snap = await getDocs(collection(db, "users"));
+            if (snap.empty) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-row">No users yet.</td></tr>';
+                document.getElementById("userCount").textContent = "";
+                return;
+            }
+
+            document.getElementById("userCount").textContent = `(${snap.size})`;
+            let html = "";
+            snap.forEach(d => {
+                const u = d.data();
+                const roleClass = u.role === "admin" ? "badge-admin" : "badge-user";
+                html += `
+                    <tr>
+                        <td><b>${u.username || "—"}</b></td>
+                        <td>${u.email || "—"}</td>
+                        <td style="color:#62adff;font-weight:700;">${(u.balance || 0).toLocaleString()} NGN</td>
+                        <td>${u.totalOrders || 0}</td>
+                        <td><span class="badge ${roleClass}">${u.role || "user"}</span></td>
+                        <td>
+                            <button class="action-btn btn-edit" data-uid="${d.id}" data-balance="${u.balance || 0}">💰 Balance</button>
+                            <button class="action-btn btn-edit" data-uid="${d.id}" data-role="${u.role}">👑 Role</button>
+                        </td>
+                    </tr>`;
+            });
+            tbody.innerHTML = html;
+
+            // Edit balance
+            tbody.querySelectorAll(".btn-edit").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const uid = btn.dataset.uid;
+                    if (btn.dataset.balance !== undefined) {
+                        const newBal = prompt("Enter new balance (NGN):", btn.dataset.balance);
+                        if (newBal !== null && !isNaN(newBal)) {
+                            await updateDoc(doc(db, "users", uid), { balance: parseFloat(newBal) });
+                            loadAll();
+                        }
+                    } else if (btn.dataset.role !== undefined) {
+                        const newRole = prompt("Enter role (user / admin):", btn.dataset.role);
+                        if (newRole === "user" || newRole === "admin") {
+                            await updateDoc(doc(db, "users", uid), { role: newRole });
+                            loadAll();
+                        }
+                    }
+                });
+            });
+        } catch (err) {
+            tbody.innerHTML = `<tr><td colspan="6" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
+        }
+    }
+
+    // ==========================================
+    // ORDERS
+    // ==========================================
+    let allOrders = [];
+    let orderFilter = "all";
+
+    async function loadOrders() {
+        const tbody = document.getElementById("ordersTable");
+        try {
+            const snap = await getDocs(collection(db, "orders"));
+            allOrders = [];
+            snap.forEach(d => allOrders.push({ id: d.id, ...d.data() }));
+            renderOrders();
+        } catch (err) {
+            tbody.innerHTML = `<tr><td colspan="8" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
+        }
+    }
+
+    function renderOrders() {
+        const tbody = document.getElementById("ordersTable");
+        const filtered = orderFilter === "all"
+            ? allOrders
+            : allOrders.filter(o => o.status === orderFilter);
+
+        if (!filtered.length) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-row">No orders found.</td></tr>';
+            return;
+        }
+
+        let html = "";
+        filtered.forEach(o => {
+            const statusClass = "badge-" + (o.status || "pending");
+            html += `
+                <tr>
+                    <td>${o.userEmail || o.userId?.slice(0,8) || "—"}</td>
+                    <td>${o.platform || "—"}</td>
+                    <td>${o.serviceName || "—"}<br><span style="font-size:10px;color:#8999b8;">${o.type || ""}</span></td>
+                    <td>${(o.quantity || 0).toLocaleString()}</td>
+                    <td style="color:#65e6a0;font-weight:700;">${(o.totalPrice || 0).toLocaleString()} NGN</td>
+                    <td><span class="badge ${statusClass}">${o.status || "pending"}</span></td>
+                    <td>
+                        <a href="${o.link || '#'}" target="_blank" style="color:#62adff;font-size:11px;">View ↗</a>
+                    </td>
+                    <td>
+                        <button class="action-btn btn-complete" data-id="${o.id}" data-status="processing">⏳ Proc</button>
+                        <button class="action-btn btn-complete" data-id="${o.id}" data-status="completed">✅ Done</button>
+                        <button class="action-btn btn-delete" data-id="${o.id}" data-status="cancelled">❌ Cancel</button>
+                    </td>
+                </tr>`;
+        });
+        tbody.innerHTML = html;
+
+        // Status updates
+        tbody.querySelectorAll("[data-status]").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                await updateDoc(doc(db, "orders", btn.dataset.id), { status: btn.dataset.status });
+                loadOrders();
+                loadStats();
+            });
+        });
+    }
+
+    document.getElementById("orderFilter").addEventListener("click", (e) => {
+        if (!e.target.classList.contains("filter-tab")) return;
+        document.querySelectorAll("#orderFilter .filter-tab").forEach(t => t.classList.remove("active"));
+        e.target.classList.add("active");
+        orderFilter = e.target.dataset.filter;
+        renderOrders();
+    });
+
+    // ==========================================
+    // PAYMENTS
+    // ==========================================
+    async function loadPayments() {
+        const tbody = document.getElementById("paymentsTable");
+        try {
+            const snap = await getDocs(collection(db, "payments"));
+            if (snap.empty) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-row">No deposits yet.</td></tr>';
+                return;
+            }
+            let html = "";
+            snap.forEach(d => {
+                const p = d.data();
+                const badgeClass = p.status === "success" ? "badge-success" : (p.status === "failed" ? "badge-failed" : "badge-pending");
+                const date = p.createdAt?.toDate?.()?.toLocaleString() || "—";
+                html += `
+                    <tr>
+                        <td>${p.userEmail || p.userId?.slice(0,8) || "—"}</td>
+                        <td style="color:#65e6a0;font-weight:700;">${(p.amount || 0).toLocaleString()} NGN</td>
+                        <td>${p.reference || "—"}</td>
+                        <td><span class="badge ${badgeClass}">${p.status || "pending"}</span></td>
+                        <td>${date}</td>
+                    </tr>`;
+            });
+            tbody.innerHTML = html;
+        } catch (err) {
+            tbody.innerHTML = `<tr><td colspan="5" class="empty-row" style="color:#ff8899;">Error: ${err.message}</td></tr>`;
+        }
+    }
+
+    // ==========================================
+    // SERVICES
+    // ==========================================
     const typesList = document.getElementById("typesList");
     const addTypeBtn = document.getElementById("addTypeBtn");
     const serviceForm = document.getElementById("serviceForm");
     const saveBtn = document.getElementById("saveBtn");
     const msg = document.getElementById("msg");
     const serviceList = document.getElementById("serviceList");
-    const filterTabs = document.getElementById("filterTabs");
+    const serviceFilter = document.getElementById("serviceFilter");
 
     let allServices = [];
-    let currentFilter = "all";
+    let serviceFilterCat = "all";
 
-    // Admin guard
-    watchAuthState(async (user) => {
-        if (!user) return window.location.href = "login.html";
-        const profile = await getUserProfile(user.uid);
-        if (!profile.success || profile.data.role !== "admin") {
-            alert("Admin access only");
-            window.location.href = "dashboard.html";
-        }
-    });
-
-    // Add a type row
     function addTypeRow(name = "", price = "", time = "") {
         const row = document.createElement("div");
         row.className = "type-row";
@@ -324,7 +723,6 @@
         row.querySelector(".remove-type").addEventListener("click", () => row.remove());
         typesList.appendChild(row);
     }
-
     addTypeRow();
     addTypeBtn.addEventListener("click", () => addTypeRow());
 
@@ -334,7 +732,6 @@
         setTimeout(() => msg.className = "msg", 4000);
     }
 
-    // Save service
     serviceForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -359,7 +756,6 @@
 
         const pricePer1k = types[0].pricePer1k;
         const deliveryTime = types[0].time;
-
         const noteHtml = note
             ? note.split("\n").filter(l => l.trim()).map(l => `<li>${l}</li>`).join("")
             : "";
@@ -369,19 +765,11 @@
 
         try {
             await addDoc(collection(db, "services"), {
-                category,
-                serviceName,
-                types,
-                pricePer1k,
-                deliveryTime,
-                minQuantity,
-                maxQuantity,
-                linkLabel,
-                note: noteHtml,
-                status: "active",
+                category, serviceName, types, pricePer1k, deliveryTime,
+                minQuantity, maxQuantity, linkLabel,
+                note: noteHtml, status: "active",
                 createdAt: serverTimestamp()
             });
-
             showMsg("✅ Service saved successfully!", "success");
             serviceForm.reset();
             typesList.innerHTML = "";
@@ -395,7 +783,6 @@
         saveBtn.textContent = "Save Service";
     });
 
-    // Load services
     async function loadServices() {
         try {
             const snap = await getDocs(collection(db, "services"));
@@ -408,9 +795,9 @@
     }
 
     function renderServices() {
-        const filtered = currentFilter === "all"
+        const filtered = serviceFilterCat === "all"
             ? allServices
-            : allServices.filter(s => s.category === currentFilter);
+            : allServices.filter(s => s.category === serviceFilterCat);
 
         if (!filtered.length) {
             serviceList.innerHTML = '<p style="color:#8999b8;font-size:13px;">No services in this category.</p>';
@@ -420,37 +807,33 @@
         let html = "";
         filtered.forEach(s => {
             html += `
-                <div class="service-item">
-                    <div class="info">
-                        <h5>${s.category} — ${s.serviceName}</h5>
-                        <p>${s.types.length} type(s) · from ${s.pricePer1k.toLocaleString()} NGN / 1k · ${s.minQuantity.toLocaleString()}–${s.maxQuantity.toLocaleString()}</p>
+                <div style="padding:14px;border-radius:12px;background:#0a1230;border:1px solid #1e3157;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+                    <div>
+                        <h5 style="font-size:13px;margin-bottom:3px;">${s.category} — ${s.serviceName}</h5>
+                        <p style="font-size:11px;color:#8999b8;">${s.types.length} type(s) · from ${s.pricePer1k.toLocaleString()} NGN / 1k · ${s.minQuantity.toLocaleString()}–${s.maxQuantity.toLocaleString()}</p>
                     </div>
-                    <div class="actions">
-                        <button class="delete-btn" data-id="${s.id}">Delete</button>
-                    </div>
+                    <button class="action-btn btn-delete" data-del="${s.id}">Delete</button>
                 </div>`;
         });
         serviceList.innerHTML = html;
 
-        serviceList.querySelectorAll(".delete-btn").forEach(btn => {
+        serviceList.querySelectorAll("[data-del]").forEach(btn => {
             btn.addEventListener("click", async () => {
                 if (!confirm("Delete this service?")) return;
-                await deleteDoc(doc(db, "services", btn.dataset.id));
+                await deleteDoc(doc(db, "services", btn.dataset.del));
                 loadServices();
             });
         });
     }
 
-    // Filter tabs
-    filterTabs.addEventListener("click", (e) => {
+    serviceFilter.addEventListener("click", (e) => {
         if (!e.target.classList.contains("filter-tab")) return;
-        filterTabs.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+        serviceFilter.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
         e.target.classList.add("active");
-        currentFilter = e.target.dataset.filter;
+        serviceFilterCat = e.target.dataset.filter;
         renderServices();
     });
 
-    loadServices();
 </script>
 
 </body>
