@@ -14,6 +14,27 @@
         a { text-decoration: none; color: inherit; }
         button { font-family: inherit; cursor: pointer; }
 
+        /* ✅ Black cover — hides everything until admin confirmed */
+        #authGuard {
+            position: fixed; inset: 0;
+            background: #050817;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 15px;
+        }
+        #authGuard .spinner {
+            width: 44px; height: 44px;
+            border: 4px solid #1e3157;
+            border-top-color: #4da3ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        #authGuard p { color: #8999b8; font-size: 13px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         .navbar {
             position: sticky; top: 0; z-index: 100;
             background: rgba(5, 8, 23, 0.94);
@@ -172,7 +193,6 @@
         .empty-row { padding: 30px; text-align: center; color: #7183a7; font-size: 12px; }
         .table-wrap { overflow-x: auto; }
 
-        /* MODAL */
         .modal-overlay {
             position: fixed; inset: 0;
             background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
@@ -213,6 +233,12 @@
 </head>
 <body>
 
+<!-- ✅ BLACK COVER — hides the page until we confirm admin -->
+<div id="authGuard">
+    <div class="spinner"></div>
+    <p>Verifying access...</p>
+</div>
+
 <header class="navbar">
     <div class="nav-container">
         <a href="dashboard.html" class="logo">
@@ -241,7 +267,6 @@
         <button class="tab active" data-tab="services">🎯 Services</button>
     </div>
 
-    <!-- USERS -->
     <section class="section" id="section-users">
         <div class="card">
             <h3>👥 All Customers <span id="userCount" style="color:#8999b8;font-size:12px;font-weight:400;"></span></h3>
@@ -254,7 +279,6 @@
         </div>
     </section>
 
-    <!-- ORDERS -->
     <section class="section" id="section-orders">
         <div class="card">
             <h3>📦 Customer Orders</h3>
@@ -267,7 +291,6 @@
         </div>
     </section>
 
-    <!-- PAYMENTS -->
     <section class="section" id="section-payments">
         <div class="card">
             <h3>💳 All Deposits</h3>
@@ -280,7 +303,6 @@
         </div>
     </section>
 
-    <!-- SERVICES -->
     <section class="section active" id="section-services">
         <div class="card">
             <h3>➕ Add New Service</h3>
@@ -383,15 +405,22 @@
         updateDoc, serverTimestamp, getDoc, increment
     } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-    // Admin guard
+    const authGuard = document.getElementById("authGuard");
+
+    // ✅ Admin guard — keep black cover until confirmed
     watchAuthState(async (user) => {
-        if (!user) { window.location.href = "login.html"; return; }
+        if (!user) {
+            window.location.href = "login.html";
+            return;
+        }
         const profile = await getUserProfile(user.uid);
         if (!profile.success || profile.data.role !== "admin") {
-            alert("Admin access only");
             window.location.href = "dashboard.html";
             return;
         }
+
+        // ✅ Confirmed admin — remove black cover
+        authGuard.style.display = "none";
         loadAll();
     });
 
@@ -412,7 +441,6 @@
         await loadServices();
     }
 
-    // ============ STATS ============
     async function loadStats() {
         try {
             const usersSnap = await getDocs(collection(db, "users"));
@@ -434,7 +462,6 @@
         } catch (e) { console.error(e); }
     }
 
-    // ============ USERS ============
     async function loadUsers() {
         const tbody = document.getElementById("usersTable");
         try {
@@ -483,7 +510,6 @@
         }
     }
 
-    // ============ ORDERS ============
     async function loadOrders() {
         const tbody = document.getElementById("ordersTable");
         try {
@@ -521,7 +547,6 @@
         }
     }
 
-    // ============ PAYMENTS (with Approve / Reject) ============
     async function loadPayments() {
         const tbody = document.getElementById("paymentsTable");
         try {
@@ -533,7 +558,6 @@
                 const status = (p.status || "pending").toLowerCase();
                 const badgeClass = "badge-" + status;
                 const isPending = status === "pending";
-
                 html += `
                     <tr>
                         <td>${p.userEmail || "—"}</td>
@@ -552,36 +576,26 @@
             });
             tbody.innerHTML = html;
 
-            // Approve
             tbody.querySelectorAll("[data-approve]").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const amount = parseFloat(btn.dataset.amount);
                     const uid = btn.dataset.uid;
                     const payId = btn.dataset.approve;
-
-                    if (!confirm(`Approve ${amount.toLocaleString()} NGN deposit?\n\nThis will add the amount to the user's balance.`)) return;
-
+                    if (!confirm(`Approve ${amount.toLocaleString()} NGN deposit?`)) return;
                     try {
-                        // 1. Add balance to user
                         await updateDoc(doc(db, "users", uid), { balance: increment(amount) });
-
-                        // 2. Mark payment as success
                         await updateDoc(doc(db, "payments", payId), {
                             status: "success",
                             approvedAt: serverTimestamp()
                         });
-
-                        loadPayments(); loadStats();
-                    } catch (err) {
-                        alert("Error: " + err.message);
-                    }
+                        loadPayments(); loadStats(); loadUsers();
+                    } catch (err) { alert("Error: " + err.message); }
                 });
             });
 
-            // Reject
             tbody.querySelectorAll("[data-reject]").forEach(btn => {
                 btn.addEventListener("click", async () => {
-                    if (!confirm("Reject this deposit? No balance will be added.")) return;
+                    if (!confirm("Reject this deposit?")) return;
                     await updateDoc(doc(db, "payments", btn.dataset.reject), {
                         status: "failed",
                         rejectedAt: serverTimestamp()
@@ -596,7 +610,6 @@
 
     function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
-    // ============ SERVICES ============
     const serviceForm = document.getElementById("serviceForm");
     const saveBtn = document.getElementById("saveBtn");
     const msg = document.getElementById("msg");
@@ -688,7 +701,7 @@
                 btn.addEventListener("click", () => quickPriceEdit(btn.dataset.price)));
             serviceList.querySelectorAll("[data-disable]").forEach(btn =>
                 btn.addEventListener("click", async () => {
-                    if (!confirm("Disable this service? Customers will no longer see it.")) return;
+                    if (!confirm("Disable this service?")) return;
                     await updateDoc(doc(db, "services", btn.dataset.disable), { status: "inactive" });
                     loadServices();
                 }));
@@ -713,21 +726,16 @@
         const snap = await getDoc(ref);
         if (!snap.exists()) return;
         const data = snap.data();
-        const newPrice = prompt(
-            `Current price: ${data.pricePer1k.toLocaleString()} NGN / 1k\n\nEnter new price:`,
-            data.pricePer1k
-        );
+        const newPrice = prompt(`Current: ${data.pricePer1k.toLocaleString()} NGN / 1k\n\nNew price:`, data.pricePer1k);
         if (newPrice === null) return;
         const priceNum = parseFloat(newPrice);
         if (isNaN(priceNum) || priceNum <= 0) return alert("Invalid price");
-        const newTypes = (data.types || []).map((t, i) =>
-            i === 0 ? { ...t, pricePer1k: priceNum } : t);
+        const newTypes = (data.types || []).map((t, i) => i === 0 ? { ...t, pricePer1k: priceNum } : t);
         await updateDoc(ref, { pricePer1k: priceNum, types: newTypes });
         loadServices();
         alert("✅ Price updated!");
     }
 
-    // ============ EDIT MODAL ============
     const editModal = document.getElementById("editModal");
     const editForm = document.getElementById("editForm");
     const editMsg = document.getElementById("editMsg");
