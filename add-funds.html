@@ -128,7 +128,6 @@
             box-shadow: 0 10px 25px rgba(40, 104, 255, 0.3);
         }
 
-        /* ✅ Hard-locked dark input */
         input.form-input {
             width: 100% !important;
             padding: 15px 16px !important;
@@ -178,7 +177,6 @@
         .action-btn:hover:not(:disabled) { transform: translateY(-2px); }
         .action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-        /* VA ROLLING */
         .va-rolling { text-align: center; padding: 40px 20px; }
         .va-rolling .spinner {
             width: 48px; height: 48px;
@@ -463,7 +461,7 @@
         setTimeout(() => { el.className = "msg"; }, 4000);
     }
 
-    // Preset buttons
+    // Preset amount buttons
     amountBtns.forEach(btn => {
         btn.addEventListener("click", () => {
             amountBtns.forEach(b => b.classList.remove("selected"));
@@ -487,7 +485,7 @@
         }
     });
 
-    // ✅ ONE button → rolls 2 sec → shows VA
+    // Generate Virtual Account → rolls 5 sec → shows VA
     mainBtn.addEventListener("click", () => {
         if (!selectedAmount || selectedAmount < 500) {
             return showMsg(step1Msg, "Please enter an amount of at least ₦500.", "error");
@@ -496,18 +494,17 @@
             return showMsg(step1Msg, "Maximum deposit is ₦500,000.", "error");
         }
 
-        // Hide step1, show step2 with rolling
         step1.classList.add("hidden");
         step2.classList.remove("hidden");
         rollingCard.classList.remove("hidden");
         vaCard.classList.add("hidden");
 
-        // ✅ Roll for 2 seconds
+        // ✅ Roll for 5 seconds
         setTimeout(() => {
             rollingCard.classList.add("hidden");
             vaCard.classList.remove("hidden");
             vaAmountEl.textContent = "₦" + selectedAmount.toLocaleString();
-        }, 2000);
+        }, 5000);
     });
 
     // I Have Paid
