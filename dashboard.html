@@ -136,6 +136,16 @@
             border-left: 3px solid #4da3ff;
             padding-left: 19px;
         }
+        .side-menu-list a.admin-link {
+            color: #ff8899;
+            background: rgba(255, 85, 119, 0.06);
+            font-weight: 800;
+        }
+        .side-menu-list a.admin-link:hover {
+            background: rgba(255, 85, 119, 0.15);
+            color: #ff5577;
+            padding-left: 28px;
+        }
 
         .side-menu-footer {
             padding: 14px 22px 22px;
@@ -241,7 +251,7 @@
             color: #62adff; font-size: 13px; font-weight: 700;
         }
 
-        /* PLATFORMS GRID — 3 per row on mobile, 6 on desktop */
+        /* PLATFORMS GRID */
         .platforms-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -317,9 +327,7 @@
             box-shadow: 0 12px 30px rgba(40, 104, 255, 0.35);
             transition: 0.25s;
         }
-        .empty-state a:hover {
-            transform: translateY(-2px);
-        }
+        .empty-state a:hover { transform: translateY(-2px); }
 
         /* FOOTER */
         footer {
@@ -405,6 +413,8 @@
             <a href="orders.html">Order History</a>
             <a href="support.html">Support</a>
             <a href="api.html">API</a>
+            <!-- Admin link — hidden by default, shown only for admins -->
+            <a href="admin.html" id="adminLink" class="admin-link" style="display:none;">👑 Admin Panel</a>
         </nav>
 
         <div class="side-menu-footer">
@@ -548,7 +558,7 @@
                 <a href="order.html?platform=Reddit" class="platform-card">
                     <div class="platform-icon" style="background: #FF4500;">
                         <svg viewBox="0 0 24 24" fill="white">
-                            <path d="M12 0C5.373 0 0 5.373 0 12c0 3.314 1.343 6.314 3.515 8.485l-2.286 2.286C.775 23.225 1.097 24 1.738 24H12c6.627 0 12-5.373 12-12S18.627 0 12 0zm4.388 3.199c1.104 0 1.999.895 1.999 1.999 0 1.105-.895 2-1.999 2-.946 0-1.739-.657-1.947-1.539v.002c-1.147.162-2.032 1.15-2.032 2.341v.007c1.776.067 3.4.567 4.686 1.363.473-.363 1.064-.58 1.707-.58 1.547 0 2.802 1.254 2.802 2.802 0 1.117-.655 2.081-1.601 2.531-.088 3.256-3.637 5.876-7.997 5.876-4.361 0-7.905-2.617-7.997-5.876-.946-.45-1.601-1.523-1.601-2.531 0-1.548 1.255-2.802 2.802-2.802.643 0 1.234.217 1.707.58 1.286-.796 2.91-1.296 4.686-1.363v-.007c0-1.548 1.15-2.828 2.641-2.985v-.002c.208-.882 1.001-1.539 1.947-1.539zm-4.388 6.659c-2.687 0-4.866.733-4.866 1.638 0 .904 2.179 1.637 4.866 1.637 2.688 0 4.867-.733 4.867-1.637 0-.905-2.179-1.638-4.867-1.638zm-3.372.559c.642 0 1.161.52 1.161 1.161 0 .642-.519 1.161-1.161 1.161-.642 0-1.161-.519-1.161-1.161 0-.641.519-1.161 1.161-1.161zm6.744 0c.642 0 1.161.52 1.161 1.161 0 .642-.519 1.161-1.161 1.161-.642 0-1.161-.519-1.161-1.161 0-.641.519-1.161 1.161-1.161zm-3.372 3.629c-1.095 0-2.088.108-2.836.293-.294.073-.473.365-.4.659.074.293.365.473.659.399.659-.162 1.512-.26 2.577-.26s1.918.098 2.577.26c.294.074.585-.106.659-.399.073-.294-.106-.586-.4-.659-.748-.185-1.741-.293-2.836-.293z"/>
+                            <path d="M12 0C5.373 0 0 5.373 0 12c0 3.314 1.343 6.314 3.515 8.485l-2.286 2.286C.775 23.225 1.097 24 1.738 24H12c6.627 0 12-5.373 12-12S18.627 0 12 0zm4.388 3.199c1.104 0 1.999.895 1.999 1.999 0 1.105-.895 2-1.999 2-.946 0-1.739-.657-1.947-1.539v.002c-1.147.162-2.032 1.15-2.032 2.341v.007c1.776.067 3.4.567 4.686 1.363.473-.363 1.064-.58 1.707-.58 1.547 0 2.802 1.254 2.802 2.802 0 1.117-.655 2.081-1.601 2.531-.088 3.256-3.637 5.876-7.997 5.876-4.361 0-7.905-2.617-7.997-5.876-.946-.45-1.601-1.523-1.601-2.531 0-1.548 1.255-2.802 2.802-2.802.643 0 1.234.217 1.707.58 1.286-.796 2.91-1.296 4.686-1.363v-.007c0-1.548 1.15-2.828 2.641-2.985v-.002c.208-.882 1.001-1.539 1.947-1.539z"/>
                         </svg>
                     </div>
                     <div class="platform-name">Reddit</div>
@@ -622,7 +632,9 @@
         const balanceCardEl = document.getElementById("balanceCard");
         const totalOrdersEl = document.getElementById("totalOrders");
         const logoutBtn = document.getElementById("logoutBtn");
+        const adminLink = document.getElementById("adminLink");
 
+        // Protect dashboard
         watchAuthState(async (user) => {
             if (!user) {
                 window.location.href = "login.html";
@@ -641,11 +653,17 @@
                 balanceEl.textContent = balance;
                 balanceCardEl.textContent = balance;
                 totalOrdersEl.textContent = orders;
+
+                // Show admin link only if user is admin
+                if (data.role === "admin") {
+                    adminLink.style.display = "block";
+                }
             } else {
                 usernameEl.textContent = user.email.split("@")[0];
             }
         });
 
+        // Logout
         logoutBtn.addEventListener("click", async () => {
             await logoutUser();
             window.location.href = "login.html";
