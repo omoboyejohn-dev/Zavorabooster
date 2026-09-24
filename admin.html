@@ -12,6 +12,7 @@
             line-height: 1.6; min-height: 100vh;
         }
         a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; cursor: pointer; }
 
         .navbar {
             position: sticky; top: 0; z-index: 100;
@@ -20,15 +21,15 @@
             border-bottom: 1px solid #192849;
         }
         .nav-container {
-            width: min(1180px, 94%); margin: auto; height: 76px;
+            width: min(1180px, 94%); margin: auto; height: 72px;
             display: flex; align-items: center; justify-content: space-between;
         }
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 800; }
         .logo-icon {
-            width: 40px; height: 40px; border-radius: 12px;
+            width: 38px; height: 38px; border-radius: 11px;
             display: flex; align-items: center; justify-content: center;
             background: linear-gradient(135deg, #4da3ff, #7657ff);
-            font-size: 21px;
+            font-size: 19px;
         }
         .logo span { color: #4da3ff; }
         .admin-badge {
@@ -38,34 +39,18 @@
             color: #ff8899; font-size: 11px; font-weight: 800;
         }
 
-        .page { width: min(900px, 94%); margin: 40px auto 80px; }
-
-        .page h1 { font-size: 30px; margin-bottom: 8px; }
-        .page > p { color: #8999b8; font-size: 14px; margin-bottom: 30px; }
-
-        .tabs {
-            display: flex; gap: 8px; margin-bottom: 25px;
-            border-bottom: 1px solid #192849; padding-bottom: 0;
-            overflow-x: auto;
-        }
-        .tab {
-            padding: 12px 18px; cursor: pointer;
-            color: #8999b8; font-size: 13px; font-weight: 700;
-            border-bottom: 2px solid transparent;
-            white-space: nowrap;
-            background: transparent; border: none;
-            font-family: inherit;
-        }
-        .tab.active { color: #62adff; border-bottom-color: #62adff; }
-        .tab:hover { color: #ffffff; }
+        .page { width: min(900px, 94%); margin: 30px auto 80px; }
+        .page h1 { font-size: 26px; margin-bottom: 6px; }
+        .page > p { color: #8999b8; font-size: 14px; margin-bottom: 25px; }
 
         .form-card {
-            padding: 32px; border-radius: 20px;
+            padding: 28px; border-radius: 18px;
             background: #0b1230; border: 1px solid #192849;
             margin-bottom: 25px;
         }
+        .form-card h3 { margin-bottom: 20px; font-size: 16px; }
 
-        .form-group { margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
         .form-group label {
             display: block; font-size: 12px;
             font-weight: 700; color: #aeb9d4;
@@ -73,7 +58,7 @@
             letter-spacing: 0.5px;
         }
         .form-input, .form-select, .form-textarea {
-            width: 100%; padding: 13px 15px;
+            width: 100%; padding: 12px 14px;
             border-radius: 10px; border: 1px solid #1e3157;
             background: #0a1230; color: #ffffff;
             font-size: 14px; outline: none;
@@ -88,18 +73,11 @@
         .form-textarea { min-height: 100px; resize: vertical; }
 
         .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        .row-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
         }
 
         .types-block {
-            padding: 18px;
+            padding: 16px;
             border-radius: 12px;
             background: #0a1230;
             border: 1px solid #1e3157;
@@ -112,53 +90,67 @@
         }
         .type-row {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto;
-            gap: 10px;
-            margin-bottom: 10px;
+            grid-template-columns: 2fr 1.2fr 1.2fr auto;
+            gap: 8px;
+            margin-bottom: 8px;
             align-items: center;
         }
         .remove-type {
-            padding: 10px 14px;
+            padding: 10px 12px;
             border-radius: 8px;
             background: rgba(255, 85, 119, 0.1);
             border: 1px solid rgba(255, 85, 119, 0.3);
             color: #ff8899;
-            cursor: pointer;
             font-weight: 700;
             font-size: 13px;
         }
-
         .add-type-btn {
-            padding: 10px 16px;
+            padding: 8px 14px;
             border-radius: 8px;
             background: rgba(77, 163, 255, 0.1);
             border: 1px solid rgba(77, 163, 255, 0.3);
             color: #62adff;
-            font-size: 12px; font-weight: 700;
-            cursor: pointer;
+            font-size: 11px; font-weight: 700;
         }
 
         .save-btn {
-            width: 100%; padding: 15px;
+            width: 100%; padding: 14px;
             border-radius: 12px; border: none;
             background: linear-gradient(135deg, #2868ff, #7657ff);
-            color: white; font-size: 15px; font-weight: 800;
+            color: white; font-size: 14px; font-weight: 800;
             cursor: pointer;
             box-shadow: 0 12px 30px rgba(40, 104, 255, 0.3);
         }
         .save-btn:hover { transform: translateY(-2px); }
+        .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .msg {
-            display: none; margin-top: 16px;
-            padding: 12px 14px; border-radius: 10px;
+            display: none; margin-top: 14px;
+            padding: 12px; border-radius: 10px;
             font-size: 13px; font-weight: 600; text-align: center;
         }
         .msg.show { display: block; }
         .msg.error { background: rgba(255, 85, 119, 0.1); border: 1px solid rgba(255, 85, 119, 0.3); color: #ff8899; }
         .msg.success { background: rgba(101, 230, 160, 0.1); border: 1px solid rgba(101, 230, 160, 0.3); color: #65e6a0; }
 
+        .filter-tabs {
+            display: flex; gap: 6px; margin-bottom: 15px;
+            overflow-x: auto; padding-bottom: 4px;
+        }
+        .filter-tab {
+            padding: 7px 12px; border-radius: 20px;
+            background: #0a1230; border: 1px solid #1e3157;
+            color: #8999b8; font-size: 11px; font-weight: 700;
+            cursor: pointer; white-space: nowrap;
+            transition: 0.2s;
+        }
+        .filter-tab.active {
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            color: white; border-color: transparent;
+        }
+
         .service-item {
-            padding: 15px;
+            padding: 14px;
             border-radius: 12px;
             background: #0a1230;
             border: 1px solid #1e3157;
@@ -166,18 +158,13 @@
             display: flex; justify-content: space-between;
             align-items: center; gap: 15px;
         }
-        .service-item .info h5 { font-size: 14px; margin-bottom: 3px; }
-        .service-item .info p { font-size: 12px; color: #8999b8; }
-        .service-item .actions { display: flex; gap: 8px; }
+        .service-item .info h5 { font-size: 13px; margin-bottom: 3px; }
+        .service-item .info p { font-size: 11px; color: #8999b8; }
+        .service-item .actions { display: flex; gap: 6px; flex-shrink: 0; }
         .service-item button {
-            padding: 8px 14px; border-radius: 8px;
-            border: none; font-size: 12px; font-weight: 700;
+            padding: 7px 12px; border-radius: 8px;
+            border: none; font-size: 11px; font-weight: 700;
             cursor: pointer;
-        }
-        .edit-btn {
-            background: rgba(77, 163, 255, 0.1);
-            color: #62adff;
-            border: 1px solid rgba(77, 163, 255, 0.3);
         }
         .delete-btn {
             background: rgba(255, 85, 119, 0.1);
@@ -186,7 +173,7 @@
         }
 
         @media (max-width: 700px) {
-            .row-2, .row-3 { grid-template-columns: 1fr; }
+            .row-2 { grid-template-columns: 1fr; }
             .type-row { grid-template-columns: 1fr; }
             .page { width: 92%; }
         }
@@ -206,22 +193,29 @@
 
 <main class="page">
     <h1>Admin Panel</h1>
-    <p>Add, edit and manage services for each platform.</p>
+    <p>Add, edit and manage services for every platform.</p>
 
+    <!-- ADD SERVICE FORM -->
     <div class="form-card">
-        <h3 style="margin-bottom:20px;font-size:16px;">➕ Add New Service</h3>
+        <h3>➕ Add New Service</h3>
         <form id="serviceForm">
 
             <div class="form-group">
                 <label>Category (Platform)</label>
                 <select id="category" class="form-select" required>
                     <option value="" disabled selected>Select platform</option>
-                    <option value="Facebook">Facebook</option>
-                    <option value="Instagram">Instagram</option>
-                    <option value="TikTok">TikTok</option>
-                    <option value="YouTube">YouTube</option>
-                    <option value="Twitter">Twitter (X)</option>
-                    <option value="More">More / Other</option>
+                    <option>Facebook</option>
+                    <option>Instagram</option>
+                    <option>TikTok</option>
+                    <option>YouTube</option>
+                    <option>Twitter</option>
+                    <option>WhatsApp</option>
+                    <option>Telegram</option>
+                    <option>Snapchat</option>
+                    <option>LinkedIn</option>
+                    <option>Spotify</option>
+                    <option>Reddit</option>
+                    <option>More</option>
                 </select>
             </div>
 
@@ -232,7 +226,7 @@
 
             <div class="form-group">
                 <label>Types (Quality levels)</label>
-                <div class="types-block" id="typesBlock">
+                <div class="types-block">
                     <h4>Type options <button type="button" class="add-type-btn" id="addTypeBtn">+ Add Type</button></h4>
                     <div id="typesList"></div>
                 </div>
@@ -255,8 +249,8 @@
             </div>
 
             <div class="form-group">
-                <label>Notes (one per line, will become a numbered list)</label>
-                <textarea id="note" class="form-textarea" placeholder="Make sure account is not private&#10;No drop in followers"></textarea>
+                <label>Notes (one per line — will show as numbered list)</label>
+                <textarea id="note" class="form-textarea" placeholder="Make sure account is not private&#10;No drop in followers&#10;Guarantee: 30 days"></textarea>
             </div>
 
             <button type="submit" class="save-btn" id="saveBtn">Save Service</button>
@@ -264,8 +258,26 @@
         </form>
     </div>
 
+    <!-- EXISTING SERVICES -->
     <div class="form-card">
-        <h3 style="margin-bottom:20px;font-size:16px;">📋 Existing Services</h3>
+        <h3>📋 Existing Services</h3>
+
+        <div class="filter-tabs" id="filterTabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="Facebook">Facebook</button>
+            <button class="filter-tab" data-filter="Instagram">Instagram</button>
+            <button class="filter-tab" data-filter="TikTok">TikTok</button>
+            <button class="filter-tab" data-filter="YouTube">YouTube</button>
+            <button class="filter-tab" data-filter="Twitter">Twitter</button>
+            <button class="filter-tab" data-filter="WhatsApp">WhatsApp</button>
+            <button class="filter-tab" data-filter="Telegram">Telegram</button>
+            <button class="filter-tab" data-filter="Snapchat">Snapchat</button>
+            <button class="filter-tab" data-filter="LinkedIn">LinkedIn</button>
+            <button class="filter-tab" data-filter="Spotify">Spotify</button>
+            <button class="filter-tab" data-filter="Reddit">Reddit</button>
+            <button class="filter-tab" data-filter="More">More</button>
+        </div>
+
         <div id="serviceList">
             <p style="color:#8999b8;font-size:13px;">Loading...</p>
         </div>
@@ -284,8 +296,12 @@
     const saveBtn = document.getElementById("saveBtn");
     const msg = document.getElementById("msg");
     const serviceList = document.getElementById("serviceList");
+    const filterTabs = document.getElementById("filterTabs");
 
-    // Check admin
+    let allServices = [];
+    let currentFilter = "all";
+
+    // Admin guard
     watchAuthState(async (user) => {
         if (!user) return window.location.href = "login.html";
         const profile = await getUserProfile(user.uid);
@@ -300,7 +316,7 @@
         const row = document.createElement("div");
         row.className = "type-row";
         row.innerHTML = `
-            <input type="text" class="form-input type-name" placeholder="Type name (e.g. Average Quality)" value="${name}">
+            <input type="text" class="form-input type-name" placeholder="Type (e.g. Average Quality)" value="${name}">
             <input type="number" class="form-input type-price" placeholder="Price / 1k" value="${price}">
             <input type="text" class="form-input type-time" placeholder="Time (e.g. 4 Hours)" value="${time}">
             <button type="button" class="remove-type">✕</button>
@@ -309,14 +325,13 @@
         typesList.appendChild(row);
     }
 
-    // Start with one type row
     addTypeRow();
-
     addTypeBtn.addEventListener("click", () => addTypeRow());
 
     function showMsg(t, type) {
         msg.textContent = t;
         msg.className = "msg show " + type;
+        setTimeout(() => msg.className = "msg", 4000);
     }
 
     // Save service
@@ -330,7 +345,6 @@
         const linkLabel = document.getElementById("linkLabel").value.trim();
         const note = document.getElementById("note").value.trim();
 
-        // Collect types
         const types = [];
         document.querySelectorAll(".type-row").forEach(row => {
             const n = row.querySelector(".type-name").value.trim();
@@ -343,11 +357,9 @@
             return showMsg("Please fill all fields and add at least one type.", "error");
         }
 
-        // Default price = first type's price
         const pricePer1k = types[0].pricePer1k;
         const deliveryTime = types[0].time;
 
-        // Notes as <li> list
         const noteHtml = note
             ? note.split("\n").filter(l => l.trim()).map(l => `<li>${l}</li>`).join("")
             : "";
@@ -383,43 +395,60 @@
         saveBtn.textContent = "Save Service";
     });
 
-    // Load existing services
+    // Load services
     async function loadServices() {
         try {
             const snap = await getDocs(collection(db, "services"));
-            if (snap.empty) {
-                serviceList.innerHTML = '<p style="color:#8999b8;font-size:13px;">No services yet.</p>';
-                return;
-            }
-
-            let html = "";
-            snap.forEach(d => {
-                const s = d.data();
-                html += `
-                    <div class="service-item">
-                        <div class="info">
-                            <h5>${s.category} — ${s.serviceName}</h5>
-                            <p>${s.types.length} type(s) · from ${s.pricePer1k.toLocaleString()} NGN / 1k · ${s.minQuantity}–${s.maxQuantity}</p>
-                        </div>
-                        <div class="actions">
-                            <button class="delete-btn" data-id="${d.id}">Delete</button>
-                        </div>
-                    </div>`;
-            });
-            serviceList.innerHTML = html;
-
-            // Delete handlers
-            serviceList.querySelectorAll(".delete-btn").forEach(btn => {
-                btn.addEventListener("click", async () => {
-                    if (!confirm("Delete this service?")) return;
-                    await deleteDoc(doc(db, "services", btn.dataset.id));
-                    loadServices();
-                });
-            });
+            allServices = [];
+            snap.forEach(d => allServices.push({ id: d.id, ...d.data() }));
+            renderServices();
         } catch (err) {
             serviceList.innerHTML = `<p style="color:#ff8899;">Error: ${err.message}</p>`;
         }
     }
+
+    function renderServices() {
+        const filtered = currentFilter === "all"
+            ? allServices
+            : allServices.filter(s => s.category === currentFilter);
+
+        if (!filtered.length) {
+            serviceList.innerHTML = '<p style="color:#8999b8;font-size:13px;">No services in this category.</p>';
+            return;
+        }
+
+        let html = "";
+        filtered.forEach(s => {
+            html += `
+                <div class="service-item">
+                    <div class="info">
+                        <h5>${s.category} — ${s.serviceName}</h5>
+                        <p>${s.types.length} type(s) · from ${s.pricePer1k.toLocaleString()} NGN / 1k · ${s.minQuantity.toLocaleString()}–${s.maxQuantity.toLocaleString()}</p>
+                    </div>
+                    <div class="actions">
+                        <button class="delete-btn" data-id="${s.id}">Delete</button>
+                    </div>
+                </div>`;
+        });
+        serviceList.innerHTML = html;
+
+        serviceList.querySelectorAll(".delete-btn").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                if (!confirm("Delete this service?")) return;
+                await deleteDoc(doc(db, "services", btn.dataset.id));
+                loadServices();
+            });
+        });
+    }
+
+    // Filter tabs
+    filterTabs.addEventListener("click", (e) => {
+        if (!e.target.classList.contains("filter-tab")) return;
+        filterTabs.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+        e.target.classList.add("active");
+        currentFilter = e.target.dataset.filter;
+        renderServices();
+    });
 
     loadServices();
 </script>
