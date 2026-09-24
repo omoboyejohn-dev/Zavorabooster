@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | Zavora Booster</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #050817; color: #ffffff;
+            line-height: 1.6; min-height: 100vh;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; cursor: pointer; }
+
+        .navbar {
+            position: sticky; top: 0; z-index: 1000;
+            background: rgba(5, 8, 23, 0.94);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(77, 163, 255, 0.12);
+        }
+        .nav-container {
+            width: min(1180px, 94%); margin: auto; height: 68px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; }
+        .logo-icon {
+            width: 36px; height: 36px; border-radius: 11px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #4da3ff, #7657ff);
+            font-size: 18px;
+        }
+        .logo span { color: #4da3ff; }
+        .nav-right { display: flex; align-items: center; gap: 8px; }
+        .balance-pill {
+            padding: 7px 12px; border-radius: 10px;
+            background: rgba(77, 163, 255, 0.08);
+            border: 1px solid rgba(77, 163, 255, 0.2);
+            color: #76baff; font-size: 12px; font-weight: 700;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .balance-pill span { color: #ffffff; }
+        .menu-btn {
+            display: flex; flex-direction: column; justify-content: space-between;
+            width: 26px; height: 18px; background: transparent; border: none; padding: 0;
+        }
+        .menu-btn .bar { width: 100%; height: 3px; border-radius: 2px; background: #ffffff; transition: 0.3s; }
+
+        /* MENU */
+        .menu-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.65); backdrop-filter: blur(3px);
+            opacity: 0; pointer-events: none; transition: 0.3s; z-index: 1500;
+        }
+        .menu-overlay.active { opacity: 1; pointer-events: auto; }
+        .side-menu {
+            position: fixed; top: 0; right: -360px;
+            width: 280px; max-width: 82vw; height: 100vh;
+            background: #0b1230; border-left: 1px solid #1e3157;
+            z-index: 1600; transition: right 0.35s ease;
+            display: flex; flex-direction: column;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.6);
+        }
+        .side-menu.active { right: 0; }
+        .side-menu-header {
+            padding: 20px 22px; display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid #1e3157; background: #070c21;
+        }
+        .side-menu-header .brand { font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .side-menu-header .brand span { color: #4da3ff; }
+        .close-menu { background: transparent; border: none; font-size: 20px; color: #aeb9d4; padding: 4px 8px; }
+        .side-menu-list { flex: 1; overflow-y: auto; padding: 6px 0; }
+        .side-menu-list a {
+            display: block; padding: 14px 22px; color: #aeb9d4; font-size: 14px;
+            font-weight: 500; border-bottom: 1px solid #14204a; transition: 0.2s;
+        }
+        .side-menu-list a:hover { background: rgba(77,163,255,0.08); color: #ffffff; padding-left: 28px; }
+        .side-menu-list a.active {
+            background: rgba(77,163,255,0.12); color: #62adff; font-weight: 700;
+            border-left: 3px solid #4da3ff; padding-left: 19px;
+        }
+        .side-menu-list a.admin-link { color: #ff8899; background: rgba(255,85,119,0.06); font-weight: 800; }
+        .side-menu-footer { padding: 14px 22px 22px; border-top: 1px solid #1e3157; }
+        .signout-btn {
+            width: 100%; padding: 13px; border: none; border-radius: 8px;
+            background: #e63950; color: #ffffff; font-size: 12px; font-weight: 800;
+            letter-spacing: 1px; transition: 0.2s;
+        }
+        .signout-btn:hover { background: #c72f44; }
+
+        /* PAGE */
+        .page { padding: 30px 0 80px; position: relative; }
+        .page-container { width: min(720px, 94%); margin: auto; }
+
+        .page-header { margin-bottom: 25px; }
+        .page-header h1 { font-size: clamp(22px, 4vw, 30px); font-weight: 800; }
+        .page-header p { color: #8999b8; font-size: 13px; }
+
+        .card {
+            padding: 26px; border-radius: 18px;
+            background: #0b1230; border: 1px solid #192849;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            font-size: 15px; font-weight: 800;
+            margin-bottom: 18px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .avatar-row {
+            display: flex; align-items: center; gap: 16px;
+            margin-bottom: 22px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid #1e3157;
+        }
+        .avatar {
+            width: 70px; height: 70px; border-radius: 18px;
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; font-weight: 800; color: white;
+            flex-shrink: 0;
+        }
+        .avatar-name { font-size: 20px; font-weight: 800; }
+        .avatar-email { color: #8999b8; font-size: 13px; }
+
+        .info-row {
+            display: flex; justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #14204a;
+            font-size: 14px;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row .label { color: #8999b8; }
+        .info-row .value { color: #ffffff; font-weight: 700; }
+
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block; font-size: 12px;
+            font-weight: 700; color: #aeb9d4;
+            margin-bottom: 6px;
+        }
+        .form-input {
+            width: 100%; padding: 12px 14px;
+            border-radius: 10px; border: 1px solid #1e3157;
+            background: #0a1230; color: #ffffff;
+            font-size: 14px; outline: none; font-family: inherit;
+            transition: 0.25s;
+        }
+        .form-input:focus {
+            border-color: #4da3ff;
+            box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
+        }
+
+        .btn {
+            width: 100%; padding: 13px;
+            border-radius: 11px; border: none;
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            color: white; font-size: 14px; font-weight: 800;
+            cursor: pointer; transition: 0.25s;
+            box-shadow: 0 10px 25px rgba(40, 104, 255, 0.3);
+            margin-top: 8px;
+        }
+        .btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .msg {
+            display: none; margin-top: 12px;
+            padding: 10px; border-radius: 8px;
+            font-size: 12px; font-weight: 600; text-align: center;
+        }
+        .msg.show { display: block; }
+        .msg.error { background: rgba(255,85,119,0.1); border: 1px solid rgba(255,85,119,0.3); color: #ff8899; }
+        .msg.success { background: rgba(101,230,160,0.1); border: 1px solid rgba(101,230,160,0.3); color: #65e6a0; }
+
+        footer {
+            border-top: 1px solid #111e38;
+            background: #040711; padding: 22px 0 18px;
+        }
+        .footer-container { width: min(1180px, 94%); margin: auto; }
+        .footer-bottom {
+            display: flex; justify-content: space-between;
+            gap: 20px; color: #53627e; font-size: 11px;
+            flex-wrap: wrap; text-align: center;
+        }
+        .footer-bottom div { flex: 1; }
+    </style>
+</head>
+<body>
+
+<header class="navbar">
+    <div class="nav-container">
+        <a href="dashboard.html" class="logo">
+            <div class="logo-icon">🚀</div>
+            <div>Zavora <span>Booster</span></div>
+        </a>
+        <div class="nav-right">
+            <div class="balance-pill">💰 <span id="balance">0</span> NGN</div>
+            <button class="menu-btn" id="menuBtn">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<aside class="side-menu" id="sideMenu">
+    <div class="side-menu-header">
+        <div class="brand">🚀 Zavora <span>Booster</span></div>
+        <button class="close-menu" id="closeMenu">✕</button>
+    </div>
+    <nav class="side-menu-list">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="profile.html" class="active">Profile</a>
+        <a href="add-funds.html">Add Funds</a>
+        <a href="payment-history.html">Payment History</a>
+        <a href="orders.html">Order History</a>
+        <a href="support.html">Support</a>
+        <a href="api.html">API</a>
+        <a href="admin.html" id="adminLink" class="admin-link" style="display:none;">👑 Admin Panel</a>
+    </nav>
+    <div class="side-menu-footer">
+        <button class="signout-btn" id="logoutBtn">SIGN OUT</button>
+    </div>
+</aside>
+
+<main class="page">
+    <div class="page-container">
+
+        <div class="page-header">
+            <h1>👤 Profile</h1>
+            <p>Manage your account details and security.</p>
+        </div>
+
+        <!-- ACCOUNT INFO -->
+        <div class="card">
+            <h3>📋 Account Info</h3>
+
+            <div class="avatar-row">
+                <div class="avatar" id="avatarInitial">Z</div>
+                <div>
+                    <div class="avatar-name" id="profileUsername">User</div>
+                    <div class="avatar-email" id="profileEmail">—</div>
+                </div>
+            </div>
+
+            <div class="info-row">
+                <span class="label">Username</span>
+                <span class="value" id="infoUsername">—</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Email</span>
+                <span class="value" id="infoEmail">—</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Balance</span>
+                <span class="value" id="infoBalance" style="color:#62adff;">0 NGN</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Total Orders</span>
+                <span class="value" id="infoOrders" style="color:#b18cff;">0</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Role</span>
+                <span class="value" id="infoRole">user</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Member Since</span>
+                <span class="value" id="infoSince">—</span>
+            </div>
+        </div>
+
+        <!-- CHANGE PASSWORD -->
+        <div class="card">
+            <h3>🔐 Change Password</h3>
+
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" id="currentPass" class="form-input" placeholder="Enter current password" required>
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="newPass" class="form-input" placeholder="Minimum 6 characters" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" id="confirmPass" class="form-input" placeholder="Re-enter new password" required>
+                </div>
+                <button type="submit" class="btn" id="passBtn">Update Password</button>
+                <div class="msg" id="passMsg"></div>
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-bottom">
+            <div>© 2026 Zavora Booster. All rights reserved.</div>
+            <div>Built for digital growth.</div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const menuBtn = document.getElementById("menuBtn");
+    const sideMenu = document.getElementById("sideMenu");
+    const menuOverlay = document.getElementById("menuOverlay");
+    const closeMenu = document.getElementById("closeMenu");
+    menuBtn.addEventListener("click", () => { sideMenu.classList.add("active"); menuOverlay.classList.add("active"); });
+    closeMenu.addEventListener("click", () => { sideMenu.classList.remove("active"); menuOverlay.classList.remove("active"); });
+    menuOverlay.addEventListener("click", () => { sideMenu.classList.remove("active"); menuOverlay.classList.remove("active"); });
+</script>
+
+<script type="module">
+    import { db, auth, watchAuthState, getUserProfile, logoutUser } from "./firebase-config.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+    import {
+        EmailAuthProvider, reauthenticateWithCredential, updatePassword
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+    const balanceEl = document.getElementById("balance");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const adminLink = document.getElementById("adminLink");
+
+    watchAuthState(async (user) => {
+        if (!user) { window.location.href = "login.html"; return; }
+
+        const result = await getUserProfile(user.uid);
+        if (result.success) {
+            const d = result.data;
+            const name = d.username || user.email.split("@")[0];
+            const initial = name.charAt(0).toUpperCase();
+
+            document.getElementById("avatarInitial").textContent = initial;
+            document.getElementById("profileUsername").textContent = name;
+            document.getElementById("profileEmail").textContent = d.email || user.email;
+            document.getElementById("infoUsername").textContent = d.username || "—";
+            document.getElementById("infoEmail").textContent = d.email || user.email;
+            document.getElementById("infoBalance").textContent = (d.balance || 0).toLocaleString() + " NGN";
+            document.getElementById("infoOrders").textContent = d.totalOrders || 0;
+            document.getElementById("infoRole").textContent = d.role || "user";
+            document.getElementById("infoSince").textContent = d.createdAt?.toDate?.()?.toLocaleDateString() || "—";
+            balanceEl.textContent = (d.balance || 0).toLocaleString();
+
+            if (d.role === "admin") adminLink.style.display = "block";
+        }
+    });
+
+    // Change password
+    const passwordForm = document.getElementById("passwordForm");
+    const passMsg = document.getElementById("passMsg");
+    const passBtn = document.getElementById("passBtn");
+
+    function showPassMsg(text, type) {
+        passMsg.textContent = text;
+        passMsg.className = "msg show " + type;
+    }
+
+    passwordForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const cur = document.getElementById("currentPass").value;
+        const nw = document.getElementById("newPass").value;
+        const cf = document.getElementById("confirmPass").value;
+
+        if (nw.length < 6) return showPassMsg("New password must be at least 6 characters.", "error");
+        if (nw !== cf) return showPassMsg("New passwords do not match.", "error");
+
+        passBtn.disabled = true;
+        passBtn.textContent = "Updating...";
+
+        try {
+            const user = auth.currentUser;
+            const credential = EmailAuthProvider.credential(user.email, cur);
+            await reauthenticateWithCredential(user, credential);
+            await updatePassword(user, nw);
+            showPassMsg("✅ Password updated successfully!", "success");
+            passwordForm.reset();
+        } catch (err) {
+            let msg = err.message;
+            if (msg.includes("wrong-password")) msg = "Current password is incorrect.";
+            showPassMsg("❌ " + msg, "error");
+        }
+
+        passBtn.disabled = false;
+        passBtn.textContent = "Update Password";
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+        await logoutUser();
+        window.location.href = "login.html";
+    });
+</script>
+
+</body>
+</html>
