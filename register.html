@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | Zavora Booster</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #050817; color: #ffffff;
+            line-height: 1.6; min-height: 100vh;
+            display: flex; flex-direction: column;
+        }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; }
+
+        .navbar {
+            width: 100%; position: fixed; top: 0; left: 0; z-index: 1000;
+            background: rgba(5, 8, 23, 0.88);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(77, 163, 255, 0.12);
+        }
+        .nav-container {
+            width: min(1180px, 92%); margin: auto; height: 76px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; }
+        .logo-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #4da3ff, #7657ff);
+            box-shadow: 0 8px 25px rgba(77, 163, 255, 0.25);
+            font-size: 21px;
+        }
+        .logo span { color: #4da3ff; }
+        .nav-links { display: flex; align-items: center; gap: 32px; }
+        .nav-links a { color: #aeb9d4; font-size: 14px; font-weight: 600; }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-button {
+            padding: 11px 20px; border-radius: 10px;
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            color: white !important;
+        }
+        .menu-btn { display: none; border: none; background: transparent; color: white; font-size: 27px; cursor: pointer; }
+
+        .auth-section {
+            flex: 1; padding: 140px 0 80px;
+            position: relative; overflow: hidden;
+            display: flex; align-items: center;
+        }
+        .auth-section::before {
+            content: ""; position: absolute; width: 520px; height: 520px;
+            background: #2868ff; opacity: 0.10; filter: blur(100px);
+            border-radius: 50%; top: 20px; left: -180px;
+        }
+        .auth-section::after {
+            content: ""; position: absolute; width: 500px; height: 500px;
+            background: #7657ff; opacity: 0.10; filter: blur(100px);
+            border-radius: 50%; right: -180px; bottom: -80px;
+        }
+        .auth-container {
+            width: min(1180px, 92%); margin: auto;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 70px; align-items: center;
+            position: relative; z-index: 2;
+        }
+        .auth-info h1 {
+            font-size: clamp(34px, 4.5vw, 52px);
+            line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px;
+        }
+        .auth-info h1 .gradient {
+            background: linear-gradient(90deg, #4da3ff, #8a6cff);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .auth-info p {
+            color: #aeb9d4; font-size: 16px;
+            line-height: 1.8; margin-bottom: 30px; max-width: 480px;
+        }
+        .auth-benefits { display: grid; gap: 14px; max-width: 480px; }
+        .benefit {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 14px; color: #dce6fb;
+        }
+        .benefit .tick {
+            width: 30px; height: 30px; border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(77, 163, 255, 0.1);
+            color: #62adff; font-weight: 800; flex-shrink: 0;
+        }
+
+        .auth-card {
+            width: min(480px, 100%); margin-left: auto;
+            padding: 40px 36px; border-radius: 24px;
+            background: rgba(11, 18, 48, 0.92);
+            border: 1px solid #1e3157;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 70px rgba(77,163,255,0.07);
+            position: relative;
+        }
+        .auth-card::before {
+            content: ""; position: absolute; top: 0;
+            left: 40px; right: 40px; height: 3px;
+            border-radius: 0 0 3px 3px;
+            background: linear-gradient(90deg, #2868ff, #7657ff);
+        }
+        .card-badge {
+            display: inline-flex; align-items: center; gap: 7px;
+            padding: 6px 12px; border-radius: 30px;
+            background: rgba(77, 163, 255, 0.08);
+            border: 1px solid rgba(77, 163, 255, 0.2);
+            color: #76baff; font-size: 11px; font-weight: 700;
+            margin-bottom: 14px;
+        }
+        .auth-card h2 { font-size: 26px; margin-bottom: 6px; }
+        .auth-card .subtitle { color: #8999b8; font-size: 13px; margin-bottom: 26px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            display: block; font-size: 12px; font-weight: 700;
+            color: #aeb9d4; margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 0.6px;
+        }
+        .input-wrap { position: relative; }
+        .form-input {
+            width: 100%; padding: 14px 16px;
+            border-radius: 12px; border: 1px solid #1e3157;
+            background: #0a1230; color: #ffffff;
+            font-size: 14px; outline: none;
+            transition: 0.25s ease;
+        }
+        .form-input:focus {
+            border-color: #4da3ff; background: #0d1538;
+            box-shadow: 0 0 0 3px rgba(77, 163, 255, 0.12);
+        }
+        .form-input.error { border-color: #ff5577; }
+        .toggle-pass {
+            position: absolute; top: 50%; right: 14px;
+            transform: translateY(-50%); background: transparent;
+            border: none; color: #7183a7; font-size: 15px;
+            cursor: pointer;
+        }
+        .strength-bar {
+            height: 4px; border-radius: 3px;
+            background: #1a2744; margin-top: 8px; overflow: hidden;
+        }
+        .strength-fill {
+            height: 100%; width: 0%; border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .strength-text { font-size: 11px; color: #7183a7; margin-top: 6px; }
+        .terms {
+            display: flex; align-items: flex-start; gap: 10px;
+            margin: 20px 0 22px; font-size: 12px;
+            color: #8999b8; line-height: 1.6;
+        }
+        .terms input[type="checkbox"] {
+            margin-top: 3px; accent-color: #2868ff;
+            width: 15px; height: 15px; cursor: pointer; flex-shrink: 0;
+        }
+        .terms a { color: #62adff; }
+        .submit-btn {
+            width: 100%; padding: 15px; border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #2868ff, #7657ff);
+            color: white; font-size: 15px; font-weight: 800;
+            cursor: pointer; transition: 0.25s ease;
+            box-shadow: 0 12px 30px rgba(40, 104, 255, 0.25);
+        }
+        .submit-btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .message {
+            display: none; margin-top: 16px;
+            padding: 12px 14px; border-radius: 10px;
+            font-size: 12px; font-weight: 600; text-align: center;
+        }
+        .message.show { display: block; }
+        .message.error {
+            background: rgba(255, 85, 119, 0.1);
+            border: 1px solid rgba(255, 85, 119, 0.3);
+            color: #ff8899;
+        }
+        .message.success {
+            background: rgba(101, 230, 160, 0.1);
+            border: 1px solid rgba(101, 230, 160, 0.3);
+            color: #65e6a0;
+        }
+        .alt-link {
+            text-align: center; margin-top: 22px;
+            font-size: 13px; color: #8999b8;
+        }
+        .alt-link a { color: #62adff; font-weight: 700; }
+
+        footer {
+            border-top: 1px solid #111e38;
+            background: #040711; padding: 30px 0 20px;
+        }
+        .footer-container { width: min(1180px, 92%); margin: auto; }
+        .footer-bottom {
+            display: flex; justify-content: space-between;
+            gap: 20px; color: #53627e; font-size: 11px; flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+            .auth-container { grid-template-columns: 1fr; gap: 40px; }
+            .auth-info { text-align: center; }
+            .auth-info p { margin-left: auto; margin-right: auto; }
+            .auth-benefits { margin: 0 auto; text-align: left; }
+            .auth-card { margin: 0 auto; }
+        }
+        @media (max-width: 700px) {
+            .nav-links {
+                display: none; position: absolute; top: 76px;
+                left: 4%; width: 92%; padding: 18px;
+                flex-direction: column; gap: 5px;
+                background: #0a1028; border: 1px solid #1c2c4d;
+                border-radius: 15px;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { padding: 12px; }
+            .menu-btn { display: block; }
+            .auth-section { padding: 120px 0 60px; }
+            .auth-card { padding: 32px 24px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🚀</div>
+                <div>Zavora <span>Booster</span></div>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="index.html#services">Services</a>
+                <a href="index.html#about">Why Us</a>
+                <a href="index.html#how-it-works">How It Works</a>
+                <a href="login.html" class="nav-button">Login</a>
+            </nav>
+            <button class="menu-btn" id="menuBtn">☰</button>
+        </div>
+    </header>
+
+    <main class="auth-section">
+        <div class="auth-container">
+            <div class="auth-info">
+                <h1>Join Zavora.<br>Start <span class="gradient">Growing Today.</span></h1>
+                <p>Create your free account and unlock instant access to fast, reliable and affordable digital boosting services.</p>
+                <div class="auth-benefits">
+                    <div class="benefit"><div class="tick">✓</div><div>Instant access to all services</div></div>
+                    <div class="benefit"><div class="tick">✓</div><div>Secure account & order history</div></div>
+                    <div class="benefit"><div class="tick">✓</div><div>Add funds anytime — pay in NGN</div></div>
+                    <div class="benefit"><div class="tick">✓</div><div>24/7 order tracking & support</div></div>
+                </div>
+            </div>
+
+            <div class="auth-card">
+                <div class="card-badge"><span>🔐</span> Secure Sign Up</div>
+                <h2>Create Your Account</h2>
+                <p class="subtitle">It takes less than 30 seconds.</p>
+
+                <form id="registerForm" novalidate>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" class="form-input" placeholder="e.g. zavoraking" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrap">
+                            <input type="password" id="password" class="form-input" placeholder="Minimum 6 characters" required>
+                            <button type="button" class="toggle-pass" id="togglePass1">👁</button>
+                        </div>
+                        <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                        <div class="strength-text" id="strengthText">Password strength</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-wrap">
+                            <input type="password" id="confirmPassword" class="form-input" placeholder="Re-enter password" required>
+                            <button type="button" class="toggle-pass" id="togglePass2">👁</button>
+                        </div>
+                    </div>
+                    <label class="terms">
+                        <input type="checkbox" id="terms" required>
+                        <span>I agree to Zavora Booster's <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</span>
+                    </label>
+                    <button type="submit" class="submit-btn" id="submitBtn">Create Account</button>
+                    <div class="message" id="message"></div>
+                </form>
+
+                <div class="alt-link">
+                    Already have an account? <a href="login.html">Login here</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <div>© 2026 Zavora Booster. All rights reserved.</div>
+                <div>Built for digital growth.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById("menuBtn");
+        const navLinks = document.getElementById("navLinks");
+        menuBtn.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+            menuBtn.textContent = navLinks.classList.contains("active") ? "✕" : "☰";
+        });
+    </script>
+
+    <script type="module">
+        import { registerUser } from "./firebase-config.js";
+
+        const form = document.getElementById("registerForm");
+        const usernameInput = document.getElementById("username");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const confirmInput = document.getElementById("confirmPassword");
+        const termsInput = document.getElementById("terms");
+        const submitBtn = document.getElementById("submitBtn");
+        const message = document.getElementById("message");
+
+        document.getElementById("togglePass1").addEventListener("click", () => {
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        });
+        document.getElementById("togglePass2").addEventListener("click", () => {
+            confirmInput.type = confirmInput.type === "password" ? "text" : "password";
+        });
+
+        const strengthFill = document.getElementById("strengthFill");
+        const strengthText = document.getElementById("strengthText");
+
+        passwordInput.addEventListener("input", () => {
+            const val = passwordInput.value;
+            let score = 0;
+            if (val.length >= 6) score++;
+            if (val.length >= 10) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            const configs = [
+                { w: "0%",   c: "transparent", t: "Password strength" },
+                { w: "20%",  c: "#ff5577",     t: "Very weak" },
+                { w: "40%",  c: "#ff9955",     t: "Weak" },
+                { w: "60%",  c: "#ffd955",     t: "Fair" },
+                { w: "80%",  c: "#65e6a0",     t: "Strong" },
+                { w: "100%", c: "#3ddc84",     t: "Very strong" }
+            ];
+            const cfg = configs[score];
+            strengthFill.style.width = cfg.w;
+            strengthFill.style.background = cfg.c;
+            strengthText.textContent = cfg.t;
+            strengthText.style.color = score >= 3 ? "#65e6a0" : "#7183a7";
+        });
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = "message show " + type;
+        }
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const confirm = confirmInput.value;
+
+            [usernameInput, emailInput, passwordInput, confirmInput].forEach(i => i.classList.remove("error"));
+            message.className = "message";
+
+            if (username.length < 3) {
+                usernameInput.classList.add("error");
+                return showMessage("Username must be at least 3 characters.", "error");
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                emailInput.classList.add("error");
+                return showMessage("Please enter a valid email.", "error");
+            }
+            if (password.length < 6) {
+                passwordInput.classList.add("error");
+                return showMessage("Password must be at least 6 characters.", "error");
+            }
+            if (password !== confirm) {
+                confirmInput.classList.add("error");
+                return showMessage("Passwords do not match.", "error");
+            }
+            if (!termsInput.checked) {
+                return showMessage("Please accept the Terms of Service.", "error");
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Creating account...";
+
+            const result = await registerUser(username, email, password);
+
+            if (result.success) {
+                showMessage("✅ Account created! Redirecting...", "success");
+                setTimeout(() => window.location.href = "dashboard.html", 1200);
+            } else {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Create Account";
+                let err = result.error || "Registration failed.";
+                if (err.includes("email-already-in-use")) err = "This email is already registered.";
+                else if (err.includes("invalid-email")) err = "Invalid email address.";
+                else if (err.includes("weak-password")) err = "Password is too weak.";
+                showMessage("❌ " + err, "error");
+            }
+        });
+    </script>
+</body>
+</html>
