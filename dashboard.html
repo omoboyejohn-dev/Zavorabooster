@@ -96,6 +96,7 @@
             display: flex; align-items: center; justify-content: space-between;
             border-bottom: 1px solid #1e3157;
             background: #070c21;
+            flex-shrink: 0;
         }
         .side-menu-header .brand {
             font-size: 16px; font-weight: 800;
@@ -109,7 +110,12 @@
         }
         .close-menu:hover { color: #ffffff; }
 
-        .side-menu-list { flex: 1; overflow-y: auto; padding: 6px 0; }
+        /* ✅ FIX: menu list only takes what it needs, then scrolls if too tall */
+        .side-menu-list {
+            padding: 6px 0;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
         .side-menu-list a {
             display: block;
             padding: 14px 22px;
@@ -142,9 +148,13 @@
             padding-left: 28px;
         }
 
+        /* ✅ FIX: footer pushed right below the menu list */
         .side-menu-footer {
+            margin-top: auto;
             padding: 14px 22px 22px;
             border-top: 1px solid #1e3157;
+            background: #0b1230;
+            flex-shrink: 0;
         }
         .signout-btn {
             width: 100%; padding: 13px;
